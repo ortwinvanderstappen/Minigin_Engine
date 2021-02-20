@@ -10,9 +10,12 @@ public:
 	FPSComponent(const Point2f& position);
 
 	void Update() override;
-	const int& GetFPS() const;
+	const int GetFPS() const;
 private:
 	float m_TimePassed = 0.f;
 	int m_Framecount = 0;
 	int m_CurrentFPS = 0;
+
+	int m_FrameHistoryCount = 10;
+	std::vector<int> m_FpsHistory;
 };

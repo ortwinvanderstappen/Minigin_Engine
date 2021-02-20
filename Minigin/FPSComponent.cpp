@@ -2,12 +2,15 @@
 #include "FPSComponent.h"
 
 #include <algorithm>
+#include <numeric>
 
 #include "Time.h"
 
 FPSComponent::FPSComponent(const Point2f& position)
 {
 	AddText(0, "FPS: " + std::to_string(m_CurrentFPS), position, 20);
+
+	m_FpsHistory = std::vector<int>(m_FrameHistoryCount);
 }
 
 void FPSComponent::Update()
@@ -15,19 +18,20 @@ void FPSComponent::Update()
 	// Add delta time to the total time
 	const float& deltaTime = Time::GetInstance().DeltaTime();
 	m_TimePassed += deltaTime;
+	// Add fps to history
+	m_FpsHistory[m_Framecount] = static_cast<int>(1.f / deltaTime);
 	// Increase the current frame count
-	++m_Framecount;
+	m_Framecount = (m_Framecount + 1) % m_FrameHistoryCount;
 	// Check if 1 second has passed
 	if (m_TimePassed >= 1.f)
 	{
-		// Set fps
-		m_CurrentFPS = static_cast<int>(static_cast<float>(m_Framecount) / m_TimePassed);
+		// Calculate average fps
+		const int sum = std::accumulate(m_FpsHistory.begin(), m_FpsHistory.end(), 0);
+		m_CurrentFPS = static_cast<int>(static_cast<float>(sum) / static_cast<float>(m_FrameHistoryCount));
 
 		// Set text
 		SetText(0, "FPS: " + std::to_string(m_CurrentFPS));
 
-		// Reset frame count
-		m_Framecount = 0;
 		// Subtract 1 second from time
 		m_TimePassed = 0.f;
 	}
@@ -39,7 +43,7 @@ void FPSComponent::Update()
 	);
 }
 
-const int& FPSComponent::GetFPS() const
+const int FPSComponent::GetFPS() const
 {
 	return m_CurrentFPS;
 }
