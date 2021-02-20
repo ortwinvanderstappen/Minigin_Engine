@@ -13,6 +13,7 @@
 #include "Time.h"
 #include "FPSComponent.h"
 #include "ImageRenderComponent.h"
+#include "CommandManager.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -94,9 +95,9 @@ void dae::Minigin::Run()
 
 	LoadGame();
 
+	auto& input = InputManager::GetInstance();
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
-	auto& input = InputManager::GetInstance();
 	auto& time = Time::GetInstance();
 
 	auto lastTime = high_resolution_clock::now();
