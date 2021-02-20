@@ -7,7 +7,7 @@ namespace dae
 	class GameObject final: public SceneObject
 	{
 	public:
-		virtual void FixedUpdate() override;
+		virtual void Update() override;
 		void SetPosition(float x, float y);
 
 		GameObject() = default;

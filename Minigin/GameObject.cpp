@@ -7,12 +7,12 @@
 
 dae::GameObject::~GameObject() = default;
 
-void dae::GameObject::FixedUpdate()
+void dae::GameObject::Update()
 {
-	// FixedUpdate all the components of this game object
+	// Update all the components of this game object
 	for (std::shared_ptr<Component> component : m_spComponents)
 	{
-		component->FixedUpdate();
+		component->Update();
 	}
 }
 

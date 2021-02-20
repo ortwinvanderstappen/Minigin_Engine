@@ -10,10 +10,10 @@ FPSComponent::FPSComponent(const Point2f& position)
 	AddText(0, "FPS: " + std::to_string(m_CurrentFPS), position, 20);
 }
 
-void FPSComponent::FixedUpdate()
+void FPSComponent::Update()
 {
 	// Add delta time to the total time
-	const float& deltaTime = Time::GetInstance().FixedDeltaTime();
+	const float& deltaTime = Time::GetInstance().DeltaTime();
 	m_TimePassed += deltaTime;
 	// Increase the current frame count
 	++m_Framecount;
@@ -34,7 +34,7 @@ void FPSComponent::FixedUpdate()
 
 	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [](std::pair<int, std::shared_ptr<dae::TextObject>> textPair)
 		{
-			textPair.second->FixedUpdate();
+			textPair.second->Update();
 		}
 	);
 }

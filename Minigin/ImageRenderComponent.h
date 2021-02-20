@@ -8,7 +8,7 @@ class ImageRenderComponent final :public RenderComponent
 public:
 	ImageRenderComponent();
 
-	void FixedUpdate() override;
+	void Update() override;
 	void Render(const glm::vec3& positionOffset) const override;
 
 	void AddImage(const std::string& imagePath, const Point2f& position = { 0.f,0.f });

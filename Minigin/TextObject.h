@@ -9,7 +9,7 @@ namespace dae
 	class TextObject final : public SceneObject
 	{
 	public:
-		void FixedUpdate() override;
+		void Update() override;
 		void Render(const glm::vec3& positionOffset) const;
 
 		void SetText(const std::string& text);

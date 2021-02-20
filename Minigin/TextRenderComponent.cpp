@@ -32,11 +32,11 @@ void TextRenderComponent::SetPosition(int id, const Point2f& newPosition)
 	}
 }
 
-void TextRenderComponent::FixedUpdate()
+void TextRenderComponent::Update()
 {
 	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [](std::pair<int, std::shared_ptr<dae::TextObject>> textPair)
 		{
-			textPair.second->FixedUpdate();
+			textPair.second->Update();
 		}
 	);
 }

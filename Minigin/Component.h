@@ -2,7 +2,7 @@
 class Component
 {
 public:
-	virtual void FixedUpdate() = 0;
+	virtual void Update() = 0;
 protected:
 	Component();
 	virtual ~Component();

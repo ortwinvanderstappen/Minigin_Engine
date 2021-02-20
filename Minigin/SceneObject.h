@@ -9,7 +9,7 @@ namespace dae
 	class SceneObject
 	{
 	public:
-		virtual void FixedUpdate() = 0;
+		virtual void Update() = 0;
 
 		template <typename T>
 		std::shared_ptr<T> GetComponent() const;

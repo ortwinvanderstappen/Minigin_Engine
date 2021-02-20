@@ -7,7 +7,7 @@
 ImageRenderComponent::ImageRenderComponent()
 {}
 
-void ImageRenderComponent::FixedUpdate()
+void ImageRenderComponent::Update()
 {
 
 }

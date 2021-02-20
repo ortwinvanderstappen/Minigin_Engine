@@ -12,7 +12,7 @@ public:
 	void AddText(int id, const std::string& text, const Point2f& position, int fontSize);
 	void SetText(int id, const std::string& newText);
 	void SetPosition(int id, const Point2f& newPosition);
-	virtual void FixedUpdate() override;
+	virtual void Update() override;
 	void Render(const glm::vec3& positionOffset) const override;
 
 protected:

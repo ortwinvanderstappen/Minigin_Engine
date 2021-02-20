@@ -9,7 +9,7 @@ class FPSComponent final : public TextRenderComponent
 public:
 	FPSComponent(const Point2f& position);
 
-	void FixedUpdate() override;
+	void Update() override;
 	const int& GetFPS() const;
 private:
 	float m_TimePassed = 0.f;
