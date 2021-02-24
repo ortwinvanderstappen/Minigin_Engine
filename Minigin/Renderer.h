@@ -23,6 +23,9 @@ namespace dae
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 	private:
 		SDL_Renderer* m_Renderer{};
+		SDL_Window * m_Window = nullptr;
+
+		bool m_ShowDemo = true;
 	};
 }
 
