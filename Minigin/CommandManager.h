@@ -10,7 +10,7 @@ public:
 
 	enum class CommandType
 	{
-		test
+		suicide
 	};
 	
 	std::shared_ptr<Command> GetCommand(CommandType commandType);
@@ -21,4 +21,3 @@ private:
 	
 	std::unordered_map<CommandType, std::shared_ptr<Command>> m_spCommandsMap{};
 };
-

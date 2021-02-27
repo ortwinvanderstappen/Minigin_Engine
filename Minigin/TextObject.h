@@ -6,10 +6,10 @@ namespace dae
 {
 	class Font;
 	class Texture2D;
-	class TextObject final : public SceneObject
+	class TextObject final
 	{
 	public:
-		void Update() override;
+		void Update();
 		void Render(const glm::vec3& positionOffset) const;
 
 		void SetText(const std::string& text);
@@ -26,5 +26,7 @@ namespace dae
 		std::string m_Text;
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_Texture;
+
+		Transform m_Transform;
 	};
 }

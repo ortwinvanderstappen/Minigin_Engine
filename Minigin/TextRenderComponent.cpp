@@ -5,15 +5,14 @@
 #include <algorithm>
 
 TextRenderComponent::TextRenderComponent()
-{
-}
+{}
 
 void TextRenderComponent::AddText(int id, const std::string& text, const Point2f& position, int fontSize)
 {
 	std::shared_ptr<dae::Font> const pFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", fontSize);
 	std::shared_ptr<dae::TextObject> spTextObject = std::make_shared<dae::TextObject>(text, pFont);
 	spTextObject->SetPosition(position.x, position.y);
-	m_upTextObjectMap.insert(std::make_pair(id,spTextObject));
+	m_upTextObjectMap.insert(std::make_pair(id, spTextObject));
 }
 
 void TextRenderComponent::SetText(int id, const std::string& newText)

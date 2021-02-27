@@ -33,9 +33,6 @@
     <Filter Include="Source Files\Renderer">
       <UniqueIdentifier>{9f08c820-f375-4d7c-ba86-9bc0229aaa12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Managers">
-      <UniqueIdentifier>{c23e40e7-57c4-4ee9-b222-f6eea5ecdb10}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Structs">
       <UniqueIdentifier>{2a990522-90af-4c7f-b3a9-46a283a915d7}</UniqueIdentifier>
     </Filter>
@@ -45,11 +42,20 @@
     <Filter Include="Source Files\Components\Rendering\Texture">
       <UniqueIdentifier>{dffef85e-74ab-4131-8b49-eb3e98ff52b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Commands">
-      <UniqueIdentifier>{6ea60404-9e49-438e-9e49-5657eaa180fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\ImgGUI">
       <UniqueIdentifier>{9384cfa9-572f-48ce-bdfa-fd987822bebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input\Commands">
+      <UniqueIdentifier>{b23f5de1-1702-439d-9e2c-241612c3d065}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Rendering\ImGui">
+      <UniqueIdentifier>{cc66a037-76e0-4c85-ba96-5855253f424d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observers">
+      <UniqueIdentifier>{fc87d715-3678-4ceb-8bc7-3a227cc43cae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{c23e40e7-57c4-4ee9-b222-f6eea5ecdb10}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -90,10 +96,7 @@
       <Filter>Source Files\Singletons</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Source Files\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="MiniginPCH.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="structs.h">
       <Filter>Source Files\Structs</Filter>
@@ -116,13 +119,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Source Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="CommandManager.h">
-      <Filter>Source Files\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Source Files\Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="TestCommand.h" />
     <ClInclude Include="..\3rdParty\imgui-1.81\imconfig.h">
       <Filter>Source Files\ImgGUI</Filter>
     </ClInclude>
@@ -147,11 +143,35 @@
     <ClInclude Include="..\3rdParty\imgui-1.81\backends\imgui_impl_sdl.h">
       <Filter>Source Files\ImgGUI</Filter>
     </ClInclude>
+    <ClInclude Include="MiniginPCH.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiComponent.h">
+      <Filter>Source Files\Components\Rendering\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandManager.h">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SuicideCommand.h">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Source Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="VitalsObserver.h">
+      <Filter>Source Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverManager.h">
+      <Filter>Source Files\Observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MiniginPCH.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
@@ -183,7 +203,7 @@
       <Filter>Source Files\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files\Managers</Filter>
+      <Filter>Source Files\Resources</Filter>
     </ClCompile>
     <ClCompile Include="TextRenderComponent.cpp">
       <Filter>Source Files\Components\Rendering\Text</Filter>
@@ -202,18 +222,6 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandManager.cpp">
-      <Filter>Source Files\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Source Files\Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCommand.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.81\imgui.cpp">
       <Filter>Source Files\ImgGUI</Filter>
@@ -235,6 +243,36 @@
     </ClCompile>
     <ClCompile Include="..\3rdParty\imgui-1.81\backends\imgui_impl_sdl.cpp">
       <Filter>Source Files\ImgGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniginPCH.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiComponent.cpp">
+      <Filter>Source Files\Components\Rendering\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandManager.cpp">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="SuicideCommand.cpp">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="VitalsObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ObserverManager.cpp">
+      <Filter>Source Files\Observers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

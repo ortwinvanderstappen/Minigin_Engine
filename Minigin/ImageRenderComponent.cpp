@@ -4,7 +4,7 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 
-ImageRenderComponent::ImageRenderComponent()
+ImageRenderComponent::ImageRenderComponent() 
 {}
 
 void ImageRenderComponent::Update()

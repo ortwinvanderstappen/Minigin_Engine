@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "CommandManager.h"
 
-#include "TestCommand.h"
+#include "SuicideCommand.h"
 
 CommandManager::CommandManager()
 {
@@ -20,7 +20,7 @@ std::shared_ptr<Command> CommandManager::GetCommand(CommandType commandType)
 
 void CommandManager::InitializeCommands()
 {
-	AddCommand(CommandType::test);
+	AddCommand(CommandType::suicide);
 }
 
 void CommandManager::AddCommand(CommandType commandType)
@@ -28,8 +28,8 @@ void CommandManager::AddCommand(CommandType commandType)
 	std::shared_ptr<Command> spCommand;
 	switch (commandType)
 	{
-	case CommandType::test:
-		spCommand = std::make_shared<TestCommand>();
+	case CommandType::suicide:
+		//spCommand = std::make_shared<dae::SuicideCommand>();
 		break;
 	default:
 		spCommand = nullptr;

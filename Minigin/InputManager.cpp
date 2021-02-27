@@ -51,6 +51,12 @@ void dae::InputManager::AddInput(ControllerButton button, InputType inputType)
 
 void dae::InputManager::BindInput(ControllerButton button, CommandManager::CommandType commandType)
 {
+	std::shared_ptr<Command> spCommand = m_spCommandManager->GetCommand(commandType);
+	BindInput(button, spCommand);
+}
+
+void dae::InputManager::BindInput(ControllerButton button, std::shared_ptr<Command> spCommand)
+{
 	// Check if input exists
 	if (m_InputMap.find(button) == m_InputMap.end())
 	{
@@ -59,11 +65,10 @@ void dae::InputManager::BindInput(ControllerButton button, CommandManager::Comma
 	}
 
 	// Check if input already has a command
-	std::shared_ptr<Command> spCommand = m_spCommandManager->GetCommand(commandType);
 	if (m_spCommandsMap.find(button) != m_spCommandsMap.end())
 	{
 		// Change input command
-		m_spCommandsMap.at(button) = m_spCommandManager->GetCommand(commandType);
+		m_spCommandsMap.at(button) = spCommand;
 	}
 	else
 	{
@@ -74,57 +79,7 @@ void dae::InputManager::BindInput(ControllerButton button, CommandManager::Comma
 
 bool dae::InputManager::IsPressed(ControllerButton button) const
 {
-	bool isPressed = false;
-
-	switch (button)
-	{
-	case ControllerButton::ButtonUp:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) isPressed = true;
-		break;
-	case ControllerButton::ButtonDown:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) isPressed = true;
-		break;
-	case ControllerButton::ButtonLeft:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) isPressed = true;
-		break;
-	case ControllerButton::ButtonRight:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) isPressed = true;
-		break;
-	case ControllerButton::StartButton:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_START) isPressed = true;
-		break;
-	case ControllerButton::BackButton:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_BACK) isPressed = true;
-		break;
-	case ControllerButton::LeftStickDown:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB) isPressed = true;
-		break;
-	case ControllerButton::RightStickDown:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB) isPressed = true;
-		break;
-	case ControllerButton::LeftTrigger:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) isPressed = true;
-		break;
-	case ControllerButton::RightTrigger:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) isPressed = true;
-		break;
-	case ControllerButton::ButtonA:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_A) isPressed = true;
-		break;
-	case ControllerButton::ButtonB:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_B) isPressed = true;
-		break;
-	case ControllerButton::ButtonX:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_X) isPressed = true;
-		break;
-	case ControllerButton::ButtonY:
-		if (m_State.Gamepad.wButtons & XINPUT_GAMEPAD_Y) isPressed = true;
-		break;
-	default:
-		isPressed = false;
-	}
-
-	return isPressed;
+	return m_State.Gamepad.wButtons & static_cast<int>(button);
 }
 
 bool dae::InputManager::ProcessKeyboardInput()

@@ -8,7 +8,7 @@
 #include "Texture2D.h"
 
 dae::TextObject::TextObject(const std::string& text, const std::shared_ptr<Font>& font)
-	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Texture(nullptr)
+	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Texture(nullptr), m_Transform{}
 {}
 
 void dae::TextObject::Update()

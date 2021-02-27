@@ -6,9 +6,9 @@
 
 #include "Time.h"
 
-FPSComponent::FPSComponent(const Point2f& position)
+FPSComponent::FPSComponent() 
 {
-	AddText(0, "FPS: " + std::to_string(m_CurrentFPS), position, 20);
+	AddText(0, "FPS: " + std::to_string(m_CurrentFPS), { 0.f,0.f }, 20);
 
 	m_FpsHistory = std::vector<int>(m_FrameHistoryCount);
 }
@@ -33,7 +33,7 @@ void FPSComponent::Update()
 		SetText(0, "FPS: " + std::to_string(m_CurrentFPS));
 
 		// Subtract 1 second from time
-		m_TimePassed = 0.f;
+		m_TimePassed -= 1.f;
 	}
 
 	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [](std::pair<int, std::shared_ptr<dae::TextObject>> textPair)
@@ -43,7 +43,7 @@ void FPSComponent::Update()
 	);
 }
 
-const int FPSComponent::GetFPS() const
+const int& FPSComponent::GetFPS() const
 {
 	return m_CurrentFPS;
 }

@@ -10,20 +10,20 @@ namespace dae
 {
 	enum class ControllerButton
 	{
-		ButtonUp,
-		ButtonDown,
-		ButtonLeft,
-		ButtonRight,
-		StartButton,
-		BackButton,
-		LeftStickDown,
-		RightStickDown,
-		LeftTrigger,
-		RightTrigger,
-		ButtonA,
-		ButtonB,
-		ButtonX,
-		ButtonY
+		ButtonUp = 0x0001,
+		ButtonDown = 0x0002,
+		ButtonLeft = 0x0004,
+		ButtonRight = 0x0008,
+		StartButton = 0x0010,
+		BackButton = 0x0020,
+		LeftStickDown = 0x0040,
+		RightStickDown = 0x0080,
+		LeftTrigger = 0x0100,
+		RightTrigger = 0x0200,
+		ButtonA = 0x1000,
+		ButtonB = 0x2000,
+		ButtonX = 0x4000,
+		ButtonY = 0x8000
 	};
 
 	class InputManager final : public Singleton<InputManager>
@@ -42,6 +42,7 @@ namespace dae
 		bool ProcessInput();
 		void AddInput(ControllerButton button, InputType inputType = InputType::continuous);
 		void BindInput(ControllerButton button, CommandManager::CommandType commandType);
+		void BindInput(ControllerButton button, std::shared_ptr<Command> spCommand);
 
 	private:
 		enum class KeyState

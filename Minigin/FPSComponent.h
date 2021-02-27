@@ -1,5 +1,4 @@
 #pragma once
-#include "Component.h"
 #include "TextRenderComponent.h"
 
 class FPSComponent;
@@ -7,10 +6,10 @@ class FPSComponent;
 class FPSComponent final : public TextRenderComponent
 {
 public:
-	FPSComponent(const Point2f& position);
+	FPSComponent();
 
 	void Update() override;
-	const int GetFPS() const;
+	const int& GetFPS() const;
 private:
 	float m_TimePassed = 0.f;
 	int m_Framecount = 0;
