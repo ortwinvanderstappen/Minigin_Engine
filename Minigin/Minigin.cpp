@@ -101,6 +101,9 @@ void dae::Minigin::LoadGame()
 	spPlayerHealthTextComponent->AddText(0, "Player life: " + std::to_string(spHealthComponent->GetHealth()), Point2f{0, 70}, 30);
 	// Add to scene
 	scene.Add(spQBert);
+	// Add player to vital observer
+	spVitalsObserver->AddPlayer(spQBert.get(), spPlayerHealthTextComponent);
+	m_Players.push_back(spQBert);
 
 	// Create QBert 2 gameobject
 	std::shared_ptr<GameObject> spQBert2{ std::make_shared<GameObject>() };
@@ -114,12 +117,8 @@ void dae::Minigin::LoadGame()
 	spPlayerHealthTextComponent2->AddText(0, "Player life: " + std::to_string(spHealthComponent2->GetHealth()), Point2f{0, 120}, 30);
 	// Add to scene
 	scene.Add(spQBert2);
-
 	// Add player to vital observer
-	spVitalsObserver->AddPlayer(spQBert.get(), spPlayerHealthTextComponent);
 	spVitalsObserver->AddPlayer(spQBert2.get(), spPlayerHealthTextComponent2);
-
-	m_Players.push_back(spQBert);
 	m_Players.push_back(spQBert2);
 }
 
