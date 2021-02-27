@@ -24,6 +24,8 @@
 #include "SuicideCommand.h"
 #include "VitalsObserver.h"
 
+// Github repo: https://github.com/ortwinvanderstappen/Minigin_Engine
+
 using namespace std;
 using namespace std::chrono;
 
