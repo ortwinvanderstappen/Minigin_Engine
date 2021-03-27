@@ -45,3 +45,16 @@ std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& fil
 {
 	return std::make_shared<Font>(m_DataPath + file, size);
 }
+
+std::shared_ptr<DaeAudio> dae::ResourceManager::LoadSound(const std::string& file)
+{
+	// Create the sound if it doesn't exist yet
+	if(m_spSounds.find(file) == m_spSounds.end())
+	{
+		Audio* pAudio = createAudio(file.c_str(), 0, 0);
+		std::shared_ptr<DaeAudio> spDaeAudio = std::make_shared<DaeAudio>(pAudio);
+		m_spSounds.insert(std::make_pair(file, spDaeAudio));
+	}
+	
+	return m_spSounds[file];
+}

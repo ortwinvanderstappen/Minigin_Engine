@@ -29,6 +29,13 @@
 #include "ObserverManager.h"
 #include "SuicideCommand.h"
 #include "VitalsObserver.h"
+// Services
+#include "ServiceLocator.h"
+
+// Temp
+#include "BasicSoundSystem.h"
+#include "DaeAudio.h"
+#include "PlaySoundCommand.h"
 
 // Github repo: https://github.com/ortwinvanderstappen/Minigin_Engine
 
@@ -37,7 +44,11 @@ using namespace std::chrono;
 
 void dae::Minigin::Initialize()
 {
-	_putenv("SDL_AUDIODRIVER=DIRECTSOUND");
+	if (_putenv("SDL_AUDIODRIVER=directsound") != 0)
+	{
+		throw std::runtime_error(std::string("Failed to set audio driver"));
+	}
+
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -62,9 +73,6 @@ void dae::Minigin::Initialize()
 	std::cout << "Minigen::Initialize completed\n";
 }
 
-/**
- * Code constructing the scene world starts here
- */
 void dae::Minigin::LoadGame()
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
@@ -155,6 +163,10 @@ void dae::Minigin::Run()
 	// Setup the demo scene
 	LoadGame();
 
+	// Register the sound system
+	const std::shared_ptr<SoundSystem> spDefaultSoundSystem = std::make_shared<BasicSoundSystem>();
+	ServiceLocator::RegisterSoundSystem(spDefaultSoundSystem);
+
 	auto& input = InputManager::GetInstance();
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
@@ -172,11 +184,18 @@ void dae::Minigin::Run()
 		input.BindInput(ControllerButton::ButtonB, spSuicideCommand);
 	}
 
+	const std::shared_ptr<PlaySoundCommand> spPlaySoundCommand{std::make_shared<PlaySoundCommand>("audio/Menu_Tick.wav")};
+	input.AddInput(ControllerButton::ButtonX, InputManager::InputType::onKeyDown);
+	input.BindInput(ControllerButton::ButtonX, spPlaySoundCommand);
+
 	auto lastTime = high_resolution_clock::now();
 	bool doContinue = true;
 
-	playSound("audio/bird.wav", 10);
-	std::cout << "Audio played.\n";
+	// Create a thread for the chosen audiosystem
+	// Con: Not able to change the sound system at runtime, everything is decided beforehand
+	// Pro: No code complexity for changing sound system at runtime, for debugging, just change before running the program
+	std::shared_ptr<SoundSystem> spSoundSystem = ServiceLocator::GetSoundSystem();
+	std::thread audioThread{ &SoundSystem::ProcessQueue, spSoundSystem }; 
 
 	while (doContinue)
 	{
@@ -194,5 +213,10 @@ void dae::Minigin::Run()
 		this_thread::sleep_for(sleepTime);
 	}
 
+	// Stop the audiosystem
+	spSoundSystem->Stop();
+	audioThread.join();
+
+	// Cleanup
 	Cleanup();
 }

@@ -40,7 +40,7 @@ void dae::InputManager::AddInput(ControllerButton button, InputType inputType)
 	if (m_InputMap.find(button) == m_InputMap.end())
 	{
 		// Create a new input
-		m_InputMap.insert(std::make_pair(button, std::make_pair(inputType, KeyState::released)));
+		m_InputMap.insert(std::make_pair(button, std::make_pair(inputType, KeyState::pressed)));
 	}
 	else
 	{
