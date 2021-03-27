@@ -100,7 +100,7 @@ void dae::Minigin::LoadGame()
 	// Health text component
 	std::shared_ptr<TextRenderComponent> spPlayerHealthTextComponent{std::make_shared<TextRenderComponent>()};
 	spQBert->AddComponent(spPlayerHealthTextComponent);
-	spPlayerHealthTextComponent->AddText(0, "Player life: " + std::to_string(spHealthComponent->GetHealth()), Point2f{0, 70}, 30);
+	spPlayerHealthTextComponent->AddText(0, "(Controller A) Player life: " + std::to_string(spHealthComponent->GetHealth()), Point2f{0, 70}, 30);
 	// Add to scene
 	scene.Add(spQBert);
 	// Add player to vital observer
@@ -116,7 +116,7 @@ void dae::Minigin::LoadGame()
 	// Health text component
 	std::shared_ptr<TextRenderComponent> spPlayerHealthTextComponent2{std::make_shared<TextRenderComponent>()};
 	spQBert2->AddComponent(spPlayerHealthTextComponent2);
-	spPlayerHealthTextComponent2->AddText(0, "Player life: " + std::to_string(spHealthComponent2->GetHealth()), Point2f{0, 120}, 30);
+	spPlayerHealthTextComponent2->AddText(0, "(Controller B) Player life: " + std::to_string(spHealthComponent2->GetHealth()), Point2f{0, 120}, 30);
 	// Add to scene
 	scene.Add(spQBert2);
 	// Add player to vital observer

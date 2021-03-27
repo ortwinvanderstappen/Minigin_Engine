@@ -65,9 +65,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Source Files\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="SceneObject.h">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Source Files\Scenes</Filter>
     </ClInclude>

@@ -40,6 +40,8 @@ namespace glm
 #				pragma clang diagnostic ignored "-Wnested-anon-types"
 #			endif
 		
+#pragma warning (push)
+#pragma warning(disable: 4201)
 			union
 			{
 				struct{ T x, y; };
@@ -59,7 +61,7 @@ namespace glm
 #				endif//GLM_SWIZZLE
 
 			};
-		
+#pragma warning(pop)
 #			if GLM_COMPILER & GLM_COMPILER_CLANG
 #				pragma clang diagnostic pop
 #			endif

@@ -64,7 +64,6 @@
 #	define GLM_MESSAGE_CORE_INCLUDED_DISPLAYED
 #	pragma message("GLM: Core library included")
 #endif//GLM_MESSAGES
-
 #include "vec2.hpp"
 #include "vec3.hpp"
 #include "vec4.hpp"
