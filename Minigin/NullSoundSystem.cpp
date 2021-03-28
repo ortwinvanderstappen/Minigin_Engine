@@ -20,7 +20,3 @@ void NullSoundSystem::Mute()
 void NullSoundSystem::Unmute()
 {
 }
-
-void NullSoundSystem::Stop()
-{
-}

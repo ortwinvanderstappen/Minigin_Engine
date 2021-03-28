@@ -188,6 +188,12 @@
     <ClInclude Include="PlaySoundCommand.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="LoggingSoundSystem.h">
+      <Filter>Source Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeSoundSystemCommand.h">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -308,6 +314,12 @@
       <Filter>Source Files\Sound</Filter>
     </ClCompile>
     <ClCompile Include="PlaySoundCommand.cpp">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingSoundSystem.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeSoundSystemCommand.cpp">
       <Filter>Source Files\Input\Commands</Filter>
     </ClCompile>
   </ItemGroup>

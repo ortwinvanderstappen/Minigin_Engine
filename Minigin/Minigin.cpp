@@ -34,7 +34,8 @@
 
 // Temp
 #include "BasicSoundSystem.h"
-#include "DaeAudio.h"
+#include "ChangeSoundSystemCommand.h"
+#include "LoggingSoundSystem.h"
 #include "PlaySoundCommand.h"
 
 // Github repo: https://github.com/ortwinvanderstappen/Minigin_Engine
@@ -70,6 +71,10 @@ void dae::Minigin::Initialize()
 
 	Renderer::GetInstance().Init(m_Window);
 
+	// Register the sound system, each sound system starts their own seperate thread and immediately starts
+	const std::shared_ptr<SoundSystem> spDefaultSoundSystem = std::make_shared<BasicSoundSystem>();
+	ServiceLocator::RegisterSoundSystem(spDefaultSoundSystem);
+
 	std::cout << "Minigen::Initialize completed\n";
 }
 
@@ -93,7 +98,13 @@ void dae::Minigin::LoadGame()
 	go = std::make_shared<GameObject>();
 	std::shared_ptr<TextRenderComponent> to = std::make_shared<TextRenderComponent>();
 	to->AddText(0, "Programming 4 Assignment", { 0,0 }, 36);
+	std::shared_ptr<TextRenderComponent> to2 = std::make_shared<TextRenderComponent>();
+	to2->AddText(0, "Press X (xbox) for sound", { -75,350 }, 36);
+	std::shared_ptr<TextRenderComponent> to3 = std::make_shared<TextRenderComponent>();
+	to3->AddText(0, "Press Y (xbox) to swap sound system", { -75,400 }, 36);
 	go->AddComponent(to);
+	go->AddComponent(to2);
+	go->AddComponent(to3);
 	go->SetPosition(80, 20);
 	scene.Add(go);
 
@@ -163,10 +174,6 @@ void dae::Minigin::Run()
 	// Setup the demo scene
 	LoadGame();
 
-	// Register the sound system
-	const std::shared_ptr<SoundSystem> spDefaultSoundSystem = std::make_shared<BasicSoundSystem>();
-	ServiceLocator::RegisterSoundSystem(spDefaultSoundSystem);
-
 	auto& input = InputManager::GetInstance();
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
@@ -184,18 +191,17 @@ void dae::Minigin::Run()
 		input.BindInput(ControllerButton::ButtonB, spSuicideCommand);
 	}
 
-	const std::shared_ptr<PlaySoundCommand> spPlaySoundCommand{std::make_shared<PlaySoundCommand>("audio/Menu_Tick.wav")};
+	// Create sound input (for testing)
+	const std::shared_ptr<PlaySoundCommand> spPlaySoundCommand{ std::make_shared<PlaySoundCommand>("audio/Menu_Tick.wav") };
 	input.AddInput(ControllerButton::ButtonX, InputManager::InputType::onKeyDown);
 	input.BindInput(ControllerButton::ButtonX, spPlaySoundCommand);
 
+	const std::shared_ptr<ChangeSoundSystemCommand> spChangeSoundSystemCommand{ std::make_shared<ChangeSoundSystemCommand>() };
+	input.AddInput(ControllerButton::ButtonY, InputManager::InputType::onKeyDown);
+	input.BindInput(ControllerButton::ButtonY, spChangeSoundSystemCommand);
+
 	auto lastTime = high_resolution_clock::now();
 	bool doContinue = true;
-
-	// Create a thread for the chosen audiosystem
-	// Con: Not able to change the sound system at runtime, everything is decided beforehand
-	// Pro: No code complexity for changing sound system at runtime, for debugging, just change before running the program
-	std::shared_ptr<SoundSystem> spSoundSystem = ServiceLocator::GetSoundSystem();
-	std::thread audioThread{ &SoundSystem::ProcessQueue, spSoundSystem }; 
 
 	while (doContinue)
 	{
@@ -212,10 +218,6 @@ void dae::Minigin::Run()
 		const auto sleepTime = currentTime + milliseconds(MsPerFrame) - high_resolution_clock::now();
 		this_thread::sleep_for(sleepTime);
 	}
-
-	// Stop the audiosystem
-	spSoundSystem->Stop();
-	audioThread.join();
 
 	// Cleanup
 	Cleanup();

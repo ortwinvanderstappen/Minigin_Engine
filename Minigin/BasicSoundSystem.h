@@ -6,15 +6,18 @@
 class BasicSoundSystem final : public SoundSystem
 {
 public:
+	BasicSoundSystem();
+	~BasicSoundSystem();
+
 	void ProcessQueue() override;
 	void PlaySound(const std::string& soundName, int volume) override;
 	void PlayMusic(const std::string& soundName, int volume) override;
 
 	void Mute() override;
 	void Unmute() override;
-	
-	void Stop() override;
 private:
+	std::thread m_SoundThread;
+	
 	std::queue<std::pair<std::string, int>> m_SoundQueue;
 
 	int m_MaxVolume = 100;
