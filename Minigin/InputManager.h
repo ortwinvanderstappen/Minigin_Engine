@@ -6,7 +6,7 @@
 #include "CommandManager.h"
 #include "Singleton.h"
 
-namespace dae
+namespace minigen
 {
 	enum class ControllerButton
 	{

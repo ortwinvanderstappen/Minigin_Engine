@@ -29,7 +29,7 @@ void CommandManager::AddCommand(CommandType commandType)
 	switch (commandType)
 	{
 	case CommandType::suicide:
-		//spCommand = std::make_shared<dae::SuicideCommand>();
+		//spCommand = std::make_shared<minigen::SuicideCommand>();
 		break;
 	default:
 		spCommand = nullptr;

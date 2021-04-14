@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 
-class Time final : public dae::Singleton<Time>
+class Time final : public minigen::Singleton<Time>
 {
 public:
 	void SetDeltaTime(float newDeltaTime);

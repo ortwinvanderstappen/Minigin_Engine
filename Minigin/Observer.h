@@ -1,5 +1,5 @@
 #pragma once
-namespace dae {
+namespace minigen {
 	class GameObject;
 }
 
@@ -13,7 +13,7 @@ public:
 	};
 
 	virtual ~Observer() = default;
-	virtual void Notify(const dae::GameObject&, Event event) = 0;
+	virtual void Notify(const minigen::GameObject&, Event event) = 0;
 
 protected:
 	Observer() = default;

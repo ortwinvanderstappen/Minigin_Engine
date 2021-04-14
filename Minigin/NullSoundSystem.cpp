@@ -1,10 +1,6 @@
 #include "MiniginPCH.h"
 #include "NullSoundSystem.h"
 
-void NullSoundSystem::ProcessQueue()
-{
-}
-
 void NullSoundSystem::PlaySound(const std::string&, int)
 {
 }

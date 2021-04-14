@@ -8,7 +8,7 @@
 
 #include "Transform.h"
 
-namespace dae
+namespace minigen
 {
 	class GameObject final
 	{

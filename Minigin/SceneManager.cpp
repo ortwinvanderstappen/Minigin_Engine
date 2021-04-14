@@ -2,7 +2,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void dae::SceneManager::Update()
+void minigen::SceneManager::Update()
 {
 	for (auto& scene : m_Scenes)
 	{
@@ -10,7 +10,7 @@ void dae::SceneManager::Update()
 	}
 }
 
-void dae::SceneManager::Render()
+void minigen::SceneManager::Render()
 {
 	for (const auto& scene : m_Scenes)
 	{
@@ -18,15 +18,15 @@ void dae::SceneManager::Render()
 	}
 }
 
-dae::SceneManager::SceneManager()
+minigen::SceneManager::SceneManager()
 {
 	Initialize();
 }
 
-void dae::SceneManager::Initialize()
+void minigen::SceneManager::Initialize()
 {}
 
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
+minigen::Scene& minigen::SceneManager::CreateScene(const std::string& name)
 {
 	const auto scene = std::shared_ptr<Scene>(new Scene(name));
 	m_Scenes.push_back(scene);

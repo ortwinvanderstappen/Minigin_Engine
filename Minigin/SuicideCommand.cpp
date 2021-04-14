@@ -7,11 +7,11 @@
 #include "GameObject.h"
 #include "HealthComponent.h"
 
-dae::SuicideCommand::SuicideCommand(std::shared_ptr<dae::GameObject> gameObject) :
+minigen::SuicideCommand::SuicideCommand(std::shared_ptr<minigen::GameObject> gameObject) :
 	m_ObjectToKill{ gameObject }
 {}
 
-void dae::SuicideCommand::Execute()
+void minigen::SuicideCommand::Execute()
 {
 	if(m_ObjectToKill != nullptr)
 	{

@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "RenderComponent.h"
 
-using namespace dae;
+using namespace minigen;
 
 unsigned int Scene::m_IdCounter = 0;
 

@@ -16,8 +16,8 @@ public:
 	void Render(const glm::vec3& positionOffset) const override;
 
 protected:
-	std::unordered_map<int, std::shared_ptr<dae::TextObject>> m_upTextObjectMap{};
+	std::unordered_map<int, std::shared_ptr<minigen::TextObject>> m_upTextObjectMap{};
 private:
-	dae::Font* m_pFont = nullptr;
+	minigen::Font* m_pFont = nullptr;
 };
 

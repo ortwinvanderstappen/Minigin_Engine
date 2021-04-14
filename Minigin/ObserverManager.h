@@ -3,7 +3,7 @@
 
 class Observer;
 
-class ObserverManager : public dae::Singleton<ObserverManager>
+class ObserverManager : public minigen::Singleton<ObserverManager>
 {
 public:
 	void AddObserver(std::shared_ptr<Observer> spObserver);

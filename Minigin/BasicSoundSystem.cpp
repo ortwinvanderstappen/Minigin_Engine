@@ -31,12 +31,10 @@ BasicSoundSystem::~BasicSoundSystem()
 
 void BasicSoundSystem::ProcessQueue()
 {
-	std::unique_lock<std::mutex> threadLock{ m_Mutex };
 	if (!m_SoundQueue.empty())
 	{
 		const std::pair<std::string, int>& pair = m_SoundQueue.front();
-
-		Audio* pSound = dae::ResourceManager::GetInstance().LoadSound(pair.first)->GetAudio();
+		Audio* pSound = minigen::ResourceManager::GetInstance().LoadSound(pair.first)->GetAudio();
 
 		if (pSound != nullptr)
 		{
@@ -44,17 +42,18 @@ void BasicSoundSystem::ProcessQueue()
 			playSoundFromMemory(pSound, volume);
 		}
 
+		std::unique_lock<std::mutex> threadLock{ m_Mutex };
 		m_SoundQueue.pop();
 	}
 	else
 	{
+		std::unique_lock<std::mutex> threadLock{ m_Mutex };
 		m_PlayCondition.wait(threadLock);
 	}
 }
 
 void BasicSoundSystem::PlaySound(const std::string& soundName, int volume)
 {
-	std::lock_guard<std::mutex> threadLock{ m_Mutex };
 	if (!m_IsMuted)
 	{
 		m_SoundQueue.push(std::make_pair(soundName, volume));

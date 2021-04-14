@@ -3,7 +3,6 @@
 class NullSoundSystem final : public SoundSystem
 {
 public:
-	void ProcessQueue() override;
 	void PlaySound(const std::string& soundName, int volume) override;
 	void PlayMusic(const std::string& soundName, int volume) override;
 

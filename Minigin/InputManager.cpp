@@ -2,7 +2,7 @@
 #include "InputManager.h"
 #include <SDL.h>
 
-dae::InputManager::InputManager() :
+minigen::InputManager::InputManager() :
 	m_spCommandManager(std::make_shared<CommandManager>()),
 	m_State{},
 	m_InputMap{},
@@ -11,7 +11,7 @@ dae::InputManager::InputManager() :
 {
 }
 
-bool dae::InputManager::ProcessInput()
+bool minigen::InputManager::ProcessInput()
 {
 	bool success = ProcessKeyboardInput();
 	if (!success) return false;
@@ -34,7 +34,7 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
-void dae::InputManager::AddInput(ControllerButton button, InputType inputType)
+void minigen::InputManager::AddInput(ControllerButton button, InputType inputType)
 {
 	// Check if input already exists
 	if (m_InputMap.find(button) == m_InputMap.end())
@@ -49,13 +49,13 @@ void dae::InputManager::AddInput(ControllerButton button, InputType inputType)
 	}
 }
 
-void dae::InputManager::BindInput(ControllerButton button, CommandManager::CommandType commandType)
+void minigen::InputManager::BindInput(ControllerButton button, CommandManager::CommandType commandType)
 {
 	std::shared_ptr<Command> spCommand = m_spCommandManager->GetCommand(commandType);
 	BindInput(button, spCommand);
 }
 
-void dae::InputManager::BindInput(ControllerButton button, std::shared_ptr<Command> spCommand)
+void minigen::InputManager::BindInput(ControllerButton button, std::shared_ptr<Command> spCommand)
 {
 	// Check if input exists
 	if (m_InputMap.find(button) == m_InputMap.end())
@@ -77,12 +77,12 @@ void dae::InputManager::BindInput(ControllerButton button, std::shared_ptr<Comma
 	}
 }
 
-bool dae::InputManager::IsPressed(ControllerButton button) const
+bool minigen::InputManager::IsPressed(ControllerButton button) const
 {
 	return m_State.Gamepad.wButtons & static_cast<int>(button);
 }
 
-bool dae::InputManager::ProcessKeyboardInput()
+bool minigen::InputManager::ProcessKeyboardInput()
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
@@ -104,7 +104,7 @@ bool dae::InputManager::ProcessKeyboardInput()
 	return true;
 }
 
-bool dae::InputManager::ProcessGamepadInput()
+bool minigen::InputManager::ProcessGamepadInput()
 {
 	DWORD dwResult;
 	ZeroMemory(&m_State, sizeof(XINPUT_STATE));

@@ -6,7 +6,6 @@ public:
 	LoggingSoundSystem(std::shared_ptr<SoundSystem> spSoundSystem);
 	~LoggingSoundSystem();
 
-	void ProcessQueue() override;
 	void PlaySound(const std::string& soundName, int volume) override;
 	void PlayMusic(const std::string& soundName, int volume) override;
 	void Mute() override;

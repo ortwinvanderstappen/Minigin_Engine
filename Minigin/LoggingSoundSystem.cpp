@@ -10,11 +10,6 @@ LoggingSoundSystem::~LoggingSoundSystem()
 	std::cout << "Stopped LoggingSoundSystem\n";
 }
 
-void LoggingSoundSystem::ProcessQueue()
-{
-	// TODO: Figure out if this logger should take over the thread and call ProcessQueue on the wrapped system
-}
-
 void LoggingSoundSystem::PlaySound(const std::string& soundName, int volume)
 {
 	std::cout << "Playing sound " << soundName << " with volume " << volume << "\n";

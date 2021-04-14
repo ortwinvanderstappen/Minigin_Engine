@@ -1,7 +1,7 @@
 #pragma once
 #include "Observer.h"
 
-namespace dae {
+namespace minigen {
 	class GameObject;
 }
 
@@ -10,16 +10,16 @@ class Component
 public:
 	virtual void Update() = 0;
 
-	void Notify(const dae::GameObject& gameObject, Observer::Event event);
+	void Notify(const minigen::GameObject& gameObject, Observer::Event event);
 	void AddObserver(std::shared_ptr<Observer> pObserver);
 	void RemoveObserver(std::shared_ptr<Observer> pObserver);
 
-	void SetParent(dae::GameObject* pParentObject);
+	void SetParent(minigen::GameObject* pParentObject);
 protected:
 	Component();
 	virtual ~Component();
 	
-	dae::GameObject* m_pParentObject = nullptr;
+	minigen::GameObject* m_pParentObject = nullptr;
 private:
 	std::vector<std::shared_ptr<Observer>> m_spObservers{};
 };

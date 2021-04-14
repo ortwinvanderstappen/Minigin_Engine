@@ -1,7 +1,10 @@
 #pragma once
 #include "Singleton.h"
+#include <vector>
+#include <memory>
+#include <string>
 
-namespace dae
+namespace minigen
 {
 	class Scene;
 	class SceneManager final : public Singleton<SceneManager>

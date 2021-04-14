@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #pragma warning(pop)
 
-namespace dae
+namespace minigen
 {
 	class Transform final
 	{

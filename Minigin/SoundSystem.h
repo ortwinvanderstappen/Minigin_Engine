@@ -4,7 +4,6 @@ class SoundSystem
 public:
 	virtual ~SoundSystem() = default;
 	
-	virtual void ProcessQueue() = 0;
 	virtual void PlaySound(const std::string& soundName, int volume) = 0;
 	virtual void PlayMusic(const std::string& soundName, int volume) = 0;
 

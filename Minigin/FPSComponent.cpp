@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <numeric>
 
-#include "Time.h"
+#include "GameTime.h"
 
 FPSComponent::FPSComponent() 
 {
@@ -36,7 +36,7 @@ void FPSComponent::Update()
 		m_TimePassed -= 1.f;
 	}
 
-	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [](std::pair<int, std::shared_ptr<dae::TextObject>> textPair)
+	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [](std::pair<int, std::shared_ptr<minigen::TextObject>> textPair)
 		{
 			textPair.second->Update();
 		}

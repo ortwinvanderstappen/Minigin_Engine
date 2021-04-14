@@ -1,5 +1,5 @@
 #include "MiniginPCH.h"
-#include "Time.h"
+#include "GameTime.h"
 
 const float& Time::DeltaTime() const
 {

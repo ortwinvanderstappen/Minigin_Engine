@@ -15,6 +15,6 @@ public:
 
 private:
 	std::unordered_map<std::string,
-		std::pair<const Point2f, std::shared_ptr<dae::Texture2D>>> m_spTextureMap{};
+		std::pair<const Point2f, std::shared_ptr<minigen::Texture2D>>> m_spTextureMap{};
 };
 

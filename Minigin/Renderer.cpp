@@ -22,7 +22,7 @@ int GetOpenGLDriverIndex()
 	return openglIndex;
 }
 
-void dae::Renderer::Init(SDL_Window * window)
+void minigen::Renderer::Init(SDL_Window * window)
 {
 	m_Window = window;
 	m_Renderer = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -38,7 +38,7 @@ void dae::Renderer::Init(SDL_Window * window)
 	ImGui_ImplOpenGL2_Init();
 }
 
-void dae::Renderer::Render() const
+void minigen::Renderer::Render() const
 {
 	SDL_RenderClear(m_Renderer);
 
@@ -55,7 +55,7 @@ void dae::Renderer::Render() const
 	SDL_RenderPresent(m_Renderer);
 }
 
-void dae::Renderer::Destroy()
+void minigen::Renderer::Destroy()
 {
 	// Destroy ImGui
 	ImGui_ImplOpenGL2_Shutdown();
@@ -69,7 +69,7 @@ void dae::Renderer::Destroy()
 	}
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void minigen::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -78,7 +78,7 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void minigen::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);

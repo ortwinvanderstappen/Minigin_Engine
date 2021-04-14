@@ -1,13 +1,13 @@
 #pragma once
 #include "Command.h"
 
-namespace dae
+namespace minigen
 {
 	class GameObject;
 	class SuicideCommand final : public Command
 	{
 	public:
-		SuicideCommand(std::shared_ptr<dae::GameObject> gameObject);
+		SuicideCommand(std::shared_ptr<minigen::GameObject> gameObject);
 		void Execute() override;
 
 	private:

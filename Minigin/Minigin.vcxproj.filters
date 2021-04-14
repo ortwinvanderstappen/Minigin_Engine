@@ -83,7 +83,7 @@
     <ClInclude Include="InputManager.h">
       <Filter>Source Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="GameTime.h">
       <Filter>Source Files\Singletons</Filter>
     </ClInclude>
     <ClInclude Include="Minigin.h">
@@ -214,7 +214,7 @@
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Source Files\Components\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="GameTime.cpp">
       <Filter>Source Files\Singletons</Filter>
     </ClCompile>
     <ClCompile Include="Minigin.cpp">

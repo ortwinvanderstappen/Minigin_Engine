@@ -20,7 +20,7 @@
 
 #include "Renderer.h"
 #include "Scene.h"
-#include "Time.h"
+#include "GameTime.h"
 // Components
 #include "ImageRenderComponent.h"
 #include "HealthComponent.h"
@@ -43,7 +43,7 @@
 using namespace std;
 using namespace std::chrono;
 
-void dae::Minigin::Initialize()
+void minigen::Minigin::Initialize()
 {
 	if (_putenv("SDL_AUDIODRIVER=directsound") != 0)
 	{
@@ -75,10 +75,14 @@ void dae::Minigin::Initialize()
 	const std::shared_ptr<SoundSystem> spDefaultSoundSystem = std::make_shared<BasicSoundSystem>();
 	ServiceLocator::RegisterSoundSystem(spDefaultSoundSystem);
 
-	std::cout << "Minigen::Initialize completed\n";
+	// tell the resource manager where he can find the game data
+	ResourceManager::GetInstance().Init("../Data/");
+
+	m_IsInitialized = true;
+	std::cout << "Minigen: Initialize completed\n";
 }
 
-void dae::Minigin::LoadGame()
+void minigen::Minigin::LoadGame()
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
@@ -152,33 +156,7 @@ void dae::Minigin::LoadGame()
 	spVitalsObserver->AddPlayer(spQBert2.get(), spPlayerHealthTextComponent2);
 	m_Players.push_back(spQBert2);
 
-	std::cout << "Minigen::LoadGame completed\n";
-}
-
-void dae::Minigin::Cleanup()
-{
-	Renderer::GetInstance().Destroy();
-	SDL_DestroyWindow(m_Window);
-	m_Window = nullptr;
-	endAudio();
-	SDL_Quit();
-}
-
-void dae::Minigin::Run()
-{
-	Initialize();
-
-	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
-
-	// Setup the demo scene
-	LoadGame();
-
 	auto& input = InputManager::GetInstance();
-	auto& renderer = Renderer::GetInstance();
-	auto& sceneManager = SceneManager::GetInstance();
-	auto& time = Time::GetInstance();
-
 	if (m_Players.size() >= 1)
 	{
 		std::shared_ptr<SuicideCommand> spSuicideCommand{ std::make_shared<SuicideCommand>(m_Players[0]) };
@@ -192,13 +170,39 @@ void dae::Minigin::Run()
 	}
 
 	// Create sound input (for testing)
-	const std::shared_ptr<PlaySoundCommand> spPlaySoundCommand{ std::make_shared<PlaySoundCommand>("audio/Menu_Tick.wav") };
+	const std::shared_ptr<PlaySoundCommand> spPlaySoundCommand{ std::make_shared<PlaySoundCommand>("../Data/audio/Menu_Tick.wav") };
 	input.AddInput(ControllerButton::ButtonX, InputManager::InputType::onKeyDown);
 	input.BindInput(ControllerButton::ButtonX, spPlaySoundCommand);
 
 	const std::shared_ptr<ChangeSoundSystemCommand> spChangeSoundSystemCommand{ std::make_shared<ChangeSoundSystemCommand>() };
 	input.AddInput(ControllerButton::ButtonY, InputManager::InputType::onKeyDown);
 	input.BindInput(ControllerButton::ButtonY, spChangeSoundSystemCommand);
+
+	std::cout << "Minigen: LoadGame completed\n";
+}
+
+void minigen::Minigin::Cleanup()
+{
+	Renderer::GetInstance().Destroy();
+	SDL_DestroyWindow(m_Window);
+	m_Window = nullptr;
+	endAudio();
+	SDL_Quit();
+}
+
+void minigen::Minigin::Run()
+{
+	if(!m_IsInitialized)
+	{
+		std::cout << "Minigen: ERROR, Minigen was not initialized!\n";
+		return;
+	}
+	std::cout << "Minigen: Game loop started\n";
+	
+	auto& input = InputManager::GetInstance();
+	auto& renderer = Renderer::GetInstance();
+	auto& sceneManager = SceneManager::GetInstance();
+	auto& time = Time::GetInstance();
 
 	auto lastTime = high_resolution_clock::now();
 	bool doContinue = true;
@@ -219,6 +223,5 @@ void dae::Minigin::Run()
 		this_thread::sleep_for(sleepTime);
 	}
 
-	// Cleanup
 	Cleanup();
 }

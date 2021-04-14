@@ -10,7 +10,7 @@ Component::Component()
 Component::~Component()
 {}
 
-void Component::Notify(const dae::GameObject& gameObject, Observer::Event event)
+void Component::Notify(const minigen::GameObject& gameObject, Observer::Event event)
 {
 	for (std::shared_ptr<Observer>& observer : m_spObservers)
 	{
@@ -28,7 +28,7 @@ void Component::RemoveObserver(std::shared_ptr<Observer> pObserver)
 	m_spObservers.erase(std::remove(m_spObservers.begin(), m_spObservers.end(), pObserver), m_spObservers.end());
 }
 
-void Component::SetParent(dae::GameObject* pParentObject)
+void Component::SetParent(minigen::GameObject* pParentObject)
 {
 	m_pParentObject = pParentObject;
 }
