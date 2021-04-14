@@ -8,7 +8,7 @@ namespace minigen
 	{
 	public:
 		SuicideCommand(std::shared_ptr<minigen::GameObject> gameObject);
-		void Execute() override;
+		bool Execute() override;
 
 	private:
 		std::shared_ptr<GameObject> m_ObjectToKill = nullptr;

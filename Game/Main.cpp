@@ -8,4 +8,6 @@ int main(int, char* [])
 	Game* pGame = new Game();
 	pGame->Run();
 	delete pGame;
+
+	return 0;
 }

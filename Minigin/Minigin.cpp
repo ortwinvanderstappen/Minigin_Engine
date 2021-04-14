@@ -11,7 +11,6 @@
 #pragma warning(pop)
 // Managers
 #include "ResourceManager.h"
-#include "CommandManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 // Objects
@@ -84,99 +83,99 @@ void minigen::Minigin::Initialize()
 
 void minigen::Minigin::LoadGame()
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	//auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	std::shared_ptr<ImageRenderComponent> imageRenderComponent = std::make_shared<ImageRenderComponent>();
-	imageRenderComponent->AddImage("background.jpg");
-	go->AddComponent(imageRenderComponent);
-	scene.Add(go);
+	//auto go = std::make_shared<GameObject>();
+	//std::shared_ptr<ImageRenderComponent> imageRenderComponent = std::make_shared<ImageRenderComponent>();
+	//imageRenderComponent->AddImage("background.jpg");
+	//go->AddComponent(imageRenderComponent);
+	//scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	imageRenderComponent = std::make_shared<ImageRenderComponent>();
-	imageRenderComponent->AddImage("logo.png");
-	go->AddComponent(imageRenderComponent);
-	go->SetPosition(216, 180);
-	scene.Add(go);
+	//go = std::make_shared<GameObject>();
+	//imageRenderComponent = std::make_shared<ImageRenderComponent>();
+	//imageRenderComponent->AddImage("logo.png");
+	//go->AddComponent(imageRenderComponent);
+	//go->SetPosition(216, 180);
+	//scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	std::shared_ptr<TextRenderComponent> to = std::make_shared<TextRenderComponent>();
-	to->AddText(0, "Programming 4 Assignment", { 0,0 }, 36);
-	std::shared_ptr<TextRenderComponent> to2 = std::make_shared<TextRenderComponent>();
-	to2->AddText(0, "Press X (xbox) for sound", { -75,350 }, 36);
-	std::shared_ptr<TextRenderComponent> to3 = std::make_shared<TextRenderComponent>();
-	to3->AddText(0, "Press Y (xbox) to swap sound system", { -75,400 }, 36);
-	go->AddComponent(to);
-	go->AddComponent(to2);
-	go->AddComponent(to3);
-	go->SetPosition(80, 20);
-	scene.Add(go);
+	//go = std::make_shared<GameObject>();
+	//std::shared_ptr<TextRenderComponent> to = std::make_shared<TextRenderComponent>();
+	//to->AddText(0, "Programming 4 Assignment", { 0,0 }, 36);
+	//std::shared_ptr<TextRenderComponent> to2 = std::make_shared<TextRenderComponent>();
+	//to2->AddText(0, "Press X (xbox) for sound", { -75,350 }, 36);
+	//std::shared_ptr<TextRenderComponent> to3 = std::make_shared<TextRenderComponent>();
+	//to3->AddText(0, "Press Y (xbox) to swap sound system", { -75,400 }, 36);
+	//go->AddComponent(to);
+	//go->AddComponent(to2);
+	//go->AddComponent(to3);
+	//go->SetPosition(80, 20);
+	//scene.Add(go);
 
-	// Create vitals observer
-	std::shared_ptr<VitalsObserver> spVitalsObserver{ std::make_shared<VitalsObserver>() };
-	ObserverManager::GetInstance().AddObserver(spVitalsObserver);
+	//// Create vitals observer
+	//std::shared_ptr<VitalsObserver> spVitalsObserver{ std::make_shared<VitalsObserver>() };
+	//ObserverManager::GetInstance().AddObserver(spVitalsObserver);
 
-	// Create fps game object
-	std::shared_ptr<GameObject> spFPSGameObject = std::make_shared<GameObject>();
-	std::shared_ptr<FPSComponent> spFPSComponent{ std::make_shared<FPSComponent>() };
-	spFPSGameObject->AddComponent(spFPSComponent);
-	scene.Add(spFPSGameObject);
+	//// Create fps game object
+	//std::shared_ptr<GameObject> spFPSGameObject = std::make_shared<GameObject>();
+	//std::shared_ptr<FPSComponent> spFPSComponent{ std::make_shared<FPSComponent>() };
+	//spFPSGameObject->AddComponent(spFPSComponent);
+	//scene.Add(spFPSGameObject);
 
-	// Create QBert gameobject
-	const int startHealth{ 1 };
-	const int maxHealth{ 3 };
-	std::shared_ptr<GameObject> spQBert{ std::make_shared<GameObject>() };
-	// Health component
-	std::shared_ptr<HealthComponent> spHealthComponent{ std::make_shared<HealthComponent>(startHealth, maxHealth) };
-	spHealthComponent->AddObserver(spVitalsObserver);
-	spQBert->AddComponent(spHealthComponent);
-	// Health text component
-	std::shared_ptr<TextRenderComponent> spPlayerHealthTextComponent{ std::make_shared<TextRenderComponent>() };
-	spQBert->AddComponent(spPlayerHealthTextComponent);
-	spPlayerHealthTextComponent->AddText(0, "(Controller A) Player life: " + std::to_string(spHealthComponent->GetHealth()), Point2f{ 0, 70 }, 30);
-	// Add to scene
-	scene.Add(spQBert);
-	// Add player to vital observer
-	spVitalsObserver->AddPlayer(spQBert.get(), spPlayerHealthTextComponent);
-	m_Players.push_back(spQBert);
+	//// Create QBert gameobject
+	//const int startHealth{ 1 };
+	//const int maxHealth{ 3 };
+	//std::shared_ptr<GameObject> spQBert{ std::make_shared<GameObject>() };
+	//// Health component
+	//std::shared_ptr<HealthComponent> spHealthComponent{ std::make_shared<HealthComponent>(startHealth, maxHealth) };
+	//spHealthComponent->AddObserver(spVitalsObserver);
+	//spQBert->AddComponent(spHealthComponent);
+	//// Health text component
+	//std::shared_ptr<TextRenderComponent> spPlayerHealthTextComponent{ std::make_shared<TextRenderComponent>() };
+	//spQBert->AddComponent(spPlayerHealthTextComponent);
+	//spPlayerHealthTextComponent->AddText(0, "(Controller A) Player life: " + std::to_string(spHealthComponent->GetHealth()), Point2f{ 0, 70 }, 30);
+	//// Add to scene
+	//scene.Add(spQBert);
+	//// Add player to vital observer
+	//spVitalsObserver->AddPlayer(spQBert.get(), spPlayerHealthTextComponent);
+	//m_Players.push_back(spQBert);
 
-	// Create QBert 2 gameobject
-	std::shared_ptr<GameObject> spQBert2{ std::make_shared<GameObject>() };
-	// Health component
-	std::shared_ptr<HealthComponent> spHealthComponent2{ std::make_shared<HealthComponent>(startHealth, maxHealth) };
-	spHealthComponent2->AddObserver(spVitalsObserver);
-	spQBert2->AddComponent(spHealthComponent2);
-	// Health text component
-	std::shared_ptr<TextRenderComponent> spPlayerHealthTextComponent2{ std::make_shared<TextRenderComponent>() };
-	spQBert2->AddComponent(spPlayerHealthTextComponent2);
-	spPlayerHealthTextComponent2->AddText(0, "(Controller B) Player life: " + std::to_string(spHealthComponent2->GetHealth()), Point2f{ 0, 120 }, 30);
-	// Add to scene
-	scene.Add(spQBert2);
-	// Add player to vital observer
-	spVitalsObserver->AddPlayer(spQBert2.get(), spPlayerHealthTextComponent2);
-	m_Players.push_back(spQBert2);
+	//// Create QBert 2 gameobject
+	//std::shared_ptr<GameObject> spQBert2{ std::make_shared<GameObject>() };
+	//// Health component
+	//std::shared_ptr<HealthComponent> spHealthComponent2{ std::make_shared<HealthComponent>(startHealth, maxHealth) };
+	//spHealthComponent2->AddObserver(spVitalsObserver);
+	//spQBert2->AddComponent(spHealthComponent2);
+	//// Health text component
+	//std::shared_ptr<TextRenderComponent> spPlayerHealthTextComponent2{ std::make_shared<TextRenderComponent>() };
+	//spQBert2->AddComponent(spPlayerHealthTextComponent2);
+	//spPlayerHealthTextComponent2->AddText(0, "(Controller B) Player life: " + std::to_string(spHealthComponent2->GetHealth()), Point2f{ 0, 120 }, 30);
+	//// Add to scene
+	//scene.Add(spQBert2);
+	//// Add player to vital observer
+	//spVitalsObserver->AddPlayer(spQBert2.get(), spPlayerHealthTextComponent2);
+	//m_Players.push_back(spQBert2);
 
-	auto& input = InputManager::GetInstance();
-	if (m_Players.size() >= 1)
-	{
-		std::shared_ptr<SuicideCommand> spSuicideCommand{ std::make_shared<SuicideCommand>(m_Players[0]) };
-		input.BindInput(ControllerButton::ButtonA, spSuicideCommand);
-	}
+	//auto& input = InputManager::GetInstance();
+	//if (m_Players.size() >= 1)
+	//{
+	//	std::shared_ptr<SuicideCommand> spSuicideCommand{ std::make_shared<SuicideCommand>(m_Players[0]) };
+	//	input.BindInput(ControllerButton::ButtonA, spSuicideCommand);
+	//}
 
-	if (m_Players.size() >= 2)
-	{
-		std::shared_ptr<SuicideCommand> spSuicideCommand{ std::make_shared<SuicideCommand>(m_Players[1]) };
-		input.BindInput(ControllerButton::ButtonB, spSuicideCommand);
-	}
+	//if (m_Players.size() >= 2)
+	//{
+	//	std::shared_ptr<SuicideCommand> spSuicideCommand{ std::make_shared<SuicideCommand>(m_Players[1]) };
+	//	input.BindInput(ControllerButton::ButtonB, spSuicideCommand);
+	//}
 
-	// Create sound input (for testing)
-	const std::shared_ptr<PlaySoundCommand> spPlaySoundCommand{ std::make_shared<PlaySoundCommand>("../Data/audio/Menu_Tick.wav") };
-	input.AddInput(ControllerButton::ButtonX, InputManager::InputType::onKeyDown);
-	input.BindInput(ControllerButton::ButtonX, spPlaySoundCommand);
+	//// Create sound input (for testing)
+	//const std::shared_ptr<PlaySoundCommand> spPlaySoundCommand{ std::make_shared<PlaySoundCommand>("../Data/audio/Menu_Tick.wav") };
+	//input.AddInput(ControllerButton::ButtonX, InputManager::InputType::onKeyDown);
+	//input.BindInput(ControllerButton::ButtonX, spPlaySoundCommand);
 
-	const std::shared_ptr<ChangeSoundSystemCommand> spChangeSoundSystemCommand{ std::make_shared<ChangeSoundSystemCommand>() };
-	input.AddInput(ControllerButton::ButtonY, InputManager::InputType::onKeyDown);
-	input.BindInput(ControllerButton::ButtonY, spChangeSoundSystemCommand);
+	//const std::shared_ptr<ChangeSoundSystemCommand> spChangeSoundSystemCommand{ std::make_shared<ChangeSoundSystemCommand>() };
+	//input.AddInput(ControllerButton::ButtonY, InputManager::InputType::onKeyDown);
+	//input.BindInput(ControllerButton::ButtonY, spChangeSoundSystemCommand);
 
 	std::cout << "Minigen: LoadGame completed\n";
 }

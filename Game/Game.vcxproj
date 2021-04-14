@@ -89,7 +89,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.81;$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\include;$(SolutionDir)3rdParty\SDL2_image-2.0.5\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_audio;$(SolutionDir)3rdParty\SDL2-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -98,7 +98,11 @@
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)3rdParty\SDL2-2.0.14\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y</Command>
+      <Command>xcopy "$(SolutionDir)3rdParty\SDL2-2.0.14\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
+
+xcopy "$(SolutionDir)3rdParty\SDL2_image-2.0.5\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -110,7 +114,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.81;$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\include;$(SolutionDir)3rdParty\SDL2_image-2.0.5\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_audio;$(SolutionDir)3rdParty\SDL2-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +125,11 @@
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)3rdParty\SDL2-2.0.14\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y</Command>
+      <Command>xcopy "$(SolutionDir)3rdParty\SDL2-2.0.14\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
+
+xcopy "$(SolutionDir)3rdParty\SDL2_image-2.0.5\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,7 +139,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.81;$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\include;$(SolutionDir)3rdParty\SDL2_image-2.0.5\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_audio;$(SolutionDir)3rdParty\SDL2-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,7 +148,11 @@
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)3rdParty\SDL2-2.0.14\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y</Command>
+      <Command>xcopy "$(SolutionDir)3rdParty\SDL2-2.0.14\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
+
+xcopy "$(SolutionDir)3rdParty\SDL2_image-2.0.5\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,7 +164,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Minigin;$(SolutionDir)3rdParty\imgui-1.81;$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\include;$(SolutionDir)3rdParty\SDL2_image-2.0.5\include;$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2_audio;$(SolutionDir)3rdParty\SDL2-2.0.14\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,15 +175,21 @@
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(ConfigurationName);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)3rdParty\SDL2-2.0.14\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y</Command>
+      <Command>xcopy "$(SolutionDir)3rdParty\SDL2-2.0.14\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
+
+xcopy "$(SolutionDir)3rdParty\SDL2_image-2.0.5\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+
+xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainMenuScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MainMenuScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

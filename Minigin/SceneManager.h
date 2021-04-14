@@ -10,15 +10,17 @@ namespace minigen
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
+		void AddScene(std::shared_ptr<Scene> newScene);
 		Scene& CreateScene(const std::string& name);
-
-		void Update();
-		void Render();
+		void SetActiveScene(const std::string& name);
+		
+		void Update() const;
+		void Render() const;
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager();
-		std::vector<std::shared_ptr<Scene>> m_Scenes;
 
-		void Initialize();
+		std::vector<std::shared_ptr<Scene>> m_Scenes;
+		std::shared_ptr<Scene> m_spActiveScene;
 	};
 }

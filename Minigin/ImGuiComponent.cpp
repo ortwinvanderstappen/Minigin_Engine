@@ -5,7 +5,7 @@
 //#include <glm/detail/type_vec3.hpp>
 #pragma warning (push)
 #pragma warning(disable: 4201)
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #pragma warning(pop)
 
 ImGuiComponent::ImGuiComponent()

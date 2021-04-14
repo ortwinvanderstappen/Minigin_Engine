@@ -8,7 +8,8 @@ PlaySoundCommand::PlaySoundCommand(const std::string soundPath) :
 	m_Path{soundPath}
 {}
 
-void PlaySoundCommand::Execute()
+bool PlaySoundCommand::Execute()
 {
 	ServiceLocator::GetSoundSystem()->PlaySound(m_Path, 100);
+	return true;
 }

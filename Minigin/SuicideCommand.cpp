@@ -11,7 +11,7 @@ minigen::SuicideCommand::SuicideCommand(std::shared_ptr<minigen::GameObject> gam
 	m_ObjectToKill{ gameObject }
 {}
 
-void minigen::SuicideCommand::Execute()
+bool minigen::SuicideCommand::Execute()
 {
 	if(m_ObjectToKill != nullptr)
 	{
@@ -22,4 +22,6 @@ void minigen::SuicideCommand::Execute()
 			hc->SetHealth(0);
 		}
 	}
+
+	return true;
 }

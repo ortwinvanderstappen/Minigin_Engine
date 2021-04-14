@@ -5,8 +5,6 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-minigen::GameObject::~GameObject() = default;
-
 void minigen::GameObject::AddComponent(std::shared_ptr<Component> spComponent)
 {
 	m_spComponents.push_back(spComponent);

@@ -8,20 +8,24 @@ namespace minigen
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
-		void Add(const std::shared_ptr<GameObject>& object);
+		virtual void Add(const std::shared_ptr<GameObject>& object);
 
-		void Update();
-		void Render() const;
+		virtual void Update();
+		virtual void Render() const;
 
-		~Scene();
+		virtual const std::string& GetName();
+		
+		virtual void Initialize(){};
+
+		virtual ~Scene() = default;
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
-
-	private:
+	protected:
 		explicit Scene(const std::string& name);
 
+	private:
 		std::string m_Name;
 		std::vector <std::shared_ptr<GameObject>> m_Objects{};
 

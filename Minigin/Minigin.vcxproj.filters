@@ -152,9 +152,6 @@
     <ClInclude Include="Command.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="CommandManager.h">
-      <Filter>Source Files\Input\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="SuicideCommand.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
@@ -192,6 +189,15 @@
       <Filter>Source Files\Sound</Filter>
     </ClInclude>
     <ClInclude Include="ChangeSoundSystemCommand.h">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGameSceneCommand.h">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CloseGameCommand.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
   </ItemGroup>
@@ -280,9 +286,6 @@
     <ClCompile Include="Command.cpp">
       <Filter>Source Files\Input\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="CommandManager.cpp">
-      <Filter>Source Files\Input\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="SuicideCommand.cpp">
       <Filter>Source Files\Input\Commands</Filter>
     </ClCompile>
@@ -320,6 +323,15 @@
       <Filter>Source Files\Sound</Filter>
     </ClCompile>
     <ClCompile Include="ChangeSoundSystemCommand.cpp">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="InputComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGameSceneCommand.cpp">
+      <Filter>Source Files\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CloseGameCommand.cpp">
       <Filter>Source Files\Input\Commands</Filter>
     </ClCompile>
   </ItemGroup>

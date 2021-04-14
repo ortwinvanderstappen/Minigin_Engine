@@ -5,7 +5,7 @@ class PlaySoundCommand final : public Command
 public:
 	PlaySoundCommand(const std::string soundPath);
 
-	void Execute() override;
+	bool Execute() override;
 private:
 	std::string m_Path;
 };

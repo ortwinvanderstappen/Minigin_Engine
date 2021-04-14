@@ -10,7 +10,7 @@
 ChangeSoundSystemCommand::ChangeSoundSystemCommand()
 {}
 
-void ChangeSoundSystemCommand::Execute()
+bool ChangeSoundSystemCommand::Execute()
 {
 	int currentSystem = static_cast<int>(m_CurrentSystem);
 
@@ -44,4 +44,6 @@ void ChangeSoundSystemCommand::Execute()
 	default:
 		std::cout << "ERROR: ChangeSoundSystemCommand: No sound system found, default\n";
 	}
+
+	return true;
 }

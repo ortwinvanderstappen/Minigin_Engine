@@ -10,7 +10,7 @@ public:
 		End = 2
 	};
 	ChangeSoundSystemCommand();
-	void Execute() override;
+	bool Execute() override;
 
 private:
 	SystemType m_CurrentSystem = SystemType::Basic;

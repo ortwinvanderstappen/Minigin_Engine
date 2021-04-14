@@ -3,7 +3,7 @@
 
 #pragma warning (push)
 #pragma warning(disable: 4201)
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #pragma warning(pop)
 
 #include "Transform.h"
@@ -17,7 +17,7 @@ namespace minigen
 		void SetPosition(float x, float y);
 
 		GameObject() = default;
-		~GameObject();
+		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -51,5 +51,4 @@ namespace minigen
 		// No component found
 		return nullptr;
 	}
-
 }

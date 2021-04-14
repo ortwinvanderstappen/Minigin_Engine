@@ -7,9 +7,9 @@ using namespace minigen;
 
 unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(const std::string& name) : m_Name(name) {}
-
-Scene::~Scene() = default;
+Scene::Scene(const std::string& name) : m_Name(name)
+{
+}
 
 void Scene::Add(const std::shared_ptr<GameObject>&object)
 {
@@ -35,5 +35,10 @@ void Scene::Render() const
 			if (spRenderComponent) spRenderComponent->Render(object->GetPosition());
 		}
 	}
+}
+
+const std::string& Scene::GetName()
+{
+	return m_Name;
 }
 

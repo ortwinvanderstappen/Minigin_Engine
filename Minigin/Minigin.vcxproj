@@ -231,8 +231,8 @@
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_truetype.h" />
     <ClInclude Include="BasicSoundSystem.h" />
     <ClInclude Include="ChangeSoundSystemCommand.h" />
+    <ClInclude Include="CloseGameCommand.h" />
     <ClInclude Include="Command.h" />
-    <ClInclude Include="CommandManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DaeAudio.h" />
     <ClInclude Include="Font.h" />
@@ -241,6 +241,7 @@
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="ImageRenderComponent.h" />
     <ClInclude Include="ImGuiComponent.h" />
+    <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="LoggingSoundSystem.h" />
     <ClInclude Include="Minigin.h" />
@@ -248,6 +249,7 @@
     <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="ObserverManager.h" />
+    <ClInclude Include="OpenGameSceneCommand.h" />
     <ClInclude Include="PlaySoundCommand.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="Renderer.h" />
@@ -311,8 +313,8 @@
     </ClCompile>
     <ClCompile Include="BasicSoundSystem.cpp" />
     <ClCompile Include="ChangeSoundSystemCommand.cpp" />
+    <ClCompile Include="CloseGameCommand.cpp" />
     <ClCompile Include="Command.cpp" />
-    <ClCompile Include="CommandManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DaeAudio.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -321,6 +323,7 @@
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="ImageRenderComponent.cpp" />
     <ClCompile Include="ImGuiComponent.cpp" />
+    <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="LoggingSoundSystem.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -335,6 +338,7 @@
     <ClCompile Include="NullSoundSystem.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="ObserverManager.cpp" />
+    <ClCompile Include="OpenGameSceneCommand.cpp" />
     <ClCompile Include="PlaySoundCommand.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
