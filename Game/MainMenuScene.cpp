@@ -24,16 +24,32 @@ void MainMenuScene::Initialize()
 
 	// Play text
 	auto playTextComp = std::make_shared<TextRenderComponent>();
-	playTextComp->AddText(0, "Press A to start the game", Point2f{ 50.f,50.f }, 30);
+	playTextComp->AddText(0, "Press A or space to start the game", Point2f{ 50.f,50.f }, 30);
 	HUDGameObject->AddComponent(playTextComp);
 
 	// HUD input
+	auto openSceneCommand = std::make_shared<OpenGameSceneCommand>();
 	auto inputComponent = std::make_shared<InputComponent>();
-	InputManager::KeyInput openGameSceneInput;
+	InputManager::KeyInput openGameSceneInput{};
 	openGameSceneInput.hardwareType = InputManager::HardwareType::controller;
 	openGameSceneInput.inputType = InputManager::InputType::onKeyDown;
-	openGameSceneInput.spInputCommand = std::make_shared<OpenGameSceneCommand>();
+	openGameSceneInput.spInputCommand = openSceneCommand;
 	openGameSceneInput.inputButton.controllerButton = InputManager::ControllerButton::ButtonA;
 	inputComponent->AddInput(openGameSceneInput);
+	
+	InputManager::KeyInput openGameSceneInput2{};
+	openGameSceneInput2.hardwareType = InputManager::HardwareType::keyboard;
+	openGameSceneInput2.inputType = InputManager::InputType::onKeyDown;
+	openGameSceneInput2.spInputCommand = openSceneCommand;
+	openGameSceneInput2.inputButton.keyboardButton = SDL_KeyCode::SDLK_a;
+	inputComponent->AddInput(openGameSceneInput2);
+	
+	InputManager::KeyInput openGameSceneInput3{};
+	openGameSceneInput3.hardwareType = InputManager::HardwareType::keyboard;
+	openGameSceneInput3.inputType = InputManager::InputType::onKeyDown;
+	openGameSceneInput3.spInputCommand = openSceneCommand;
+	openGameSceneInput3.inputButton.keyboardButton = SDL_KeyCode::SDLK_SPACE;
+	inputComponent->AddInput(openGameSceneInput3);
+
 	HUDGameObject->AddComponent(inputComponent);
 }

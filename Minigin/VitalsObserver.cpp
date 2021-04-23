@@ -5,7 +5,7 @@
 #include "HealthComponent.h"
 #include "TextRenderComponent.h"
 
-void VitalsObserver::Notify(const minigen::GameObject& gameObject, Event event)
+void minigen::VitalsObserver::Notify(const minigen::GameObject& gameObject, Event event)
 {
 	PlayerVitals* pv = GetPlayerVital(gameObject);
 
@@ -33,7 +33,7 @@ void VitalsObserver::Notify(const minigen::GameObject& gameObject, Event event)
 	UNREFERENCED_PARAMETER(gameObject);
 }
 
-void VitalsObserver::AddPlayer(minigen::GameObject* pGameObject, std::shared_ptr<TextRenderComponent> spText)
+void minigen::VitalsObserver::AddPlayer(minigen::GameObject* pGameObject, std::shared_ptr<TextRenderComponent> spText)
 {
 	PlayerVitals pv{};
 	pv.pGameObject = pGameObject;
@@ -49,7 +49,7 @@ void VitalsObserver::AddPlayer(minigen::GameObject* pGameObject, std::shared_ptr
 	m_Players.push_back(pv);
 }
 
-VitalsObserver::PlayerVitals* VitalsObserver::GetPlayerVital(const minigen::GameObject& gameObject)
+minigen::VitalsObserver::PlayerVitals* minigen::VitalsObserver::GetPlayerVital(const minigen::GameObject& gameObject)
 {
 	for (PlayerVitals& pv : m_Players)
 	{

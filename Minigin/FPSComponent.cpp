@@ -6,14 +6,14 @@
 
 #include "GameTime.h"
 
-FPSComponent::FPSComponent() 
+minigen::FPSComponent::FPSComponent() 
 {
 	AddText(0, "FPS: " + std::to_string(m_CurrentFPS), { 0.f,0.f }, 20);
 
 	m_FpsHistory = std::vector<int>(m_FrameHistoryCount);
 }
 
-void FPSComponent::Update()
+void minigen::FPSComponent::Update()
 {
 	// Add delta time to the total time
 	const float& deltaTime = Time::GetInstance().DeltaTime();
@@ -43,7 +43,7 @@ void FPSComponent::Update()
 	);
 }
 
-const int& FPSComponent::GetFPS() const
+const int& minigen::FPSComponent::GetFPS() const
 {
 	return m_CurrentFPS;
 }

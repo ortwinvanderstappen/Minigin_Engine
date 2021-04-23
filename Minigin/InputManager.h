@@ -1,5 +1,6 @@
 #pragma once
 #include <queue>
+#include <SDL_events.h>
 #include <SDL_keycode.h>
 #include <unordered_map>
 #include <windows.h>
@@ -15,7 +16,7 @@ namespace minigen
 	{
 	public:
 		InputManager();
-		
+
 		enum class ControllerButton
 		{
 			ButtonUp = 0x0001,
@@ -33,7 +34,7 @@ namespace minigen
 			ButtonX = 0x4000,
 			ButtonY = 0x8000
 		};
-		
+
 		enum class HardwareType
 		{
 			controller,
@@ -67,7 +68,7 @@ namespace minigen
 			InputButton inputButton;
 			KeyState lastKeyState = KeyState::released;
 		};
-		
+
 		bool HandleInputStates(std::vector<minigen::InputManager::KeyInput>& inputs);
 		bool ProcessInput();
 		void AddGlobalInput(const KeyInput& keyInput);
@@ -83,5 +84,6 @@ namespace minigen
 		std::vector<KeyInput> m_GlobalInputs;
 		// Queue of all commands that should run
 		std::queue<KeyInput> m_InputQueue;
+		std::vector<SDL_Event> m_KeyboardEvents{};
 	};
 }

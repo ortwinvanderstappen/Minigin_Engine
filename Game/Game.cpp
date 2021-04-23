@@ -26,6 +26,7 @@ void Game::LoadGame()
 {
 	// Setup global inputs
 	InputManager& inputManager = InputManager::GetInstance();
+	
 	// Close game with controller
 	const std::shared_ptr<CloseGameCommand> closeGameCommand = std::make_shared<CloseGameCommand>();
 	InputManager::KeyInput closeGameInputController;
@@ -34,6 +35,7 @@ void Game::LoadGame()
 	closeGameInputController.inputType = InputManager::InputType::onKeyDown;
 	closeGameInputController.inputButton.controllerButton = InputManager::ControllerButton::BackButton;
 	inputManager.AddGlobalInput(closeGameInputController);
+	
 	// Close game with keyboard
 	InputManager::KeyInput closeGameInputKeyboard;
 	closeGameInputKeyboard.spInputCommand = closeGameCommand;

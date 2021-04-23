@@ -1,8 +1,8 @@
 #include "MiniginPCH.h"
 #include "RenderComponent.h"
 
-RenderComponent::RenderComponent() 
+minigen::RenderComponent::RenderComponent() 
 {}
 
-RenderComponent::~RenderComponent()
+minigen::RenderComponent::~RenderComponent()
 {}

@@ -4,10 +4,10 @@
 #include "ResourceManager.h"
 #include <algorithm>
 
-TextRenderComponent::TextRenderComponent()
+minigen::TextRenderComponent::TextRenderComponent()
 {}
 
-void TextRenderComponent::AddText(int id, const std::string& text, const Point2f& position, int fontSize)
+void minigen::TextRenderComponent::AddText(int id, const std::string& text, const Point2f& position, int fontSize)
 {
 	std::shared_ptr<minigen::Font> const pFont = minigen::ResourceManager::GetInstance().LoadFont("Lingua.otf", fontSize);
 	std::shared_ptr<minigen::TextObject> spTextObject = std::make_shared<minigen::TextObject>(text, pFont);
@@ -15,7 +15,7 @@ void TextRenderComponent::AddText(int id, const std::string& text, const Point2f
 	m_upTextObjectMap.insert(std::make_pair(id, spTextObject));
 }
 
-void TextRenderComponent::SetText(int id, const std::string& newText)
+void minigen::TextRenderComponent::SetText(int id, const std::string& newText)
 {
 	if (m_upTextObjectMap.find(id) != m_upTextObjectMap.end())
 	{
@@ -23,7 +23,7 @@ void TextRenderComponent::SetText(int id, const std::string& newText)
 	}
 }
 
-void TextRenderComponent::SetPosition(int id, const Point2f& newPosition)
+void minigen::TextRenderComponent::SetPosition(int id, const Point2f& newPosition)
 {
 	if (m_upTextObjectMap.find(id) != m_upTextObjectMap.end())
 	{
@@ -31,7 +31,7 @@ void TextRenderComponent::SetPosition(int id, const Point2f& newPosition)
 	}
 }
 
-void TextRenderComponent::Update()
+void minigen::TextRenderComponent::Update()
 {
 	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [](std::pair<int, std::shared_ptr<minigen::TextObject>> textPair)
 		{
@@ -40,7 +40,7 @@ void TextRenderComponent::Update()
 	);
 }
 
-void TextRenderComponent::Render(const glm::vec3& positionOffset) const
+void minigen::TextRenderComponent::Render(const glm::vec3& positionOffset) const
 {
 	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [positionOffset](std::pair<int, std::shared_ptr<minigen::TextObject>> textPair)
 		{

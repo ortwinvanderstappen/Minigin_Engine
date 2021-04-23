@@ -187,11 +187,13 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
+    <ClCompile Include="PyramidScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="MainMenuScene.h" />
+    <ClInclude Include="PyramidScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

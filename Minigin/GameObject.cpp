@@ -11,7 +11,7 @@ void minigen::GameObject::AddComponent(std::shared_ptr<Component> spComponent)
 	spComponent->SetParent(this);
 }
 
-const std::vector<std::shared_ptr<Component>>& minigen::GameObject::GetComponents() const
+const std::vector<std::shared_ptr<minigen::Component>>& minigen::GameObject::GetComponents() const
 {
 	return m_spComponents;
 }

@@ -9,26 +9,25 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 
-ImageRenderComponent::ImageRenderComponent() 
+minigen::ImageRenderComponent::ImageRenderComponent() 
 {}
 
-void ImageRenderComponent::Update()
+void minigen::ImageRenderComponent::Update()
 {
 
 }
 
-void ImageRenderComponent::Render(const glm::vec3& positionOffset) const
+void minigen::ImageRenderComponent::Render(const glm::vec3& positionOffset) const
 {
 	for (auto image : m_spTextureMap)
 	{
-		minigen::Renderer::GetInstance().RenderTexture(*image.second.second,
+		Renderer::GetInstance().RenderTexture(*image.second.second,
 			image.second.first.x + positionOffset.x, image.second.first.y + positionOffset.y);
 	}
 }
 
-void ImageRenderComponent::AddImage(const std::string& imagePath, const Point2f& position)
+void minigen::ImageRenderComponent::AddImage(const std::string& imagePath, const Point2f& position)
 {
-	std::shared_ptr<minigen::Texture2D> spTexture = minigen::ResourceManager::GetInstance().LoadTexture(imagePath);
+	std::shared_ptr<Texture2D> spTexture = ResourceManager::GetInstance().LoadTexture(imagePath);
 	m_spTextureMap.insert(std::make_pair(imagePath, std::make_pair(position, spTexture)));
-
 }

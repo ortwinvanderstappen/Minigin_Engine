@@ -8,10 +8,10 @@
 #include <glm.hpp>
 #pragma warning(pop)
 
-ImGuiComponent::ImGuiComponent()
+minigen::ImGuiComponent::ImGuiComponent()
 {}
 
-ImGuiComponent::~ImGuiComponent()
+minigen::ImGuiComponent::~ImGuiComponent()
 {
 	//for(ImGuiWindow* pWindow: m_pGuiWindows)
 	//{
@@ -20,7 +20,7 @@ ImGuiComponent::~ImGuiComponent()
 	//m_pGuiWindows.clear();
 }
 
-void ImGuiComponent::Render(const glm::vec3& positionOffset) const
+void minigen::ImGuiComponent::Render(const glm::vec3& positionOffset) const
 {
 	// TODO: remove
 	glm::vec3 binPos = positionOffset;

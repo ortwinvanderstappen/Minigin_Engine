@@ -12,6 +12,9 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{c9f98213-9e84-4f2e-9d3c-ecafaae5a78e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{d621409b-ec2b-4e2e-8af5-637a2e6339fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -26,6 +29,9 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="PyramidScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -36,6 +42,9 @@
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PyramidScript.h">
+      <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
