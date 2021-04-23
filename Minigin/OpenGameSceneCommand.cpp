@@ -5,7 +5,7 @@
 
 bool OpenGameSceneCommand::Execute()
 {
-	minigen::SceneManager::GetInstance().SetActiveScene("Game");
+	minigen::SceneManager::GetInstance().SetActiveScene("GameScene");
 
 	return true;
 }

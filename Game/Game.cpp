@@ -9,6 +9,7 @@
 #include "ImageRenderComponent.h"
 #include "InputComponent.h"
 #include "MainMenuScene.h"
+#include "GameScene.h"
 #include "TextRenderComponent.h"
 
 using namespace minigen;
@@ -46,19 +47,14 @@ void Game::LoadGame()
 	SceneManager::GetInstance().SetActiveScene("MainMenu");
 }
 
-void Game::CreateMenuScene()
+void Game::CreateMenuScene() const
 {
-	std::shared_ptr<MainMenuScene> mainMenuScene = std::make_shared<MainMenuScene>("MainMenu");
+	const std::shared_ptr<MainMenuScene> mainMenuScene = std::make_shared<MainMenuScene>("MainMenu");
 	SceneManager::GetInstance().AddScene(mainMenuScene);
 }
 
-void Game::CreateGameScene()
+void Game::CreateGameScene() const
 {
-	Scene& gameScene = SceneManager::GetInstance().CreateScene("Game");
-	// Create a background
-	auto go = std::make_shared<GameObject>();
-	std::shared_ptr<ImageRenderComponent> imageRenderComponent = std::make_shared<ImageRenderComponent>();
-	imageRenderComponent->AddImage("logo.png");
-	go->AddComponent(imageRenderComponent);
-	gameScene.Add(go);
+	const auto gameScene = std::make_shared<GameScene>("GameScene");
+	SceneManager::GetInstance().AddScene(gameScene);
 }

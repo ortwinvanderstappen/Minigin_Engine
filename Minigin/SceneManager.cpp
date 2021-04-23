@@ -51,6 +51,7 @@ void minigen::SceneManager::SetActiveScene(const std::string& name)
 	{
 		if (scene->GetName() == name)
 		{
+			std::cout << "Changing scene to " << scene->GetName() << "...\n";
 			spScene = scene;
 			break;
 		}

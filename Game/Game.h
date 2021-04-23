@@ -8,7 +8,7 @@ public:
 	void Run();
 private:
 	void LoadGame();
-	void CreateMenuScene();
-	void CreateGameScene();
+	void CreateMenuScene() const;
+	void CreateGameScene() const;
 };
 

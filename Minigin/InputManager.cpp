@@ -11,16 +11,6 @@ minigen::InputManager::InputManager() :
 
 bool minigen::InputManager::ProcessInput()
 {
-	// Handle SDL_Quit
-	SDL_Event e;
-	while (SDL_PollEvent(&e))
-	{
-		if (e.type == SDL_QUIT)
-		{
-			return false;
-		}
-	}
-
 	// Check if any global inputs have been triggered (inputs shared across all scenes, always active)
 	const bool success = HandleInputStates(m_GlobalInputs);
 	if (!success) return false;
@@ -57,7 +47,11 @@ bool minigen::InputManager::IsKeyboardButtonPressed(SDL_KeyCode keyCode) const
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
-		if (e.type == SDL_KEYDOWN)
+		if (e.type == SDL_QUIT)
+		{
+			return false;
+		}
+		else if (e.type == SDL_KEYDOWN)
 		{
 			if (e.key.keysym.sym == keyCode)
 			{
