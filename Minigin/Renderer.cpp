@@ -41,7 +41,7 @@ void minigen::Renderer::Init(SDL_Window* window)
 	{
 		std::cout << "No correct render flags\n";
 	}
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 
 	// Initialize ImGui
 	IMGUI_CHECKVERSION();
@@ -52,16 +52,13 @@ void minigen::Renderer::Init(SDL_Window* window)
 
 void minigen::Renderer::Render() const
 {
-	//SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 0);
-	//SDL_RenderClear(m_Renderer);
-
 	glClearColor(0.f, 0.f, 0.f, 0.f);
 	glClear(GL_COLOR_BUFFER_BIT);
-
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, 640, 480, 0, -1, 1);
+	
 	//// Render ImGui demo window
 	//ImGui_ImplOpenGL2_NewFrame();
 	//ImGui_ImplSDL2_NewFrame(m_Window);
@@ -69,12 +66,10 @@ void minigen::Renderer::Render() const
 
 	SceneManager::GetInstance().Render();
 
-
 	//ImGui::Render();
 	//ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
-	//SDL_GL_SwapWindow(m_Window);
-	SDL_RenderPresent(m_Renderer);
+	SDL_GL_SwapWindow(m_Window);
 }
 
 void minigen::Renderer::Destroy()

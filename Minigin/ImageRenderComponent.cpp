@@ -8,6 +8,7 @@
 
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "Texture2D.h"
 
 minigen::ImageRenderComponent::ImageRenderComponent() 
 {}

@@ -5,16 +5,17 @@
 
 minigen::Texture2D::~Texture2D()
 {
-	SDL_DestroyTexture(m_Texture);
+	glDeleteTextures(1, &m_Id);
 }
 
+// Code source: 1DAE semester 2 programming engine for basic opengl and sdl drawing
 void minigen::Texture2D::CreateFromSurface(SDL_Surface* pSurface)
 {
 	m_CreationOk = true;
 
-	//Get image dimensions
-	m_Width = float(pSurface->w);
-	m_Height = float(pSurface->h);
+	// Get image dimensions
+	m_Width = static_cast<float>(pSurface->w);
+	m_Height = static_cast<float>(pSurface->h);
 
 	// Get pixel format information and translate to OpenGl format
 	GLenum pixelFormat{ GL_RGB };
@@ -30,6 +31,11 @@ void minigen::Texture2D::CreateFromSurface(SDL_Surface* pSurface)
 		if (pSurface->format->Rmask == 0x000000ff)
 		{
 			pixelFormat = GL_RGBA;
+		}
+		else
+		{
+			pixelFormat = GL_BGRA_EXT;
+			//pixelFormat = GL_BGRA;
 		}
 		break;
 	default:
@@ -83,7 +89,7 @@ void minigen::Texture2D::CreateFromSurface(SDL_Surface* pSurface)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
-void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect ) const
+void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect) const
 {
 	const float epsilon{ 0.001f };
 	if (!m_CreationOk)
@@ -100,7 +106,7 @@ void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect ) const
 
 	float defaultDestWidth{};
 	float defaultDestHeight{};
-	if ( !( srcRect.w > epsilon && srcRect.h > epsilon) ) // No srcRect specified
+	if (!(srcRect.w > epsilon && srcRect.h > epsilon)) // No srcRect specified
 	{
 		// Use complete texture
 		textLeft = 0.0f;
@@ -115,8 +121,8 @@ void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect ) const
 	{
 		// Convert to the range [0.0, 1.0]
 		textLeft = srcRect.x / m_Width;
-		textRight = ( srcRect.x + srcRect.w ) / m_Width;
-		textTop = ( srcRect.y - srcRect.h ) / m_Height;
+		textRight = (srcRect.x + srcRect.w) / m_Width;
+		textTop = (srcRect.y - srcRect.h) / m_Height;
 		textBottom = srcRect.y / m_Height;
 
 		defaultDestHeight = srcRect.h;
@@ -128,7 +134,7 @@ void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect ) const
 	float vertexBottom{ dstRect.y };
 	float vertexRight{};
 	float vertexTop{};
-	if ( !( dstRect.w > 0.001f && dstRect.h > 0.001f ) ) // If no size specified use default size
+	if (!(dstRect.w > 0.001f && dstRect.h > 0.001f)) // If no size specified use default size
 	{
 		vertexRight = vertexLeft + defaultDestWidth;
 		vertexTop = vertexBottom + defaultDestHeight;
@@ -141,37 +147,33 @@ void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect ) const
 	}
 
 	// Tell opengl which texture we will use
-	glBindTexture( GL_TEXTURE_2D, m_Id );
-	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
+	glBindTexture(GL_TEXTURE_2D, m_Id);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	// DrawBackground
-	glEnable( GL_TEXTURE_2D );
+	glEnable(GL_TEXTURE_2D);
 	{
-		glBegin( GL_QUADS );
+		glBegin(GL_QUADS);
 		{
-			glTexCoord2f( textLeft, textBottom );
-			glVertex2f( vertexLeft, vertexBottom );
+			glTexCoord2f(textLeft, textBottom);
+			glVertex2f(vertexLeft, vertexBottom);
 
-			glTexCoord2f( textLeft, textTop );
-			glVertex2f( vertexLeft, vertexTop );
+			glTexCoord2f(textLeft, textTop);
+			glVertex2f(vertexLeft, vertexTop);
 
-			glTexCoord2f( textRight, textTop );
-			glVertex2f( vertexRight, vertexTop );
+			glTexCoord2f(textRight, textTop);
+			glVertex2f(vertexRight, vertexTop);
 
-			glTexCoord2f( textRight, textBottom );
-			glVertex2f( vertexRight, vertexBottom );
+			glTexCoord2f(textRight, textBottom);
+			glVertex2f(vertexRight, vertexBottom);
 		}
-		glEnd( );
+		glEnd();
 	}
-	glDisable( GL_TEXTURE_2D );
+	glDisable(GL_TEXTURE_2D);
 }
 
-SDL_Texture* minigen::Texture2D::GetSDLTexture() const
+minigen::Texture2D::Texture2D(SDL_Surface* pSurface)
 {
-	return m_Texture;
-}
-
-minigen::Texture2D::Texture2D(SDL_Texture* texture)
-{
-	m_Texture = texture;
+	CreateFromSurface(pSurface);
+	SDL_FreeSurface(pSurface);
 }

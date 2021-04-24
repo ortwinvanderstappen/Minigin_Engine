@@ -1,9 +1,7 @@
 #include "MiniginPCH.h"
 #include "FPSComponent.h"
-
 #include <algorithm>
 #include <numeric>
-
 #include "GameTime.h"
 
 minigen::FPSComponent::FPSComponent() 
