@@ -21,8 +21,7 @@ void minigen::ImageRenderComponent::Render(const glm::vec3& positionOffset) cons
 {
 	for (auto image : m_spTextureMap)
 	{
-		Renderer::GetInstance().RenderTexture(*image.second.second,
-			image.second.first.x + positionOffset.x, image.second.first.y + positionOffset.y);
+		Renderer::GetInstance().RenderTexture(*image.second.second, image.second.first.x + positionOffset.x, image.second.first.y + positionOffset.y);
 	}
 }
 

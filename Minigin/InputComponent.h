@@ -7,9 +7,9 @@ namespace minigen {
 	{
 	public:
 		void Update() override;
-		void AddInput(const minigen::InputManager::KeyInput& input);
+		void AddInput(const InputManager::KeyInput& input);
 	private:
-		std::vector<minigen::InputManager::KeyInput> m_InputMap;
+		std::vector<InputManager::KeyInput> m_InputMap;
 	};
 }
 

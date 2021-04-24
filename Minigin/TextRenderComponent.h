@@ -17,9 +17,9 @@ namespace minigen {
 		void Render(const glm::vec3& positionOffset) const override;
 
 	protected:
-		std::unordered_map<int, std::shared_ptr<minigen::TextObject>> m_upTextObjectMap{};
+		std::unordered_map<int, std::shared_ptr<TextObject>> m_upTextObjectMap{};
 	private:
-		minigen::Font* m_pFont = nullptr;
+		Font* m_pFont = nullptr;
 	};
 }
 

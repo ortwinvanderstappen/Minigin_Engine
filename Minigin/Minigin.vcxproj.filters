@@ -200,6 +200,10 @@
     <ClInclude Include="CloseGameCommand.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="EngineContext.h" />
+    <ClInclude Include="helper.h">
+      <Filter>Source Files\Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -333,6 +337,12 @@
     </ClCompile>
     <ClCompile Include="CloseGameCommand.cpp">
       <Filter>Source Files\Input\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineContext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="helper.cpp">
+      <Filter>Source Files\Structs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

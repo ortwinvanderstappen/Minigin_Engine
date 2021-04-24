@@ -31,6 +31,7 @@ void minigen::FPSComponent::Update()
 
 		// Set text
 		SetText(0, "FPS: " + std::to_string(m_CurrentFPS));
+		std::cout << "FPS: " << std::to_string(m_CurrentFPS) << "\n";
 
 		// Subtract 1 second from time
 		m_TimePassed -= 1.f;

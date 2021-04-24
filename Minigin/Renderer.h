@@ -1,5 +1,8 @@
 #pragma once
+#include <SDL_video.h>
+
 #include "Singleton.h"
+#include "structs.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -19,11 +22,13 @@ namespace minigen
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
-
+		void RenderPolygon(const std::vector<Point2i>& points, const Color3f& color) const;
+		
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 	private:
 		SDL_Renderer* m_Renderer{};
 		SDL_Window * m_Window = nullptr;
+		SDL_GLContext m_Context = nullptr;
 
 		bool m_ShowDemo = true;
 	};

@@ -57,6 +57,7 @@ namespace minigen
 
 		struct KeyInput
 		{
+			int id;
 			HardwareType hardwareType;
 			InputType inputType;
 			std::shared_ptr<Command> spInputCommand = nullptr;
@@ -73,17 +74,22 @@ namespace minigen
 		bool ProcessInput();
 		void AddGlobalInput(const KeyInput& keyInput);
 
+		bool IsInputTriggered(int inputId) const;
+
 	private:
 		bool IsControllerPressed(ControllerButton button) const;
 		bool IsKeyboardButtonPressed(SDL_KeyCode keyCode) const;
 
 		// State of the controller
 		XINPUT_STATE m_State;
-
+		// State of the keyboard
+		std::vector<SDL_Event> m_KeyboardEvents{};
+		
 		// Remember the input type and the state that the input is in
 		std::vector<KeyInput> m_GlobalInputs;
 		// Queue of all commands that should run
 		std::queue<KeyInput> m_InputQueue;
-		std::vector<SDL_Event> m_KeyboardEvents{};
+		// All the inputs that are not automatically handled by a command
+		std::vector<KeyInput> m_CommandlessInputs{};
 	};
 }

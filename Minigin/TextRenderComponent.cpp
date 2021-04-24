@@ -1,6 +1,5 @@
 #include "MiniginPCH.h"
 #include "TextRenderComponent.h"
-
 #include "ResourceManager.h"
 #include <algorithm>
 
@@ -9,8 +8,8 @@ minigen::TextRenderComponent::TextRenderComponent()
 
 void minigen::TextRenderComponent::AddText(int id, const std::string& text, const Point2f& position, int fontSize)
 {
-	std::shared_ptr<minigen::Font> const pFont = minigen::ResourceManager::GetInstance().LoadFont("Lingua.otf", fontSize);
-	std::shared_ptr<minigen::TextObject> spTextObject = std::make_shared<minigen::TextObject>(text, pFont);
+	std::shared_ptr<Font> const pFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", fontSize);
+	std::shared_ptr<TextObject> spTextObject = std::make_shared<TextObject>(text, pFont);
 	spTextObject->SetPosition(position.x, position.y);
 	m_upTextObjectMap.insert(std::make_pair(id, spTextObject));
 }

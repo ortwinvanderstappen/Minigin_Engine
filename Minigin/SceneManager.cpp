@@ -12,7 +12,6 @@ void minigen::SceneManager::Update() const
 
 void minigen::SceneManager::Render() const
 {
-
 	if (m_spActiveScene)
 	{
 		m_spActiveScene->Render();

@@ -29,7 +29,7 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="PyramidScript.cpp">
+    <ClCompile Include="GameArenaScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -43,7 +43,7 @@
     <ClInclude Include="GameScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="PyramidScript.h">
+    <ClInclude Include="GameArenaScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>

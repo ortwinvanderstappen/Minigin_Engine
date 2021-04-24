@@ -26,6 +26,9 @@ bool minigen::InputManager::ProcessInput()
 	const bool success = HandleInputStates(m_GlobalInputs);
 	if (!success) return false;
 
+	// Clear the commandless inputs
+	m_CommandlessInputs.clear();
+	
 	// Handle all active inputs, process the queue
 	while (!m_InputQueue.empty())
 	{
@@ -34,6 +37,9 @@ bool minigen::InputManager::ProcessInput()
 		{
 			if (!keyInput.spInputCommand->Execute())
 				return false;
+		} else
+		{
+			m_CommandlessInputs.push_back(keyInput);
 		}
 
 		// Remove handled input from the queue
@@ -46,6 +52,17 @@ bool minigen::InputManager::ProcessInput()
 void minigen::InputManager::AddGlobalInput(const KeyInput& keyInput)
 {
 	m_GlobalInputs.push_back(keyInput);
+}
+
+bool minigen::InputManager::IsInputTriggered(int inputId) const
+{
+	// Try to find the desired input and see if it's triggered
+	for(const KeyInput& input: m_CommandlessInputs)
+	{
+		if(input.id == inputId) return true;
+	}
+	
+	return false;
 }
 
 bool minigen::InputManager::IsControllerPressed(ControllerButton button) const

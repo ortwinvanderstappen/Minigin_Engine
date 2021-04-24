@@ -6,5 +6,7 @@ public:
 	GameScene(const std::string& sceneName);
 
 	void Initialize() override;
+
+	void Update() override;
 };
 

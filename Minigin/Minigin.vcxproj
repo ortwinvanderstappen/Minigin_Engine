@@ -235,10 +235,12 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DaeAudio.h" />
+    <ClInclude Include="EngineContext.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="helper.h" />
     <ClInclude Include="ImageRenderComponent.h" />
     <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputComponent.h" />
@@ -317,10 +319,12 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DaeAudio.cpp" />
+    <ClCompile Include="EngineContext.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="helper.cpp" />
     <ClCompile Include="ImageRenderComponent.cpp" />
     <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputComponent.cpp" />

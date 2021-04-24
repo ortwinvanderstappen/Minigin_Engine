@@ -1,9 +1,9 @@
 #include "MainMenuScene.h"
 #include "GameObject.h"
-#include "ImageRenderComponent.h"
 #include "InputComponent.h"
 #include "OpenGameSceneCommand.h"
-#include "TextRenderComponent.h"
+//#include "TextRenderComponent.h"
+//#include "ImageRenderComponent.h"
 
 MainMenuScene::MainMenuScene(const std::string& sceneName) :
 	Scene(sceneName)
@@ -17,18 +17,18 @@ void MainMenuScene::Initialize()
 	auto HUDGameObject = std::make_shared<GameObject>();
 	Add(HUDGameObject);
 
-	// Background image
-	std::shared_ptr<ImageRenderComponent> imageRenderComponent = std::make_shared<ImageRenderComponent>();
-	imageRenderComponent->AddImage("background.jpg");
-	HUDGameObject->AddComponent(imageRenderComponent);
+	//// Background image
+	//std::shared_ptr<ImageRenderComponent> imageRenderComponent = std::make_shared<ImageRenderComponent>();
+	//imageRenderComponent->AddImage("background.jpg");
+	//HUDGameObject->AddComponent(imageRenderComponent);
 
-	// Play text
-	auto playTextComp = std::make_shared<TextRenderComponent>();
-	playTextComp->AddText(0, "Press A or space to start the game", Point2f{ 50.f,50.f }, 30);
-	HUDGameObject->AddComponent(playTextComp);
+	//// Play text
+	//auto playTextComp = std::make_shared<TextRenderComponent>();
+	//playTextComp->AddText(0, "Press A or space to start the game", Point2f{ 50.f,50.f }, 30);
+	//HUDGameObject->AddComponent(playTextComp);
 
 	// HUD input
-	auto openSceneCommand = std::make_shared<OpenGameSceneCommand>();
+	const auto openSceneCommand = std::make_shared<OpenGameSceneCommand>();
 	auto inputComponent = std::make_shared<InputComponent>();
 	InputManager::KeyInput openGameSceneInput{};
 	openGameSceneInput.hardwareType = InputManager::HardwareType::controller;
