@@ -1,6 +1,7 @@
 #include "MainMenuScene.h"
 #include "GameObject.h"
 #include "ImageRenderComponent.h"
+#include "ImGuiComponent.h"
 #include "InputComponent.h"
 #include "OpenGameSceneCommand.h"
 #include "TextRenderComponent.h"
@@ -16,6 +17,9 @@ void MainMenuScene::Initialize()
 	// Create HUD object
 	auto HUDGameObject = std::make_shared<GameObject>();
 	Add(HUDGameObject);
+
+	auto imguiC = std::make_shared<ImGuiComponent>();
+	HUDGameObject->AddComponent(imguiC);
 
 	// Background image
 	std::shared_ptr<ImageRenderComponent> imageRenderComponent = std::make_shared<ImageRenderComponent>();

@@ -15,6 +15,9 @@
     <Filter Include="Scripts">
       <UniqueIdentifier>{d621409b-ec2b-4e2e-8af5-637a2e6339fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{0fa97a77-89bb-4708-bee9-a4d2f151a164}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -32,6 +35,9 @@
     <ClCompile Include="GameArenaScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="JsonParser.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -45,6 +51,9 @@
     </ClInclude>
     <ClInclude Include="GameArenaScript.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonParser.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

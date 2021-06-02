@@ -60,6 +60,9 @@
     <Filter Include="Source Files\Sound">
       <UniqueIdentifier>{8854b328-052e-4b83-9968-9db03d7fa9e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\FileParsing">
+      <UniqueIdentifier>{0c1e41f7-c9ea-423a-b669-d4d99f1ea3e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -204,6 +207,9 @@
     <ClInclude Include="helper.h">
       <Filter>Source Files\Structs</Filter>
     </ClInclude>
+    <ClInclude Include="JsonReader.h">
+      <Filter>Source Files\FileParsing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -343,6 +349,9 @@
     </ClCompile>
     <ClCompile Include="helper.cpp">
       <Filter>Source Files\Structs</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonReader.cpp">
+      <Filter>Source Files\FileParsing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

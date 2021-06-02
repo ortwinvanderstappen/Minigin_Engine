@@ -31,13 +31,13 @@ void minigen::ImGuiComponent::Render(const glm::vec3& positionOffset) const
 	//	pWindow->Render();
 	//}
 
-	//ImGui::Begin("Test window");
-	//ImGui::SetWindowPos(ImVec2{0.f,75.f});
+	ImGui::Begin("Test window", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
+	ImGui::SetWindowPos(ImVec2{0.f,75.f});
 
-	//ImGui::Text("This is the test window.");
-	//ImGui::Separator();
-	//ImGui::Text("ImGui fps: %.1f", 1000.0f /  ImGui::GetIO().Framerate);
-	//ImGui::Separator();
-	//
-	//ImGui::End();
+	ImGui::Text("This is the test window.");
+	ImGui::Separator();
+	ImGui::Text("ImGui fps: %.1f", ImGui::GetIO().Framerate);
+	ImGui::Separator();
+	
+	ImGui::End();
 }

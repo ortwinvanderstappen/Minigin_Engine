@@ -4,15 +4,19 @@
 #include "GameObject.h"
 #include "InputComponent.h"
 #include "GameArenaScript.h"
+#include "JsonParser.h"
 
 using namespace minigen;
 
 GameScene::GameScene(const std::string& sceneName) :
-	Scene(sceneName)
+	Scene(sceneName),
+	m_Stage(0)
 {}
 
 void GameScene::Initialize()
 {
+	UpdateStageSettings();
+	
 	// Create input object
 	auto inputObject = std::make_shared<GameObject>();
 	Add(inputObject);
@@ -30,7 +34,7 @@ void GameScene::Initialize()
 
 	// Setup pyramid game object
 	auto gameArenaObject = std::make_shared<GameObject>();
-	const auto gameArenaScript = std::make_shared<GameArenaScript>(7);
+	const auto gameArenaScript = std::make_shared<GameArenaScript>(m_Stages[m_Stage].m_Size);
 	gameArenaObject->AddComponent(gameArenaScript);
 	Add(gameArenaObject);
 
@@ -38,14 +42,21 @@ void GameScene::Initialize()
 	const auto fpsComponent = std::make_shared<FPSComponent>();
 	fpsObject->AddComponent(fpsComponent);
 	Add(fpsObject);
+
 }
 
 void GameScene::Update()
 {
 	Scene::Update();
-	
-	if(InputManager::GetInstance().IsInputTriggered(0))
+
+	if (InputManager::GetInstance().IsInputTriggered(0))
 	{
 		std::cout << "Input with id 0 is triggered\n";
 	}
+}
+
+void GameScene::UpdateStageSettings()
+{
+	JsonParser jp{};
+	jp.ParseDifficulties(m_Stages);
 }

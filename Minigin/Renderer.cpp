@@ -59,15 +59,15 @@ void minigen::Renderer::Render() const
 	glLoadIdentity();
 	glOrtho(0, 640, 480, 0, -1, 1);
 	
-	//// Render ImGui demo window
-	//ImGui_ImplOpenGL2_NewFrame();
-	//ImGui_ImplSDL2_NewFrame(m_Window);
-	//ImGui::NewFrame();
+	// Render ImGui demo window
+	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplSDL2_NewFrame(m_Window);
+	ImGui::NewFrame();
 
 	SceneManager::GetInstance().Render();
 
-	//ImGui::Render();
-	//ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	ImGui::Render();
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
 	SDL_GL_SwapWindow(m_Window);
 }
