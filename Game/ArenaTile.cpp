@@ -1,9 +1,9 @@
-#include "ArenaHexScript.h"
+#include "ArenaTile.h"
 #include "Renderer.h"
 
-#include "GameArenaScript.h"
+#include "GameArena.h"
 
-ArenaHexScript::ArenaHexScript(GameArenaScript* pArena, int index, int row, int column, float size, const Point2f& position, bool isNullTile) :
+ArenaTile::ArenaTile(GameArena* pArena, int index, int row, int column, float size, const Point2f& position, bool isNullTile) :
 	m_pArena(pArena),
 	m_Index(index),
 	m_Row(row),
@@ -14,51 +14,51 @@ ArenaHexScript::ArenaHexScript(GameArenaScript* pArena, int index, int row, int 
 	m_IsNullTile(isNullTile)
 {}
 
-void ArenaHexScript::Update()
+void ArenaTile::Update()
 {}
 
-void ArenaHexScript::Render() const
+void ArenaTile::Render() const
 {
 	//if (!m_IsNullTile)
 	DrawHex(m_Position, m_Size);
 }
 
-const Point2f ArenaHexScript::GetCenter() const
+const Point2f ArenaTile::GetCenter() const
 {
 	return m_Position + Point2f{ 0.f,-m_Size * .5f };
 }
 
-const Point2f& ArenaHexScript::GetPosition() const
+const Point2f& ArenaTile::GetPosition() const
 {
 	return m_Position;
 }
 
-int ArenaHexScript::GetIndex() const
+int ArenaTile::GetIndex() const
 {
 	return m_Index;
 }
 
-int ArenaHexScript::GetRow() const
+int ArenaTile::GetRow() const
 {
 	return m_Row;
 }
 
-int ArenaHexScript::GetColumn() const
+int ArenaTile::GetColumn() const
 {
 	return m_Column;
 }
 
-GameArenaScript* ArenaHexScript::GetArena() const
+GameArena* ArenaTile::GetArena() const
 {
 	return m_pArena;
 }
 
-void ArenaHexScript::Activate()
+void ArenaTile::Activate()
 {
 	m_IsActive = true;
 }
 
-void ArenaHexScript::DrawHex(Point2f center, float size) const
+void ArenaTile::DrawHex(Point2f center, float size) const
 {
 	const Color3i& topColorI = m_IsActive ? m_pArena->GetPrimaryColor() : m_pArena->GetSecondaryColor();
 	Color3f topColor = Color3f{ static_cast<float>(topColorI.r) / 255.f,static_cast<float>(topColorI.g) / 255.f,static_cast<float>(topColorI.b) / 255.f };
@@ -103,7 +103,7 @@ void ArenaHexScript::DrawHex(Point2f center, float size) const
 	minigen::Renderer::GetInstance().RenderPolygon(leftPoints, leftColor);
 }
 
-const Point2f ArenaHexScript::GetHexPoint(Point2f center, float size, int i) const
+const Point2f ArenaTile::GetHexPoint(Point2f center, float size, int i) const
 {
 	const float angle_deg = 60.f * static_cast<float>(i) - 30.f;
 	const float angle_rad = static_cast<float>(M_PI) * angle_deg / 180.f;

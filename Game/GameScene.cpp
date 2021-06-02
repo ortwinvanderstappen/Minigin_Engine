@@ -3,7 +3,7 @@
 #include "FPSComponent.h"
 #include "GameObject.h"
 #include "InputComponent.h"
-#include "GameArenaScript.h"
+#include "GameArena.h"
 #include "ImGuiComponent.h"
 #include "JsonParser.h"
 
@@ -49,6 +49,6 @@ void GameScene::InitializeStage()
 	auto gameArenaObject = std::make_shared<GameObject>();
 	Add(gameArenaObject);
 	
-	const auto gameArenaScript = std::make_shared<GameArenaScript>(m_Stages[m_Stage]);
+	const auto gameArenaScript = std::make_shared<GameArena>(m_Stages[m_Stage]);
 	gameArenaObject->AddScript(gameArenaScript);
 }

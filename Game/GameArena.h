@@ -4,11 +4,11 @@
 #include "RenderComponent.h"
 #pragma warning(pop)
 
-#include "ArenaHexScript.h"
+#include "ArenaTile.h"
 #include "GameScene.h"
 #include "structs.h"
 
-class GameArenaScript : public minigen::Script
+class GameArena : public minigen::Script
 {
 public:
 	enum class MovementType
@@ -19,8 +19,8 @@ public:
 		right
 	};
 	
-	GameArenaScript(const GameScene::StageSettings& stageSettings);
-	~GameArenaScript() override;
+	GameArena(const GameScene::StageSettings& stageSettings);
+	~GameArena() override;
 
 	void Initialize() override;
 	void InitializeArena();
@@ -33,14 +33,14 @@ public:
 	const Color3i& GetPrimaryColor() const;
 	const Color3i& GetSecondaryColor() const;
 
-	ArenaHexScript* GetNeighbourTile(ArenaHexScript* pCurrentTile, MovementType movementType);
+	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, MovementType movementType);
 private:
 	int CalculateArenaHexCount () const;
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;
 	int GetBottomRightTileIndex() const;
 
-	std::vector<ArenaHexScript> m_ArenaHexes{};
+	std::vector<ArenaTile> m_ArenaHexes{};
 	int m_PlayerCount = 1;
 	
 	int m_BaseWidth = -1;

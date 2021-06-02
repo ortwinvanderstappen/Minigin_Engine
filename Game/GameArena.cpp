@@ -1,31 +1,31 @@
-#include "GameArenaScript.h"
+#include "GameArena.h"
 
 #include <iostream>
 #include <SDL_render.h>
 
-#include "ArenaHexScript.h"
+#include "ArenaTile.h"
 #include "GameObject.h"
-#include "QBertScript.h"
+#include "QBert.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "structs.h"
 
-GameArenaScript::GameArenaScript(const GameScene::StageSettings& stageSettings) :
+GameArena::GameArena(const GameScene::StageSettings& stageSettings) :
 	m_BaseWidth(stageSettings.size),
 	m_PrimaryColor(stageSettings.activeColor),
 	m_SecondaryColor(stageSettings.inactiveColor)
 {}
 
-GameArenaScript::~GameArenaScript()
+GameArena::~GameArena()
 {}
 
-void GameArenaScript::Initialize()
+void GameArena::Initialize()
 {
 	InitializeArena();
 	AddPlayers();
 }
 
-void GameArenaScript::InitializeArena()
+void GameArena::InitializeArena()
 {
 	using namespace minigen;
 	SDL_Renderer* pRenderer = Renderer::GetInstance().GetSDLRenderer();
@@ -55,7 +55,7 @@ void GameArenaScript::InitializeArena()
 
 			const bool isNullTile = (row == 0 || row == m_BaseWidth + 1) || (column - row == 0 || column == m_BaseWidth + 2);
 
-			ArenaHexScript hex{ this, index, row, column, hexSize, currentPos, isNullTile };
+			ArenaTile hex{ this, index, row, column, hexSize, currentPos, isNullTile };
 			m_ArenaHexes.push_back(std::move(hex));
 			currentPos.x += offsetX;
 			++index;
@@ -66,25 +66,25 @@ void GameArenaScript::InitializeArena()
 	}
 }
 
-void GameArenaScript::Update()
+void GameArena::Update()
 {}
 
-void GameArenaScript::Render() const
+void GameArena::Render() const
 {
-	for (const ArenaHexScript& hex : m_ArenaHexes)
+	for (const ArenaTile& hex : m_ArenaHexes)
 	{
 		hex.Render();
 	}
 }
 
-void GameArenaScript::AddPlayers()
+void GameArena::AddPlayers()
 {
 	for (int i = 0; i < m_PlayerCount; ++i)
 	{
-		std::shared_ptr<minigen::GameObject> QBert = std::make_shared<minigen::GameObject>();
-		const std::shared_ptr<QBertScript> QbertComponent = std::make_shared<QBertScript>(i);
-		QBert->AddScript(QbertComponent);
-		m_pParentObject->GetScene()->Add(QBert);
+		std::shared_ptr<minigen::GameObject> qbertObject = std::make_shared<minigen::GameObject>();
+		const std::shared_ptr<QBert> qbertComponent = std::make_shared<QBert>(i);
+		qbertObject->AddScript(qbertComponent);
+		m_pParentObject->GetScene()->Add(qbertObject);
 
 		int playerTileIndex;
 		if(m_PlayerCount == 1)
@@ -95,26 +95,25 @@ void GameArenaScript::AddPlayers()
 			playerTileIndex = i == 0 ? GetBottomLeftTileIndex(): GetBottomRightTileIndex();
 		}
 		
-		QbertComponent->SetTile(&m_ArenaHexes[playerTileIndex]);
+		qbertComponent->SetTile(&m_ArenaHexes[playerTileIndex]);
 	}
 
 }
 
-const Color3i& GameArenaScript::GetPrimaryColor() const
+const Color3i& GameArena::GetPrimaryColor() const
 {
 	return m_PrimaryColor;
 }
 
-const Color3i& GameArenaScript::GetSecondaryColor() const
+const Color3i& GameArena::GetSecondaryColor() const
 {
 	return m_SecondaryColor;
 }
 
-ArenaHexScript* GameArenaScript::GetNeighbourTile(ArenaHexScript* pCurrentTile, MovementType movementType)
+ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, MovementType movementType)
 {
 	const int currentIndex = pCurrentTile->GetIndex();
 	const int currentRow = pCurrentTile->GetRow();
-	const int currentColumn = pCurrentTile->GetColumn();
 
 	int newIndex = -1;
 
@@ -137,7 +136,7 @@ ArenaHexScript* GameArenaScript::GetNeighbourTile(ArenaHexScript* pCurrentTile, 
 		break;
 	}
 
-	ArenaHexScript* pTile = nullptr;
+	ArenaTile* pTile = nullptr;
 
 	if (newIndex < m_ArenaHexes.size() && newIndex >= 0)
 	{
@@ -147,7 +146,7 @@ ArenaHexScript* GameArenaScript::GetNeighbourTile(ArenaHexScript* pCurrentTile, 
 	return pTile;
 }
 
-int GameArenaScript::CalculateArenaHexCount() const
+int GameArena::CalculateArenaHexCount() const
 {
 	int base = m_BaseWidth;
 	int count = 0;
@@ -159,18 +158,18 @@ int GameArenaScript::CalculateArenaHexCount() const
 	return count;
 }
 
-int GameArenaScript::GetTopTileIndex() const
+int GameArena::GetTopTileIndex() const
 {
 	return static_cast<int>(m_ArenaHexes.size()) - 4;
 }
 
-int GameArenaScript::GetBottomLeftTileIndex() const
+int GameArena::GetBottomLeftTileIndex() const
 {
 	// First 2 is the extra null layers, second 2 is to get the correct position
 	return m_BaseWidth + 2 + 2;
 }
 
-int GameArenaScript::GetBottomRightTileIndex() const
+int GameArena::GetBottomRightTileIndex() const
 {
 	return GetBottomLeftTileIndex() + m_BaseWidth - 1;
 }

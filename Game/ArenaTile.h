@@ -2,11 +2,11 @@
 #include "Script.h"
 #include "structs.h"
 
-class GameArenaScript;
-class ArenaHexScript : minigen::Script
+class GameArena;
+class ArenaTile : minigen::Script
 {
 public:
-	ArenaHexScript(GameArenaScript* pArena,int index, int row, int column, float size, const Point2f& position, bool isNullTile);
+	ArenaTile(GameArena* pArena,int index, int row, int column, float size, const Point2f& position, bool isNullTile);
 
 	void Update() override;
 	void Render() const override;
@@ -17,14 +17,14 @@ public:
 	int GetIndex() const;
 	int GetRow() const;
 	int GetColumn() const;
-	GameArenaScript* GetArena() const;
+	GameArena* GetArena() const;
 	
 	void Activate();
 private:
 	void DrawHex(Point2f center, float size) const;
 	const Point2f GetHexPoint(Point2f center, float size, int i) const;
 
-	GameArenaScript* m_pArena;
+	GameArena* m_pArena;
 	int m_Index;
 	int m_Row;
 	int m_Column;

@@ -2,15 +2,15 @@
 #include <string>
 #include "Script.h"
 
-class ArenaHexScript;
-class QBertScript : public minigen::Script
+class ArenaTile;
+class QBert : public minigen::Script
 {
 public:
-	QBertScript(int playerIndex);
+	QBert(int playerIndex);
 
 	void Update() override;
 
-	void SetTile(ArenaHexScript* pTile);
+	void SetTile(ArenaTile* pTile);
 
 protected:
 	void Initialize() override;
@@ -30,6 +30,6 @@ private:
 	std::string m_QbertImagePath;
 	int m_PlayerIndex;
 
-	ArenaHexScript* m_pCurrentTile;
+	ArenaTile* m_pCurrentTile;
 };
 

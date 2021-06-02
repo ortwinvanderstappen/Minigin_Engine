@@ -35,16 +35,16 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="GameArenaScript.cpp">
+    <ClCompile Include="GameArena.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="JsonParser.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="ArenaHexScript.cpp">
+    <ClCompile Include="ArenaTile.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="QBertScript.cpp">
+    <ClCompile Include="QBert.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
@@ -58,16 +58,16 @@
     <ClInclude Include="GameScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="GameArenaScript.h">
+    <ClInclude Include="GameArena.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="JsonParser.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="ArenaHexScript.h">
+    <ClInclude Include="ArenaTile.h">
       <Filter>Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="QBertScript.h">
+    <ClInclude Include="QBert.h">
       <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
