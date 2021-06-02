@@ -1,36 +1,29 @@
 #include "QBertScript.h"
 #include <iostream>
-#include "CustomCommand.h"
 #include "ImageRenderComponent.h"
 #include "InputComponent.h"
+#include "ArenaHexScript.h"
+#include "GameArenaScript.h"
+#include "GameObject.h"
 
 QBertScript::QBertScript(int playerIndex) :
 	m_QbertImagePath("images/QBert.png"),
-	m_PlayerIndex(playerIndex)
+	m_PlayerIndex(playerIndex),
+	m_pCurrentTile(nullptr)
 {}
 
 void QBertScript::Update()
 {
 	Script::Update();
 
-	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::up)))
-	{
-		std::cout << "Input up is triggered\n";
-	}
+	ProcessInput();
 
-	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::right)))
+	if (m_pCurrentTile)
 	{
-		std::cout << "Input right is triggered\n";
-	}
+		m_pCurrentTile->Activate();
 
-	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::down)))
-	{
-		std::cout << "Input down is triggered\n";
-	}
-
-	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::left)))
-	{
-		std::cout << "Input left is triggered\n";
+		const Point2f& tileCenter = m_pCurrentTile->GetCenter();
+		m_pParentObject->SetPosition(tileCenter.x, tileCenter.y);
 	}
 }
 
@@ -88,4 +81,42 @@ void QBertScript::InitializeControls()
 	{
 
 	}
+}
+
+void QBertScript::ProcessInput()
+{
+	if (!m_pCurrentTile) return;
+
+	GameArenaScript* pArena = m_pCurrentTile->GetArena();
+	ArenaHexScript* pNewTile = nullptr;
+
+	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::up)))
+	{
+		pNewTile = pArena->GetNeighbourTile(m_pCurrentTile, GameArenaScript::MovementType::up);
+	}
+
+	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::right)))
+	{
+		pNewTile = pArena->GetNeighbourTile(m_pCurrentTile, GameArenaScript::MovementType::right);
+	}
+
+	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::down)))
+	{
+		pNewTile = pArena->GetNeighbourTile(m_pCurrentTile, GameArenaScript::MovementType::down);
+	}
+
+	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::left)))
+	{
+		pNewTile = pArena->GetNeighbourTile(m_pCurrentTile, GameArenaScript::MovementType::left);
+	}
+
+	if (pNewTile)
+	{
+		m_pCurrentTile = pNewTile;
+	}
+}
+
+void QBertScript::SetTile(ArenaHexScript* pTile)
+{
+	m_pCurrentTile = pTile;
 }
