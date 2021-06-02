@@ -2,6 +2,7 @@
 #include "Script.h"
 #include "structs.h"
 
+class FlyingDisc;
 class GameArena;
 class ArenaTile : minigen::Script
 {
@@ -15,9 +16,9 @@ public:
 	const Point2f& GetPosition() const;
 
 	int GetIndex() const;
-	int GetRow() const;
-	int GetColumn() const;
 	GameArena* GetArena() const;
+
+	void AttachFlyingDisc(std::shared_ptr<FlyingDisc> spDisc);
 	
 	void Activate();
 private:
@@ -26,9 +27,11 @@ private:
 
 	GameArena* m_pArena;
 	int m_Index;
-	bool m_IsActive;
 	float m_Size;
 	Point2f m_Position;
 	bool m_IsNullTile;
+	
+	bool m_IsActive;
+	std::shared_ptr<FlyingDisc> m_spDisc;
 };
 

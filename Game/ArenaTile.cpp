@@ -9,7 +9,8 @@ ArenaTile::ArenaTile(GameArena* pArena, int index, float size, const Point2f& po
 	m_Size(size),
 	m_Position(position),
 	m_IsActive(false),
-	m_IsNullTile(isNullTile)
+	m_IsNullTile(isNullTile),
+	m_spDisc(nullptr)
 {}
 
 void ArenaTile::Update()
@@ -39,6 +40,11 @@ int ArenaTile::GetIndex() const
 GameArena* ArenaTile::GetArena() const
 {
 	return m_pArena;
+}
+
+void ArenaTile::AttachFlyingDisc(std::shared_ptr<FlyingDisc> spDisc)
+{
+	m_spDisc = spDisc;
 }
 
 void ArenaTile::Activate()

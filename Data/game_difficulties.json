@@ -14,10 +14,21 @@
 				"r": 80,
 				"g": 64,
 				"b": 239
-			}
+			},
+			"discs":
+			[
+				{
+					"row": 3,
+					"position": 1
+				}, 
+				{
+					"row": 5,
+					"position": 3
+				}
+			]
 		},
 		{
-			"size": 2,
+			"size": 7,
 			"activeColor":
 			{
 				"r": 223,
@@ -29,7 +40,18 @@
 				"r": 80,
 				"g": 64,
 				"b": 239
-			}
+			},
+			"discs":
+			[
+				{
+					"row": 3,
+					"position": 2
+				}, 
+				{
+					"row": 5,
+					"position": 1
+				}
+			]
 		}
 	]
 }

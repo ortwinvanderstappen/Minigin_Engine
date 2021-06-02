@@ -4,16 +4,15 @@
 #include <SDL_render.h>
 
 #include "ArenaTile.h"
+#include "FlyingDisc.h"
 #include "GameObject.h"
 #include "QBert.h"
 #include "Renderer.h"
 #include "Scene.h"
 #include "structs.h"
 
-GameArena::GameArena(const GameScene::StageSettings& stageSettings) :
-	m_BaseWidth(stageSettings.size),
-	m_PrimaryColor(stageSettings.activeColor),
-	m_SecondaryColor(stageSettings.inactiveColor)
+GameArena::GameArena(GameScene::StageSettings* const stageSettings) :
+	m_pStageSettings(stageSettings)
 {}
 
 GameArena::~GameArena()
@@ -23,6 +22,7 @@ void GameArena::Initialize()
 {
 	InitializeArena();
 	AddPlayers();
+	CreateDiscs();
 }
 
 void GameArena::InitializeArena()
@@ -34,26 +34,28 @@ void GameArena::InitializeArena()
 	int width; int height;
 	SDL_GetRendererOutputSize(pRenderer, &width, &height);
 
+	const int baseWidth = m_pStageSettings->size;
+
 	// Calculate hex size
-	const float hexSize = static_cast<float>(std::min(width, height)) / static_cast<float>(m_BaseWidth * 2);
+	const float hexSize = static_cast<float>(std::min(width, height)) / static_cast<float>(baseWidth * 2);
 
 	// Calculate the start position based on hex sizes and screen size
 	const float offsetX = static_cast<float>(sqrt(3)) * hexSize;
 	const float offsetY = 2 * hexSize;
-	const float totalWidthNeeded = offsetX * m_BaseWidth + offsetX * 2;
+	const float totalWidthNeeded = offsetX * baseWidth + offsetX * 2;
 	const Point2f startPos{ ((static_cast<float>(width) - totalWidthNeeded) / 2.f), static_cast<float>(height) - (offsetY) };
 	Point2f currentPos{ startPos };
 
 	int index = 0;
 
 	// Initialize hex grids
-	for (int row = 0; row < m_BaseWidth + 2; ++row)
+	for (int row = 0; row < baseWidth + 2; ++row)
 	{
-		for (int column = 0; column <= m_BaseWidth + 2; ++column)
+		for (int column = 0; column <= baseWidth + 2; ++column)
 		{
 			if (!(column - row >= 0)) continue;
 
-			const bool isNullTile = (row == 0 || row == m_BaseWidth + 1) || (column - row == 0 || column == m_BaseWidth + 2);
+			const bool isNullTile = (row == 0 || row == baseWidth + 1) || (column - row == 0 || column == baseWidth + 2);
 
 			ArenaTile hex{ this, index, hexSize, currentPos, isNullTile };
 			m_ArenaHexes.push_back(std::move(hex));
@@ -63,6 +65,24 @@ void GameArena::InitializeArena()
 		// row is done, reset x position
 		currentPos.x = startPos.x + (offsetX / 2) * (static_cast<float>(row) + 1.f);
 		currentPos.y -= static_cast<float>(offsetY) * .75f;
+	}
+}
+
+void GameArena::CreateDiscs()
+{
+	for (GameScene::Disc disc : m_pStageSettings->discs)
+	{
+		const int tileIndex = GetNullTileIndexOnRow(disc.row, disc.isLeft);
+		// Make sure parent object is a seperate gameobject
+		std::shared_ptr<minigen::GameObject> spDiscObject = std::make_shared<minigen::GameObject>();
+		// Spawn the disc and attach it to the null tile
+		const std::shared_ptr<FlyingDisc> m_spFlyingDisc = std::make_shared<FlyingDisc>();
+		spDiscObject->AddScript(m_spFlyingDisc);
+		m_ArenaHexes[tileIndex].AttachFlyingDisc(m_spFlyingDisc);
+		// Correctly position the disc
+		m_spFlyingDisc->SetPosition(m_ArenaHexes[tileIndex].GetCenter());
+
+		m_pParentObject->GetScene()->Add(spDiscObject);
 	}
 }
 
@@ -103,12 +123,12 @@ void GameArena::AddPlayers()
 
 const Color3i& GameArena::GetPrimaryColor() const
 {
-	return m_PrimaryColor;
+	return m_pStageSettings->activeColor;
 }
 
 const Color3i& GameArena::GetSecondaryColor() const
 {
-	return m_SecondaryColor;
+	return m_pStageSettings->inactiveColor;
 }
 
 ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, MovementType movementType)
@@ -119,9 +139,9 @@ ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, MovementType mov
 
 	const int remappedIndex = abs(static_cast<int>(m_ArenaHexes.size() - 1)) - currentIndex;
 	// https://en.wikipedia.org/wiki/Triangular_number
-	const int row = (m_BaseWidth + 2) - static_cast<int>(-1 + sqrt(1 + 8 * remappedIndex)) / 2;
+	const int row = (m_pStageSettings->size + 2) - static_cast<int>(-1 + sqrt(1 + 8 * remappedIndex)) / 2;
 
-	const int maxHeight = m_BaseWidth + 3;
+	const int maxHeight = m_pStageSettings->size + 3;
 	const int rowLength = maxHeight - row;
 	switch (movementType)
 	{
@@ -141,24 +161,12 @@ ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, MovementType mov
 
 	ArenaTile* pTile = nullptr;
 
-	if (newIndex < m_ArenaHexes.size() && newIndex >= 0)
+	if (newIndex < static_cast<int>(m_ArenaHexes.size()) && newIndex >= 0)
 	{
 		pTile = &m_ArenaHexes[newIndex];
 	}
 
 	return pTile;
-}
-
-int GameArena::CalculateArenaHexCount() const
-{
-	int base = m_BaseWidth;
-	int count = 0;
-	while (base > 0)
-	{
-		count += base;
-		base -= 1;
-	}
-	return count;
 }
 
 int GameArena::GetTopTileIndex() const
@@ -169,10 +177,24 @@ int GameArena::GetTopTileIndex() const
 int GameArena::GetBottomLeftTileIndex() const
 {
 	// First 2 is the extra null layers, second 2 is to get the correct position
-	return m_BaseWidth + 2 + 2;
+	return m_pStageSettings->size + 2 + 2;
 }
 
 int GameArena::GetBottomRightTileIndex() const
 {
-	return GetBottomLeftTileIndex() + m_BaseWidth - 1;
+	return GetBottomLeftTileIndex() + m_pStageSettings->size - 1;
+}
+
+int GameArena::GetNullTileIndexOnRow(int row, bool isLeft) const
+{
+	int width = m_pStageSettings->size + 3;
+
+	int index{ 0 };
+	for (int i = 0; i < row; ++i)
+	{
+		index += width;
+		--width;
+	}
+
+	return isLeft ? index : index + (width - 1);
 }

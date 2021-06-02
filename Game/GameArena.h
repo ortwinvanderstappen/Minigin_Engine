@@ -19,11 +19,12 @@ public:
 		right
 	};
 	
-	GameArena(const GameScene::StageSettings& stageSettings);
+	GameArena(GameScene::StageSettings* const stageSettings);
 	~GameArena() override;
 
 	void Initialize() override;
 	void InitializeArena();
+	void CreateDiscs();
 	
 	void Update() override;
 	void Render() const override;
@@ -35,15 +36,13 @@ public:
 
 	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, MovementType movementType);
 private:
-	int CalculateArenaHexCount () const;
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;
 	int GetBottomRightTileIndex() const;
+	int GetNullTileIndexOnRow(int row, bool isLeft) const;
 
 	std::vector<ArenaTile> m_ArenaHexes{};
 	int m_PlayerCount = 1;
-	
-	int m_BaseWidth = -1;
-	Color3i m_PrimaryColor{};
-	Color3i m_SecondaryColor{};
+
+	GameScene::StageSettings* m_pStageSettings;
 };

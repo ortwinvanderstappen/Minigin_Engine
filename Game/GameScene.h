@@ -6,11 +6,19 @@
 class GameScene : public minigen::Scene
 {
 public:
+	struct Disc
+	{
+		int row;
+		bool isLeft;
+	};
+	
 	struct StageSettings
 	{
 		int size;
 		Color3i activeColor;
 		Color3i inactiveColor;
+
+		std::vector<Disc> discs;
 	};
 
 	GameScene(const std::string& sceneName);
