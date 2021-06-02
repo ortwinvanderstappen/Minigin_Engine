@@ -6,12 +6,12 @@ class GameArena;
 class ArenaTile : minigen::Script
 {
 public:
-	ArenaTile(GameArena* pArena,int index, int row, int column, float size, const Point2f& position, bool isNullTile);
+	ArenaTile(GameArena* pArena,int index, float size, const Point2f& position, bool isNullTile);
 
 	void Update() override;
 	void Render() const override;
 
-	const Point2f GetCenter() const;
+	Point2f GetCenter() const;
 	const Point2f& GetPosition() const;
 
 	int GetIndex() const;
@@ -26,8 +26,6 @@ private:
 
 	GameArena* m_pArena;
 	int m_Index;
-	int m_Row;
-	int m_Column;
 	bool m_IsActive;
 	float m_Size;
 	Point2f m_Position;

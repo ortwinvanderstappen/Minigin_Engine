@@ -3,11 +3,9 @@
 
 #include "GameArena.h"
 
-ArenaTile::ArenaTile(GameArena* pArena, int index, int row, int column, float size, const Point2f& position, bool isNullTile) :
+ArenaTile::ArenaTile(GameArena* pArena, int index, float size, const Point2f& position, bool isNullTile) :
 	m_pArena(pArena),
 	m_Index(index),
-	m_Row(row),
-	m_Column(column),
 	m_Size(size),
 	m_Position(position),
 	m_IsActive(false),
@@ -23,7 +21,7 @@ void ArenaTile::Render() const
 	DrawHex(m_Position, m_Size);
 }
 
-const Point2f ArenaTile::GetCenter() const
+Point2f ArenaTile::GetCenter() const
 {
 	return m_Position + Point2f{ 0.f,-m_Size * .5f };
 }
@@ -36,16 +34,6 @@ const Point2f& ArenaTile::GetPosition() const
 int ArenaTile::GetIndex() const
 {
 	return m_Index;
-}
-
-int ArenaTile::GetRow() const
-{
-	return m_Row;
-}
-
-int ArenaTile::GetColumn() const
-{
-	return m_Column;
 }
 
 GameArena* ArenaTile::GetArena() const

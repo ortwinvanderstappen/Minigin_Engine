@@ -2,14 +2,13 @@
 #include "Singleton.h"
 
 class Observer;
-
-class ObserverManager : public minigen::Singleton<ObserverManager>
+class Subject : public minigen::Singleton<Subject>
 {
 public:
 	void AddObserver(std::shared_ptr<Observer> spObserver);
 private:
-	friend class Singleton<ObserverManager>;
-	ObserverManager() = default;
+	friend class Singleton<Subject>;
+	Subject() = default;
 
 	std::vector<std::shared_ptr<Observer>> m_Observers;
 };

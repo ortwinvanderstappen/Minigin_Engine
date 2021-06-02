@@ -21,6 +21,9 @@
     <Filter Include="structs">
       <UniqueIdentifier>{039091cd-4a1c-4021-95aa-f3ba8c4b4b78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Observers">
+      <UniqueIdentifier>{94422565-aec9-4cc7-9dfa-26a059f4e147}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -47,6 +50,9 @@
     <ClCompile Include="QBert.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="FlyingDisc.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -68,6 +74,9 @@
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="QBert.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="FlyingDisc.h">
       <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>

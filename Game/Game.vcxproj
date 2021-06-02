@@ -184,6 +184,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArenaTile.cpp" />
+    <ClCompile Include="FlyingDisc.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="JsonParser.cpp" />
@@ -194,6 +195,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArenaTile.h" />
+    <ClInclude Include="FlyingDisc.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="JsonParser.h" />

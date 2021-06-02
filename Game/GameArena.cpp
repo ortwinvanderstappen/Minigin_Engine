@@ -55,7 +55,7 @@ void GameArena::InitializeArena()
 
 			const bool isNullTile = (row == 0 || row == m_BaseWidth + 1) || (column - row == 0 || column == m_BaseWidth + 2);
 
-			ArenaTile hex{ this, index, row, column, hexSize, currentPos, isNullTile };
+			ArenaTile hex{ this, index, hexSize, currentPos, isNullTile };
 			m_ArenaHexes.push_back(std::move(hex));
 			currentPos.x += offsetX;
 			++index;
@@ -87,14 +87,15 @@ void GameArena::AddPlayers()
 		m_pParentObject->GetScene()->Add(qbertObject);
 
 		int playerTileIndex;
-		if(m_PlayerCount == 1)
+		if (m_PlayerCount == 1)
 		{
 			playerTileIndex = GetTopTileIndex();
-		} else
-		{
-			playerTileIndex = i == 0 ? GetBottomLeftTileIndex(): GetBottomRightTileIndex();
 		}
-		
+		else
+		{
+			playerTileIndex = i == 0 ? GetBottomLeftTileIndex() : GetBottomRightTileIndex();
+		}
+
 		qbertComponent->SetTile(&m_ArenaHexes[playerTileIndex]);
 	}
 
@@ -113,13 +114,15 @@ const Color3i& GameArena::GetSecondaryColor() const
 ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, MovementType movementType)
 {
 	const int currentIndex = pCurrentTile->GetIndex();
-	const int currentRow = pCurrentTile->GetRow();
 
 	int newIndex = -1;
 
-	const int maxHeight = m_BaseWidth + 3;
-	const int rowLength = maxHeight - currentRow;
+	const int remappedIndex = abs(static_cast<int>(m_ArenaHexes.size() - 1)) - currentIndex;
+	// https://en.wikipedia.org/wiki/Triangular_number
+	const int row = (m_BaseWidth + 2) - static_cast<int>(-1 + sqrt(1 + 8 * remappedIndex)) / 2;
 
+	const int maxHeight = m_BaseWidth + 3;
+	const int rowLength = maxHeight - row;
 	switch (movementType)
 	{
 	case MovementType::up:

@@ -25,7 +25,7 @@
 #include "HealthComponent.h"
 #include "ImGuiComponent.h"
 #include "FPSComponent.h"
-#include "ObserverManager.h"
+#include "Subject.h"
 #include "SuicideCommand.h"
 #include "VitalsObserver.h"
 // Services
