@@ -4,15 +4,17 @@
 #include <SDL_render.h>
 
 #include "ArenaHexScript.h"
+#include "GameObject.h"
+#include "QBertScript.h"
 #include "Renderer.h"
+#include "Scene.h"
 #include "structs.h"
 
-GameArenaScript::GameArenaScript(int baseWidth) :
-	RenderComponent(),
-	m_BaseWidth(baseWidth)
-{
-	Initialize();
-}
+GameArenaScript::GameArenaScript(const GameScene::StageSettings& stageSettings) :
+	m_BaseWidth(stageSettings.size),
+	m_PrimaryColor(stageSettings.activeColor),
+	m_SecondaryColor(stageSettings.inactiveColor)
+{}
 
 GameArenaScript::~GameArenaScript()
 {}
@@ -20,6 +22,7 @@ GameArenaScript::~GameArenaScript()
 void GameArenaScript::Initialize()
 {
 	InitializeArena();
+	AddPlayer();
 }
 
 void GameArenaScript::InitializeArena()
@@ -35,11 +38,11 @@ void GameArenaScript::InitializeArena()
 	const float hexSize = static_cast<float>(std::min(width, height)) / static_cast<float>(m_BaseWidth * 2);
 
 	// Calculate the start position based on hex sizes and screen size
-	const int offsetX = static_cast<int>(static_cast<float>(sqrt(3)) * hexSize);
-	const int offsetY = static_cast<int>(2 * hexSize);
-	const int totalWidthNeeded = offsetX * m_BaseWidth;
-	const Point2i startPos{ ((width - totalWidthNeeded) / 2) + (offsetX / 2), height - offsetY };
-	Point2i currentPos{ startPos };
+	const float offsetX = static_cast<float>(sqrt(3)) * hexSize;
+	const float offsetY = 2 * hexSize;
+	const float totalWidthNeeded = offsetX * m_BaseWidth;
+	const Point2f startPos{ ((width - totalWidthNeeded) / 2.f) + (offsetX / 2.f), height - offsetY };
+	Point2f currentPos{ startPos };
 
 	// Initialize hex grids
 	for (int row = 0; row < m_BaseWidth; ++row)
@@ -49,7 +52,7 @@ void GameArenaScript::InitializeArena()
 			if (!(column - row >= 0)) continue;
 
 			ArenaHexScript hex{ this, row, column, hexSize, currentPos };
-			m_ArenaHexex.push_back(std::move(hex));
+			m_ArenaHexes.push_back(std::move(hex));
 			currentPos.x += offsetX;
 		}
 		// row is done, reset x position
@@ -63,10 +66,21 @@ void GameArenaScript::Update()
 
 void GameArenaScript::Render() const
 {
-	for(const ArenaHexScript& hex: m_ArenaHexex)
+	for (const ArenaHexScript& hex : m_ArenaHexes)
 	{
 		hex.Render();
 	}
+}
+
+void GameArenaScript::AddPlayer()
+{
+	std::shared_ptr<minigen::GameObject> QBert = std::make_shared<minigen::GameObject>();
+	const std::shared_ptr<QBertScript> QbertComponent = std::make_shared<QBertScript>(0);
+	QBert->AddScript(QbertComponent);
+	m_pParentObject->GetScene()->Add(QBert);
+
+	const Point2f& startPos = m_ArenaHexes[m_ArenaHexes.size() - 1].GetCenter();
+	QBert->SetPosition(startPos.x, startPos.y);
 }
 
 const Color3i& GameArenaScript::GetPrimaryColor() const
@@ -78,7 +92,6 @@ const Color3i& GameArenaScript::GetSecondaryColor() const
 {
 	return m_SecondaryColor;
 }
-
 
 int GameArenaScript::CalculateArenaHexCount() const
 {

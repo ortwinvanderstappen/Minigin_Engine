@@ -13,10 +13,17 @@ namespace minigen {
 		void Update() override;
 		void Render() const override;
 
-		void AddImage(const std::string& imagePath, const Point2f& position = { 0.f,0.f });
+		void AddImage(const std::string& imagePath, const Point2f& position = { 0.f,0.f }, float scale = 1.f);
 
 	private:
-		std::unordered_map<std::string, std::pair<const Point2f, std::shared_ptr<Texture2D>>> m_spTextureMap{};
+		struct ImageEntry
+		{
+			std::shared_ptr<Texture2D> texture;
+			Point2f position;
+			float scale;
+		};
+		
+		std::unordered_map<std::string, ImageEntry> m_spTextureMap{};
 	};
 }
 

@@ -44,6 +44,9 @@
     <ClCompile Include="ArenaHexScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="QBertScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -62,6 +65,9 @@
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="ArenaHexScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="QBertScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>

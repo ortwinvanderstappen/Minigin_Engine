@@ -41,7 +41,16 @@ void minigen::Renderer::Init(SDL_Window* window)
 	{
 		std::cout << "No correct render flags\n";
 	}
-	//glEnable(GL_TEXTURE_2D);
+
+	glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+	glOrtho(0, 640, 0, 480, 0, 1000);
+	glViewport(0, 0, 640, 480);
+    glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// Initialize ImGui
 	IMGUI_CHECKVERSION();
@@ -87,41 +96,28 @@ void minigen::Renderer::Destroy()
 	}
 }
 
-void minigen::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void minigen::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, float scale) const
 {
-	//SDL_Rect dst;
-	//dst.x = static_cast<int>(x);
-	//dst.y = static_cast<int>(y);
-	//SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	//SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
-
-	Rectf dstRect{ x, y, 0, 0 };
-	Rectf srcRect{};
-	texture.Draw(dstRect, srcRect);
+	const Rectf dstRect{ x, y, 0, 0 };
+	const Rectf srcRect{};
+	texture.Draw(dstRect, srcRect, scale);
 }
 
 void minigen::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
-	//SDL_Rect dst;
-	//dst.x = static_cast<int>(x);
-	//dst.y = static_cast<int>(y);
-	//dst.w = static_cast<int>(width);
-	//dst.h = static_cast<int>(height);
-	//SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
-
-	Rectf dstRect{ x, y, width, height };
-	Rectf srcRect{};
-	texture.Draw(dstRect, srcRect);
+	const Rectf dstRect{ x, y, width, height };
+	const Rectf srcRect{};
+	texture.Draw(dstRect, srcRect, 1.f);
 }
 
-void minigen::Renderer::RenderPolygon(const std::vector<Point2i>& points, const Color3f& color) const
+void minigen::Renderer::RenderPolygon(const std::vector<Point2f>& points, const Color3f& color) const
 {
 	glColor3f(color.r, color.g, color.b);
 	glBegin(GL_POLYGON);
 	{
 		for (int i = 0; i < points.size(); ++i)
 		{
-			glVertex2f(float(points[i].x), float(points[i].y));
+			glVertex2f(points[i].x, points[i].y);
 		}
 	}
 	glEnd();

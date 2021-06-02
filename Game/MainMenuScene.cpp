@@ -25,6 +25,14 @@ void MainMenuScene::Initialize()
 	imageRenderComponent->AddImage("background.jpg");
 	HUDGameObject->AddComponent(imageRenderComponent);
 
+	std::shared_ptr<ImageRenderComponent> testc = std::make_shared<ImageRenderComponent>();
+	testc->AddImage("logo.png", { 0.f,0.f});
+	HUDGameObject->AddComponent(testc);
+
+	auto textc = std::make_shared<TextRenderComponent>();
+	textc->AddText(0, "Hello test", {50.f, 350.f}, 20);
+	HUDGameObject->AddComponent(textc);
+
 	// HUD input
 	const auto openSceneCommand = std::make_shared<OpenGameSceneCommand>();
 	auto inputComponent = std::make_shared<InputComponent>();
@@ -34,14 +42,14 @@ void MainMenuScene::Initialize()
 	openGameSceneInput.spInputCommand = openSceneCommand;
 	openGameSceneInput.inputButton.controllerButton = InputManager::ControllerButton::ButtonA;
 	inputComponent->AddInput(openGameSceneInput);
-	
+
 	InputManager::KeyInput openGameSceneInput2{};
 	openGameSceneInput2.hardwareType = InputManager::HardwareType::keyboard;
 	openGameSceneInput2.inputType = InputManager::InputType::onKeyDown;
 	openGameSceneInput2.spInputCommand = openSceneCommand;
 	openGameSceneInput2.inputButton.keyboardButton = SDL_KeyCode::SDLK_a;
 	inputComponent->AddInput(openGameSceneInput2);
-	
+
 	InputManager::KeyInput openGameSceneInput3{};
 	openGameSceneInput3.hardwareType = InputManager::HardwareType::keyboard;
 	openGameSceneInput3.inputType = InputManager::InputType::onKeyDown;

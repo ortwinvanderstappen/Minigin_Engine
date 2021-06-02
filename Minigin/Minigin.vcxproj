@@ -235,6 +235,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentHolder.h" />
+    <ClInclude Include="CustomCommand.h" />
     <ClInclude Include="DaeAudio.h" />
     <ClInclude Include="EngineContext.h" />
     <ClInclude Include="Font.h" />
@@ -260,6 +261,7 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Script.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundSystem.h" />
@@ -321,6 +323,7 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentHolder.cpp" />
+    <ClCompile Include="CustomCommand.cpp" />
     <ClCompile Include="DaeAudio.cpp" />
     <ClCompile Include="EngineContext.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -353,6 +356,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Script.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="SuicideCommand.cpp" />

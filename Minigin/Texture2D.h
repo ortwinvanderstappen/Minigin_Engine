@@ -15,7 +15,7 @@ namespace minigen
 		Texture2D(SDL_Surface* pSurface);
 		~Texture2D();
 
-		void Draw(const Rectf& dstRect, const Rectf& srcRect ) const;
+		void Draw(const Rectf& dstRect, const Rectf& srcRect, float scale) const;
 		
 		Texture2D(const Texture2D &) = delete;
 		Texture2D(Texture2D &&) = delete;

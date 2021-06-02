@@ -35,7 +35,6 @@ void minigen::Texture2D::CreateFromSurface(SDL_Surface* pSurface)
 		else
 		{
 			pixelFormat = GL_BGRA_EXT;
-			//pixelFormat = GL_BGRA;
 		}
 		break;
 	default:
@@ -89,7 +88,7 @@ void minigen::Texture2D::CreateFromSurface(SDL_Surface* pSurface)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
-void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect) const
+void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect, float scale) const
 {
 	const float epsilon{ 0.001f };
 	if (!m_CreationOk)
@@ -111,14 +110,15 @@ void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect) const
 		// Use complete texture
 		textLeft = 0.0f;
 		textRight = 1.0f;
-		textTop = 0.0f;
-		textBottom = 1.0f;
+		textTop = 1.0f;
+		textBottom = 0.0f;
 
 		defaultDestHeight = m_Height;
 		defaultDestWidth = m_Width;
 	}
 	else // srcRect specified
 	{
+		// TODO: See if texture is not vertically inverted when using source rects
 		// Convert to the range [0.0, 1.0]
 		textLeft = srcRect.x / m_Width;
 		textRight = (srcRect.x + srcRect.w) / m_Width;
@@ -130,20 +130,19 @@ void minigen::Texture2D::Draw(const Rectf& dstRect, const Rectf& srcRect) const
 	}
 
 	// Determine vertex coordinates
-	float vertexLeft{ dstRect.x };
-	float vertexBottom{ dstRect.y };
-	float vertexRight{};
-	float vertexTop{};
+	const float vertexLeft{ dstRect.x };
+	const float vertexBottom{ dstRect.y };
+	float vertexRight;
+	float vertexTop;
 	if (!(dstRect.w > 0.001f && dstRect.h > 0.001f)) // If no size specified use default size
 	{
-		vertexRight = vertexLeft + defaultDestWidth;
-		vertexTop = vertexBottom + defaultDestHeight;
+		vertexRight = vertexLeft + defaultDestWidth * scale;
+		vertexTop = vertexBottom + defaultDestHeight * scale;
 	}
 	else
 	{
 		vertexRight = vertexLeft + dstRect.w;
 		vertexTop = vertexBottom + dstRect.h;
-
 	}
 
 	// Tell opengl which texture we will use

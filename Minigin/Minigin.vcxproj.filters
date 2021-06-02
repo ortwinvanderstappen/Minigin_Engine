@@ -213,6 +213,10 @@
     <ClInclude Include="ComponentHolder.h">
       <Filter>Source Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -358,6 +362,12 @@
     </ClCompile>
     <ClCompile Include="ComponentHolder.cpp">
       <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomCommand.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

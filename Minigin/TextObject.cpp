@@ -17,12 +17,12 @@ void minigen::TextObject::Update()
 	{
 		const SDL_Color color = { 255,0,0, 255 }; // only white text is supported now
 
-		if(m_Font == nullptr) throw std::runtime_error(std::string("Font was nullptr: "));
-		
+		if (m_Font == nullptr) throw std::runtime_error(std::string("Font was nullptr: "));
+
 		// Create the SDL_Surface
 		const auto pSurface = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
 		if (pSurface == nullptr) throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
-		
+
 		// Store the texture
 		m_Texture = std::make_shared<Texture2D>(pSurface);
 		m_NeedsUpdate = false;

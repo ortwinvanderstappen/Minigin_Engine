@@ -8,23 +8,22 @@
 namespace minigen
 {
 	class GameObject;
-	class Component : public ComponentHolder
+	class Component
 	{
 	public:
 		virtual void Update() = 0;
+		virtual void Initialize(){};
 
 		void Notify(const GameObject& gameObject, Observer::Event event);
 		void AddObserver(std::shared_ptr<Observer> pObserver);
 		void RemoveObserver(std::shared_ptr<Observer> pObserver);
-
-		virtual void AddComponent(std::shared_ptr<Component> spComponent) override;
 
 		void SetParent(GameObject* pParentObject);
 	protected:
 		Component();
 		virtual ~Component();
 
-		GameObject* m_pParentObject = nullptr;
+		GameObject* m_pParentObject;
 	private:
 		std::vector<std::shared_ptr<Observer>> m_spObservers{};
 	};

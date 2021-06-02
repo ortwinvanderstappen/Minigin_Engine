@@ -9,9 +9,13 @@
 #include "ComponentHolder.h"
 #include "Transform.h"
 
+
 namespace minigen
 {
-	class GameObject final: public ComponentHolder
+	class Scene;
+	class Script;
+
+	class GameObject final : public ComponentHolder
 	{
 	public:
 		void Update();
@@ -25,10 +29,20 @@ namespace minigen
 		GameObject& operator=(GameObject&& other) = delete;
 
 		void AddComponent(std::shared_ptr<Component> spComponent) override;
-		
+		void AddScript(std::shared_ptr<Script> spScript);
+
+		const std::vector<std::shared_ptr<Script>>& GetScripts() const;
+
+		void SetParentScene(Scene* pScene);
+		Scene* GetScene() const;
+
 		const glm::vec3& GetPosition() const;
+
+	protected:
+		Scene* m_pParentScene;
 
 	private:
 		Transform m_Transform;
+		std::vector<std::shared_ptr<Script>> m_Scripts;
 	};
 }

@@ -190,6 +190,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="GameArenaScript.cpp" />
+    <ClCompile Include="QBertScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArenaHexScript.h" />
@@ -198,6 +199,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="GameArenaScript.h" />
+    <ClInclude Include="QBertScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

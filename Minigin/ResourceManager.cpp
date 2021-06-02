@@ -33,13 +33,14 @@ void minigen::ResourceManager::Init(const std::string& dataPath)
 std::shared_ptr<minigen::Texture2D> minigen::ResourceManager::LoadTexture(const std::string& file) const
 {
 	const auto fullPath = m_DataPath + file;
-	
-	//auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
-	//if (texture == nullptr) 
-	//{
-	//	throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
-	//}
 	SDL_Surface* pSurface = IMG_Load(fullPath.c_str());
+	
+	if(pSurface == nullptr)
+	{
+		std::cerr << "ResourceManager:: Failed to find texture with path: " << fullPath << "\n";
+		return nullptr;
+	}
+	
 	return std::make_shared<Texture2D>(pSurface);
 }
 

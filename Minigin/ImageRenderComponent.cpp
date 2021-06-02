@@ -11,7 +11,7 @@
 #include "ResourceManager.h"
 #include "Texture2D.h"
 
-minigen::ImageRenderComponent::ImageRenderComponent() 
+minigen::ImageRenderComponent::ImageRenderComponent()
 {}
 
 void minigen::ImageRenderComponent::Update()
@@ -24,12 +24,13 @@ void minigen::ImageRenderComponent::Render() const
 	const glm::vec3& positionOffset = m_pParentObject->GetPosition();
 	for (auto image : m_spTextureMap)
 	{
-		Renderer::GetInstance().RenderTexture(*image.second.second, image.second.first.x + positionOffset.x, image.second.first.y + positionOffset.y);
+		const ImageEntry& entry = image.second;
+		Renderer::GetInstance().RenderTexture(*image.second.texture, entry.position.x + positionOffset.x, entry.position.y + positionOffset.y, entry.scale);
 	}
 }
 
-void minigen::ImageRenderComponent::AddImage(const std::string& imagePath, const Point2f& position)
+void minigen::ImageRenderComponent::AddImage(const std::string& imagePath, const Point2f& position, float scale)
 {
-	std::shared_ptr<Texture2D> spTexture = ResourceManager::GetInstance().LoadTexture(imagePath);
-	m_spTextureMap.insert(std::make_pair(imagePath, std::make_pair(position, spTexture)));
+	const std::shared_ptr<Texture2D> spTexture = ResourceManager::GetInstance().LoadTexture(imagePath);
+	m_spTextureMap.insert(std::make_pair(imagePath, ImageEntry{ spTexture,position, scale }));
 }

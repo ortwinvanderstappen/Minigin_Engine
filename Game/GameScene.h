@@ -1,12 +1,16 @@
 #pragma once
 #include <Scene.h>
 #include <vector>
+#include "structs.h"
+
 class GameScene : public minigen::Scene
 {
 public:
 	struct StageSettings
 	{
-		int m_Size;
+		int size;
+		Color3i activeColor;
+		Color3i inactiveColor;
 	};
 
 	GameScene(const std::string& sceneName);

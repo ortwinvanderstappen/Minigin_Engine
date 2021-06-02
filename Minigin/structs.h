@@ -7,6 +7,11 @@ struct Point2f
 		x = px; y = py;
 	}
 	float x{}, y{};
+
+	Point2f operator+ (const Point2f& other) const
+	{
+		return Point2f(x + other.x, y + other.y);
+	}
 };
 
 struct Point2i
