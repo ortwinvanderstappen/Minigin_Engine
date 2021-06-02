@@ -14,9 +14,10 @@ public:
 	void Initialize() override;
 
 	void Update() override;
-
+	void Render() const override;
 private:
-	void UpdateStageSettings();
+	void InitializeStageSettings();
+	void InitializeStage();
 
 	int m_Stage;
 	std::vector<StageSettings> m_Stages;

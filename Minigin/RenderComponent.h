@@ -15,7 +15,7 @@ namespace minigen {
 		virtual ~RenderComponent();
 
 		virtual void Update() override = 0;
-		virtual void Render(const glm::vec3& positionOffset) const = 0;
+		virtual void Render() const = 0;
 	};
 }
 

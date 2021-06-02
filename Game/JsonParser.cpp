@@ -21,6 +21,7 @@ void JsonParser::ParseDifficulties(std::vector<GameScene::StageSettings>& stageS
 		const Value& levelValue = *valueIt;
 		const Value& sizeValue = levelValue["size"];
 
+
 		// Create stage entry
 		GameScene::StageSettings stage{};
 

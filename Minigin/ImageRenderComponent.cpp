@@ -6,6 +6,7 @@
 #include <glm.hpp>
 #pragma warning(pop)
 
+#include "GameObject.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Texture2D.h"
@@ -18,8 +19,9 @@ void minigen::ImageRenderComponent::Update()
 
 }
 
-void minigen::ImageRenderComponent::Render(const glm::vec3& positionOffset) const
+void minigen::ImageRenderComponent::Render() const
 {
+	const glm::vec3& positionOffset = m_pParentObject->GetPosition();
 	for (auto image : m_spTextureMap)
 	{
 		Renderer::GetInstance().RenderTexture(*image.second.second, image.second.first.x + positionOffset.x, image.second.first.y + positionOffset.y);

@@ -18,6 +18,9 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{0fa97a77-89bb-4708-bee9-a4d2f151a164}</UniqueIdentifier>
     </Filter>
+    <Filter Include="structs">
+      <UniqueIdentifier>{039091cd-4a1c-4021-95aa-f3ba8c4b4b78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -38,6 +41,9 @@
     <ClCompile Include="JsonParser.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="ArenaHexScript.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -54,6 +60,9 @@
     </ClInclude>
     <ClInclude Include="JsonParser.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ArenaHexScript.h">
+      <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

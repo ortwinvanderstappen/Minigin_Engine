@@ -32,7 +32,7 @@ void Scene::Render() const
 		for (std::shared_ptr<Component> spComponent : object->GetComponents())
 		{
 			std::shared_ptr<RenderComponent> spRenderComponent = std::dynamic_pointer_cast<RenderComponent>(spComponent);
-			if (spRenderComponent) spRenderComponent->Render(object->GetPosition());
+			if (spRenderComponent) spRenderComponent->Render();
 		}
 	}
 }

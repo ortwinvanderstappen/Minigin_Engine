@@ -1,8 +1,6 @@
 #include "MiniginPCH.h"
 #include "Component.h"
-
 #include "GameObject.h"
-
 
 minigen::Component::Component()
 {}
@@ -28,7 +26,13 @@ void minigen::Component::RemoveObserver(std::shared_ptr<Observer> pObserver)
 	m_spObservers.erase(std::remove(m_spObservers.begin(), m_spObservers.end(), pObserver), m_spObservers.end());
 }
 
-void minigen::Component::SetParent(minigen::GameObject* pParentObject)
+void minigen::Component::AddComponent(std::shared_ptr<Component> spComponent)
+{
+	ComponentHolder::AddComponent(spComponent);
+	spComponent->SetParent(m_pParentObject);
+}
+
+void minigen::Component::SetParent(GameObject* pParentObject)
 {
 	m_pParentObject = pParentObject;
 }

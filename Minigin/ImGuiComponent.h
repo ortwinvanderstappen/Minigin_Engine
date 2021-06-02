@@ -9,7 +9,7 @@ namespace minigen {
 		ImGuiComponent();
 		~ImGuiComponent();
 
-		void Render(const glm::vec3& positionOffset) const override;
+		void Render() const override;
 		void Update() override {};
 
 	private:

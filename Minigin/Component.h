@@ -3,9 +3,12 @@
 #include <memory>
 #include <vector>
 
-namespace minigen {
+#include "ComponentHolder.h"
+
+namespace minigen
+{
 	class GameObject;
-	class Component
+	class Component : public ComponentHolder
 	{
 	public:
 		virtual void Update() = 0;
@@ -13,6 +16,8 @@ namespace minigen {
 		void Notify(const GameObject& gameObject, Observer::Event event);
 		void AddObserver(std::shared_ptr<Observer> pObserver);
 		void RemoveObserver(std::shared_ptr<Observer> pObserver);
+
+		virtual void AddComponent(std::shared_ptr<Component> spComponent) override;
 
 		void SetParent(GameObject* pParentObject);
 	protected:

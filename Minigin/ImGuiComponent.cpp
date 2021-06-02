@@ -20,12 +20,8 @@ minigen::ImGuiComponent::~ImGuiComponent()
 	//m_pGuiWindows.clear();
 }
 
-void minigen::ImGuiComponent::Render(const glm::vec3& positionOffset) const
+void minigen::ImGuiComponent::Render() const
 {
-	// TODO: remove
-	glm::vec3 binPos = positionOffset;
-	binPos.x += 1;
-
 	//for(ImGuiWindow* pWindow: m_pGuiWindows)
 	//{
 	//	pWindow->Render();

@@ -17,7 +17,6 @@ void MainMenuScene::Initialize()
 	// Create HUD object
 	auto HUDGameObject = std::make_shared<GameObject>();
 	Add(HUDGameObject);
-
 	auto imguiC = std::make_shared<ImGuiComponent>();
 	HUDGameObject->AddComponent(imguiC);
 
@@ -25,11 +24,6 @@ void MainMenuScene::Initialize()
 	std::shared_ptr<ImageRenderComponent> imageRenderComponent = std::make_shared<ImageRenderComponent>();
 	imageRenderComponent->AddImage("background.jpg");
 	HUDGameObject->AddComponent(imageRenderComponent);
-
-	// Play text
-	auto playTextComp = std::make_shared<TextRenderComponent>();
-	playTextComp->AddText(0, "Press A or space to start the game", Point2f{ 50.f,50.f }, 30);
-	HUDGameObject->AddComponent(playTextComp);
 
 	// HUD input
 	const auto openSceneCommand = std::make_shared<OpenGameSceneCommand>();

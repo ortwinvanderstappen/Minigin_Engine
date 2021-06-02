@@ -3,6 +3,8 @@
 #include "ResourceManager.h"
 #include <algorithm>
 
+#include "GameObject.h"
+
 minigen::TextRenderComponent::TextRenderComponent()
 {}
 
@@ -39,11 +41,12 @@ void minigen::TextRenderComponent::Update()
 	);
 }
 
-void minigen::TextRenderComponent::Render(const glm::vec3& positionOffset) const
+void minigen::TextRenderComponent::Render() const
 {
-	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [positionOffset](std::pair<int, std::shared_ptr<minigen::TextObject>> textPair)
+	const glm::vec3& pos = m_pParentObject->GetPosition();
+	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [pos](std::pair<int, std::shared_ptr<minigen::TextObject>> textPair)
 		{
-			textPair.second->Render(positionOffset);
+			textPair.second->Render(pos);
 		}
 	);
 }

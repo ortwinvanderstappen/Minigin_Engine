@@ -14,7 +14,7 @@ namespace minigen {
 		void SetText(int id, const std::string& newText);
 		void SetPosition(int id, const Point2f& newPosition);
 		virtual void Update() override;
-		void Render(const glm::vec3& positionOffset) const override;
+		void Render() const override;
 
 	protected:
 		std::unordered_map<int, std::shared_ptr<TextObject>> m_upTextObjectMap{};

@@ -210,6 +210,9 @@
     <ClInclude Include="JsonReader.h">
       <Filter>Source Files\FileParsing</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentHolder.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -352,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="JsonReader.cpp">
       <Filter>Source Files\FileParsing</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentHolder.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

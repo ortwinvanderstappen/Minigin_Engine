@@ -5,15 +5,11 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
+
 void minigen::GameObject::AddComponent(std::shared_ptr<Component> spComponent)
 {
-	m_spComponents.push_back(spComponent);
+	ComponentHolder::AddComponent(spComponent);
 	spComponent->SetParent(this);
-}
-
-const std::vector<std::shared_ptr<minigen::Component>>& minigen::GameObject::GetComponents() const
-{
-	return m_spComponents;
 }
 
 const glm::vec3& minigen::GameObject::GetPosition() const
