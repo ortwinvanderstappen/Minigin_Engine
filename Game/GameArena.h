@@ -7,36 +7,30 @@
 #include "ArenaTile.h"
 #include "GameScene.h"
 #include "structs.h"
+#include "TileMovementComponent.h"
+
+class QBert;
 
 class GameArena : public minigen::Script
 {
 public:
-	enum class MovementType
-	{
-		up,
-		down,
-		left,
-		right
-	};
-	
-	GameArena(GameScene::StageSettings* const stageSettings);
+	GameArena(GameScene::StageSettings* const stageSettings, int stage);
 	~GameArena() override;
 
 	void Initialize() override;
 	void InitializeArena();
 	void CreateDiscs();
-	
+
 	void Update() override;
 	void Render() const override;
 
 	void AddPlayers();
-	
-	const Color3i& GetPrimaryColor() const;
-	const Color3i& GetSecondaryColor() const;
+	void HandleQbertDeath();
+	void ResetStageEntities();
 
 	float GetTileSize() const;
 
-	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, MovementType movementType);
+	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
 	ArenaTile* GetTopTile();
 private:
 	int GetTopTileIndex() const;
@@ -46,7 +40,11 @@ private:
 
 	std::vector<ArenaTile> m_ArenaHexes{};
 	int m_PlayerCount = 1;
+	int m_Lives;
 
 	GameScene::StageSettings* m_pStageSettings;
+	int m_Stage;
 	float m_TileSize;
+
+	std::vector<std::shared_ptr<QBert>> m_spPlayers;
 };

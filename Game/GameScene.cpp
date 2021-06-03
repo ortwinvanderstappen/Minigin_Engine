@@ -28,13 +28,12 @@ void GameScene::Update()
 void GameScene::Render() const
 {
 	Scene::Render();
-	
-	ImGui::Begin("Info", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground);
-	ImGui::SetWindowPos(ImVec2{ 0.f,5.f });
-	ImGui::Text("FPS: %.1f", static_cast<double>(ImGui::GetIO().Framerate));
-	ImGui::Text("Stage %i", m_Stage);
-	ImGui::Separator();
-	ImGui::End();
+}
+
+void GameScene::Restart()
+{
+	m_Stage = 0;
+	InitializeStage();
 }
 
 void GameScene::InitializeStageSettings()
@@ -45,10 +44,18 @@ void GameScene::InitializeStageSettings()
 
 void GameScene::InitializeStage()
 {
+	for (const std::shared_ptr<GameObject>& object : m_Objects)
+	{
+		object->MarkForDelete();
+	}
+
 	// Setup pyramid game object
-	auto gameArenaObject = std::make_shared<GameObject>();
-	Add(gameArenaObject);
-	
-	const auto gameArenaScript = std::make_shared<GameArena>(&m_Stages[m_Stage]);
-	gameArenaObject->AddScript(gameArenaScript);
+	std::shared_ptr<GameObject> spArena = std::make_shared<GameObject>();
+	Add(spArena);
+
+	const auto gameArenaScript = std::make_shared<GameArena>(&m_Stages[m_Stage], m_Stage);
+	spArena->AddScript(gameArenaScript);
+
+	std::cout << "Stage started, objects: " << m_Objects.size();
+	std::cout << "...\n";
 }

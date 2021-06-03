@@ -17,23 +17,39 @@ void JsonParser::ParseDifficulties(std::vector<GameScene::StageSettings>& stageS
 	// Loop through each level entry
 	for (Value::ConstValueIterator valueIt = difficultyObject.Begin(); valueIt != difficultyObject.End(); ++valueIt)
 	{
-		// Obtain values
+		// Create stage entry
+		GameScene::StageSettings stage{};
+		
+		// Basic properties
 		const Value& levelValue = *valueIt;
 		const Value& sizeValue = levelValue["size"];
+		const Value& livesValue = levelValue["lives"];
+		const Value& cyclesColorValue = levelValue["cyclesColor"];
 
-		const Value& activeColorValue = levelValue["activeColor"];
-		const Value& activeColorRValue = activeColorValue["r"];
-		const Value& activeColorGValue = activeColorValue["g"];
-		const Value& activeColorBValue = activeColorValue["b"];
+		// Setup properties
+		stage.size = sizeValue.GetInt();
+		stage.lives = livesValue.GetInt();
+		stage.cyclesColor = cyclesColorValue.GetBool();
 
+		// Active color
+		const Value& activeColorsValue = levelValue["activeColors"];
+		for (Value::ConstValueIterator activeColorProperty = activeColorsValue.Begin(); activeColorProperty != activeColorsValue.End(); ++activeColorProperty)
+		{
+			const Value& activeColorValue = *activeColorProperty;
+			const Value& activeColorRValue = activeColorValue["r"];
+			const Value& activeColorGValue = activeColorValue["g"];
+			const Value& activeColorBValue = activeColorValue["b"];
+			stage.activeColors.push_back(Color3i{ activeColorRValue.GetInt(), activeColorGValue.GetInt(), activeColorBValue.GetInt() });
+		}
+
+		// Inactive color
 		const Value& inactiveColorValue = levelValue["inactiveColor"];
 		const Value& inactiveColorRValue = inactiveColorValue["r"];
 		const Value& inactiveColorGValue = inactiveColorValue["g"];
 		const Value& inactiveColorBValue = inactiveColorValue["b"];
+		stage.inactiveColor = Color3i{ inactiveColorRValue.GetInt(), inactiveColorGValue.GetInt(), inactiveColorBValue.GetInt()};
 
-		// Create stage entry
-		GameScene::StageSettings stage{};
-
+		// Discs
 		const Value& discsValue = levelValue["discs"];
 		for (Value::ConstValueIterator discProperty = discsValue.Begin(); discProperty != discsValue.End(); ++discProperty)
 		{
@@ -76,11 +92,6 @@ void JsonParser::ParseDifficulties(std::vector<GameScene::StageSettings>& stageS
 			}
 			}
 		}
-
-		// Setup properties
-		stage.size = sizeValue.GetInt();
-		stage.activeColor = Color3i{ activeColorRValue.GetInt(), activeColorGValue.GetInt(), activeColorBValue.GetInt() };
-		stage.inactiveColor = Color3i{ inactiveColorRValue.GetInt(), inactiveColorGValue.GetInt(), inactiveColorBValue.GetInt() };
 
 		// Add to list
 		stageSettings.push_back(stage);

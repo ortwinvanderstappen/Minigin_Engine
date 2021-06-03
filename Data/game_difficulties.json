@@ -3,12 +3,16 @@
 	[
 		{
 			"size": 8,
-			"activeColor":
-			{
-				"r": 223,
-				"g": 223,
-				"b": 0
-			},
+			"lives": 3,
+			"cyclesColor": true,
+			"activeColors":
+			[
+				{
+					"r": 223,
+					"g": 223,
+					"b": 0
+				}
+			],
 			"inactiveColor":
 			{
 				"r": 80,
@@ -24,32 +28,6 @@
 				{
 					"row": 5,
 					"position": 3
-				}
-			]
-		},
-		{
-			"size": 7,
-			"activeColor":
-			{
-				"r": 223,
-				"g": 223,
-				"b": 0
-			},
-			"inactiveColor":
-			{
-				"r": 80,
-				"g": 64,
-				"b": 239
-			},
-			"discs":
-			[
-				{
-					"row": 3,
-					"position": 2
-				}, 
-				{
-					"row": 5,
-					"position": 1
 				}
 			]
 		}

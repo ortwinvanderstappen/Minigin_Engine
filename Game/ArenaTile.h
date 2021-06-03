@@ -1,4 +1,5 @@
 #pragma once
+#include "GameScene.h"
 #include "Script.h"
 #include "structs.h"
 
@@ -7,7 +8,7 @@ class GameArena;
 class ArenaTile : minigen::Script
 {
 public:
-	ArenaTile(GameArena* pArena,int index, float size, const Point2f& position, bool isNullTile);
+	ArenaTile(GameArena* pArena,int index, float size, const Point2f& position, bool isNullTile, GameScene::StageSettings* pStageSettings);
 
 	void Update() override;
 	void Render() const override;
@@ -18,7 +19,12 @@ public:
 	int GetIndex() const;
 	GameArena* GetArena() const;
 
-	void AttachFlyingDisc(std::shared_ptr<FlyingDisc> spDisc);
+	bool IsNullTile() const;
+	bool HasDisc() const;
+
+	bool IsComplete() const;
+
+	void AttachFlyingDisc(const std::shared_ptr<FlyingDisc>& spDisc);
 	
 	void Activate();
 private:
@@ -30,8 +36,9 @@ private:
 	float m_Size;
 	Point2f m_Position;
 	bool m_IsNullTile;
+	GameScene::StageSettings* m_pStageSettings;
 	
-	bool m_IsActive;
+	int m_ColorState;
 	std::shared_ptr<FlyingDisc> m_spDisc;
 };
 

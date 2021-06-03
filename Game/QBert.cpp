@@ -8,11 +8,11 @@
 #include "GameArena.h"
 #include "GameObject.h"
 
-QBert::QBert(GameArena* pArena, int playerIndex) :
+QBert::QBert(GameArena* pArena, ArenaTile* pStartTile, int playerIndex) :
 	m_pArena(pArena),
+	m_spMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile, .01f)),
 	m_QbertImagePath("images/QBert.png"),
-	m_PlayerIndex(playerIndex),
-	m_pCurrentTile(nullptr)
+	m_PlayerIndex(playerIndex)
 {}
 
 void QBert::Update()
@@ -21,32 +21,35 @@ void QBert::Update()
 
 	ProcessInput();
 
-	if (m_pCurrentTile)
-	{
-		m_pCurrentTile->Activate();
+	//if (m_pCurrentTile)
+	//{
+	//	m_pCurrentTile->Activate();
 
-		const Point2f& tileCenter = m_pCurrentTile->GetCenter();
-		m_pParentObject->SetPosition(tileCenter.x, tileCenter.y);
-	}
+	//	const Point2f& tileCenter = m_pCurrentTile->GetCenter();
+	//	m_pParentObject->SetPosition(tileCenter.x, tileCenter.y);
+	//}
 }
 
 void QBert::Initialize()
 {
 	m_pParentObject->SetTag("QBert");
-	
+
 	InitializeSprite();
 	InitializeControls();
-	
+
 	// Create a collision subject
 	const float scale = m_pArena->GetTileSize() / 15.f;
-	const Point2f collisionSize = {10.f * scale, 8.f * scale};
- 	Rectf collisionBounds{ - collisionSize.x * .5f, - collisionSize.y * .5f, 12.f, 8.f };
+	const Point2f collisionSize = { 10.f * scale, 8.f * scale };
+	Rectf collisionBounds{ -collisionSize.x * .5f, -collisionSize.y * .5f, 12.f, 8.f };
 	std::shared_ptr<minigen::CollisionSubject> spCollisionSubject = std::make_shared<minigen::CollisionSubject>(m_pParentObject, collisionBounds);
 	m_pParentObject->SetCollisionSubject(spCollisionSubject);
 
 	// Add observers
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
+
+	// Movement
+	AddComponent(m_spMovementComponent);
 }
 
 void QBert::InitializeSprite()
@@ -99,50 +102,48 @@ void QBert::InitializeControls()
 	}
 }
 
-void QBert::ProcessInput()
+void QBert::ProcessInput() const
 {
-	if (!m_pCurrentTile) return;
-
-	GameArena* pArena = m_pCurrentTile->GetArena();
-	ArenaTile* pNewTile = nullptr;
+	bool moved = false;
 
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::up)))
-	{
-		pNewTile = pArena->GetNeighbourTile(m_pCurrentTile, GameArena::MovementType::up);
-	}
+		moved = m_spMovementComponent->Move(TileMovementComponent::MovementType::up);
 
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::right)))
-	{
-		pNewTile = pArena->GetNeighbourTile(m_pCurrentTile, GameArena::MovementType::right);
-	}
+		moved = m_spMovementComponent->Move(TileMovementComponent::MovementType::right);
 
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::down)))
-	{
-		pNewTile = pArena->GetNeighbourTile(m_pCurrentTile, GameArena::MovementType::down);
-	}
+		moved = m_spMovementComponent->Move(TileMovementComponent::MovementType::down);
 
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::left)))
+		moved = m_spMovementComponent->Move(TileMovementComponent::MovementType::left);
+
+	if (moved)
 	{
-		pNewTile = pArena->GetNeighbourTile(m_pCurrentTile, GameArena::MovementType::left);
+		ArenaTile* pTile = m_spMovementComponent->GetTile();
+
+		if (pTile->IsNullTile() && !pTile->HasDisc())
+		{
+			Die();
+		}
+		
+		m_spMovementComponent->GetTile()->Activate();
 	}
 
-	if (pNewTile)
-	{
-		m_pCurrentTile = pNewTile;
-	}
 }
 
-void QBert::SetTile(ArenaTile* pTile)
+void QBert::Die() const
 {
-	m_pCurrentTile = pTile;
+	m_pArena->HandleQbertDeath();
 }
 
 void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 {
 	std::cout << "QBert collided with tagged object: " << pOtherGameObject->GetTag() << "\n";
 
-	if(pOtherGameObject->GetTag() == "Disc")
+	if (pOtherGameObject->GetTag() == "Disc")
 	{
-		m_pCurrentTile = m_pArena->GetTopTile();
+		m_spMovementComponent->SetTile(m_pArena->GetTopTile());
+		m_spMovementComponent->GetTile()->Activate();
 	}
 }

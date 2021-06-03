@@ -6,13 +6,14 @@
 
 #include "GameArena.h"
 
-ArenaTile::ArenaTile(GameArena* pArena, int index, float size, const Point2f& position, bool isNullTile) :
+ArenaTile::ArenaTile(GameArena* pArena, int index, float size, const Point2f& position, bool isNullTile, GameScene::StageSettings* pStageSettings) :
 	m_pArena(pArena),
 	m_Index(index),
 	m_Size(size),
 	m_Position(position),
-	m_IsActive(false),
 	m_IsNullTile(isNullTile),
+	m_pStageSettings(pStageSettings),
+	m_ColorState(0),
 	m_spDisc(nullptr)
 {}
 
@@ -22,16 +23,16 @@ void ArenaTile::Update()
 void ArenaTile::Render() const
 {
 	if (!m_IsNullTile)
-	DrawHex(m_Position, m_Size);
+		DrawHex(m_Position, m_Size);
 }
 
 Point2f ArenaTile::GetCenter() const
 {
-	if(m_IsNullTile)
+	if (m_IsNullTile)
 	{
-		return m_Position + Point2f{0.f, m_Size * .5f};	
+		return m_Position + Point2f{ 0.f, m_Size * .5f };
 	}
-	
+
 	return m_Position + Point2f{ 0.f,-m_Size * .5f };
 }
 
@@ -50,27 +51,60 @@ GameArena* ArenaTile::GetArena() const
 	return m_pArena;
 }
 
-void ArenaTile::AttachFlyingDisc(std::shared_ptr<FlyingDisc> spDisc)
+bool ArenaTile::IsNullTile() const
 {
-	if(m_spDisc)
-	{
-		std::cout << "Tile " << m_Index << " already has a flying disc attached (ignore duplicate)\n";
-		return;
-	}
-	
+	return m_IsNullTile;
+}
+
+bool ArenaTile::HasDisc() const
+{
+	return m_spDisc != nullptr;
+}
+
+bool ArenaTile::IsComplete() const
+{
+	return m_ColorState == static_cast<int>(m_pStageSettings->activeColors.size());
+}
+
+void ArenaTile::AttachFlyingDisc(const std::shared_ptr<FlyingDisc>& spDisc)
+{
+	if (m_spDisc)
+		std::cout << "Tile " << m_Index << " already has a flying disc attached (overwriting...)\n";
+
 	m_spDisc = spDisc;
 }
 
 void ArenaTile::Activate()
 {
-	m_IsActive = true;
+	++m_ColorState;
+
+	const int activeColors = static_cast<int>(m_pStageSettings->activeColors.size());
+
+	if (m_pStageSettings->cyclesColor)
+	{
+		m_ColorState %= (activeColors + 1);
+	}
+	else
+	{
+		if (m_ColorState > activeColors)
+			m_ColorState = activeColors;
+	}
 }
 
 void ArenaTile::DrawHex(Point2f center, float size) const
 {
-	const Color3i& topColorI = m_IsActive ? m_pArena->GetPrimaryColor() : m_pArena->GetSecondaryColor();
+	Color3i topColorI;
+	if(m_ColorState == 0)
+	{
+		topColorI = m_pStageSettings->inactiveColor;
+	} else
+	{
+		topColorI = m_pStageSettings->activeColors[m_ColorState-1];
+	}
+
+	//const Color3i& topColorI = m_IsActive ? m_pArena->GetPrimaryColor() : m_pArena->GetSecondaryColor();
 	Color3f topColor = Color3f{ static_cast<float>(topColorI.r) / 255.f,static_cast<float>(topColorI.g) / 255.f,static_cast<float>(topColorI.b) / 255.f };
-	const Color3i bottomColorI = m_pArena->GetSecondaryColor();
+	const Color3i bottomColorI = m_pStageSettings->inactiveColor;
 	const Color3f bottomColor = Color3f{ static_cast<float>(bottomColorI.r) / 255.f,static_cast<float>(bottomColorI.g) / 255.f,static_cast<float>(bottomColorI.b) / 255.f };
 
 	const float colorOffset = .1f;

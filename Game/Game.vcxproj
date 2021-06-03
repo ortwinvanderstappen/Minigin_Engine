@@ -192,6 +192,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="GameArena.cpp" />
     <ClCompile Include="QBert.cpp" />
+    <ClCompile Include="TileMovementComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArenaTile.h" />
@@ -202,6 +203,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="GameArena.h" />
     <ClInclude Include="QBert.h" />
+    <ClInclude Include="TileMovementComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

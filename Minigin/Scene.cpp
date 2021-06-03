@@ -30,12 +30,14 @@ void Scene::Update()
 	// Collision pass
 	for (auto& object : m_Objects)
 	{
+		if(object->IsMarkedForDelete()) continue;
+		
 		std::shared_ptr<CollisionSubject> collisionSubject = object->GetCollisionSubject();
 		if (collisionSubject)
 		{
 			for (auto& otherObject : m_Objects)
 			{
-				if (object == otherObject) continue;
+				if (object == otherObject || otherObject->IsMarkedForDelete()) continue;
 
 				std::shared_ptr<CollisionSubject> otherCollisionSubject = otherObject->GetCollisionSubject();
 				if (otherCollisionSubject)
@@ -50,7 +52,10 @@ void Scene::Update()
 	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(), 
 		[](std::shared_ptr<GameObject> spObject)
 		{
-			return spObject->IsMarkedForDelete();
+			if(spObject->IsMarkedForDelete() || spObject->IsMarkedForLateDelete())
+				std::cout << "Deleting object with tag: " << spObject->GetTag() << "\n";
+			
+			return spObject->IsMarkedForDelete() || spObject->IsMarkedForLateDelete();
 		}
 	), m_Objects.end());
 }

@@ -24,10 +24,10 @@ namespace minigen
 		Scene& operator=(Scene&& other) = delete;
 	protected:
 		explicit Scene(const std::string& name);
+		std::vector <std::shared_ptr<GameObject>> m_Objects{};
 
 	private:
 		std::string m_Name;
-		std::vector <std::shared_ptr<GameObject>> m_Objects{};
 
 		static unsigned int m_IdCounter;
 	};

@@ -5,17 +5,29 @@
 
 minigen::GameObject::GameObject() :
 	m_IsMarkedForDelete(false),
+	m_IsMarkedForLateDelete(false),
 	m_Tag("GameObject")
 {}
 
 void minigen::GameObject::MarkForDelete()
 {
 	m_IsMarkedForDelete = true;
+	std::cout << "Marking object with tag " << GetTag() << " for delete\n";
+}
+
+void minigen::GameObject::MarkForLateDelete()
+{
+	m_IsMarkedForLateDelete = true;
 }
 
 bool minigen::GameObject::IsMarkedForDelete() const
 {
 	return m_IsMarkedForDelete;
+}
+
+bool minigen::GameObject::IsMarkedForLateDelete() const
+{
+	return m_IsMarkedForLateDelete;
 }
 
 void minigen::GameObject::AddComponent(std::shared_ptr<Component> spComponent)

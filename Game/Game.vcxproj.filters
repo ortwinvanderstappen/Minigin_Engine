@@ -24,6 +24,9 @@
     <Filter Include="Observers">
       <UniqueIdentifier>{94422565-aec9-4cc7-9dfa-26a059f4e147}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{4d559441-5832-470c-a2e5-01f34637e690}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -53,6 +56,9 @@
     <ClCompile Include="FlyingDisc.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="TileMovementComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -78,6 +84,9 @@
     </ClInclude>
     <ClInclude Include="FlyingDisc.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMovementComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

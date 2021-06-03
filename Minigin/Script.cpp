@@ -24,6 +24,7 @@ void minigen::Script::AddComponent(std::shared_ptr<Component> spComponent)
 {
 	ComponentHolder::AddComponent(spComponent);
 	spComponent->SetParent(m_pParentObject);
+	spComponent->Initialize();
 }
 
 void minigen::Script::SetParent(GameObject* pGameObject)

@@ -28,8 +28,12 @@ namespace minigen
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		// Early deletion, no collision calls, will still be remove at the end of the frame
 		void MarkForDelete();
+		// Late deletion, still has collision calls, also gets deleted at the end of the frame
+		void MarkForLateDelete();
 		bool IsMarkedForDelete() const;
+		bool IsMarkedForLateDelete() const;
 		
 		void AddComponent(std::shared_ptr<Component> spComponent) override;
 		void AddScript(std::shared_ptr<Script> spScript);
@@ -56,5 +60,6 @@ namespace minigen
 		std::string m_Tag;
 
 		bool m_IsMarkedForDelete;
+		bool m_IsMarkedForLateDelete;
 	};
 }

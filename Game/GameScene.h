@@ -15,18 +15,21 @@ public:
 	struct StageSettings
 	{
 		int size;
-		Color3i activeColor;
+		int lives;
+		bool cyclesColor;
+		std::vector<Color3i> activeColors;
 		Color3i inactiveColor;
-
 		std::vector<Disc> discs;
 	};
 
 	GameScene(const std::string& sceneName);
 
 	void Initialize() override;
-
 	void Update() override;
 	void Render() const override;
+
+	void Restart();
+
 private:
 	void InitializeStageSettings();
 	void InitializeStage();

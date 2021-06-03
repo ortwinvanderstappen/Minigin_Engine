@@ -43,7 +43,7 @@ void FlyingDisc::SetPosition(const Point2f& pos) const
 void FlyingDisc::OnCollisionEnter(minigen::GameObject* const)
 {
 	//std::cout << "Flying disc collided with tagged object: " << pOtherGameObject->GetTag() << "\n";
-	m_pParentObject->MarkForDelete();
+	m_pParentObject->MarkForLateDelete();
 }
 
 void FlyingDisc::InitializeSprite()

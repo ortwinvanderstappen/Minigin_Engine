@@ -10,10 +10,13 @@
 #include "Renderer.h"
 #include "Scene.h"
 #include "structs.h"
+#include "TileMovementComponent.h"
 
-GameArena::GameArena(GameScene::StageSettings* const stageSettings) :
+GameArena::GameArena(GameScene::StageSettings* const stageSettings, int stage) :
 	m_pStageSettings(stageSettings),
-	m_TileSize(0.f)
+	m_Stage(stage),
+	m_TileSize(0.f),
+	m_Lives(stageSettings->lives)
 {}
 
 GameArena::~GameArena()
@@ -43,8 +46,8 @@ void GameArena::InitializeArena()
 	// Calculate the start position based on hex sizes and screen size
 	const float offsetX = static_cast<float>(sqrt(3)) * m_TileSize;
 	const float offsetY = 2 * m_TileSize;
-	const float totalWidthNeeded = offsetX * baseWidth + offsetX * 2;
-	const Point2f startPos{ ((static_cast<float>(width) - totalWidthNeeded) / 2.f), static_cast<float>(height) - (offsetY * .5f) };
+	const float totalWidthNeeded = offsetX * static_cast<float>(baseWidth) + offsetX * 2;
+	const Point2f startPos{ ((static_cast<float>(width) - totalWidthNeeded) / 2.f), static_cast<float>(height) * .95f };
 	Point2f currentPos{ startPos };
 
 	int index = 0;
@@ -58,7 +61,7 @@ void GameArena::InitializeArena()
 
 			const bool isNullTile = (row == 0 || row == baseWidth + 1) || (column - row == 0 || column == baseWidth + 2);
 
-			ArenaTile hex{ this, index, m_TileSize, currentPos, isNullTile };
+			ArenaTile hex{ this, index, m_TileSize, currentPos, isNullTile, m_pStageSettings };
 			m_ArenaHexes.push_back(std::move(hex));
 			currentPos.x += offsetX;
 			++index;
@@ -74,8 +77,15 @@ void GameArena::CreateDiscs()
 	for (GameScene::Disc disc : m_pStageSettings->discs)
 	{
 		const int tileIndex = GetNullTileIndexOnRow(disc.row, disc.isLeft);
+
+		if (tileIndex >= static_cast<int>(m_ArenaHexes.size()))
+		{
+			std::cerr << "GameArena: Attempting to spawn a disc on non existing row!\n";
+			return;
+		}
+
 		ArenaTile* pTile = &m_ArenaHexes[tileIndex];
-		
+
 		// Make sure parent object is a seperate gameobject
 		std::shared_ptr<minigen::GameObject> spDiscObject = std::make_shared<minigen::GameObject>();
 		// Spawn the disc and attach it to the null tile
@@ -98,6 +108,14 @@ void GameArena::Render() const
 	{
 		hex.Render();
 	}
+
+	ImGui::Begin("Info", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::SetWindowPos(ImVec2{ 0.f,5.f });
+	ImGui::Text("FPS: %.1f", static_cast<double>(ImGui::GetIO().Framerate));
+	ImGui::Text("Stage %i", (m_Stage+1));
+	ImGui::Text("Lives %i", m_Lives);
+	ImGui::Separator();
+	ImGui::End();
 }
 
 void GameArena::AddPlayers()
@@ -105,9 +123,6 @@ void GameArena::AddPlayers()
 	for (int i = 0; i < m_PlayerCount; ++i)
 	{
 		std::shared_ptr<minigen::GameObject> qbertObject = std::make_shared<minigen::GameObject>();
-		const std::shared_ptr<QBert> qbertComponent = std::make_shared<QBert>(this, i);
-		qbertObject->AddScript(qbertComponent);
-		m_pParentObject->GetScene()->Add(qbertObject);
 
 		int playerTileIndex;
 		if (m_PlayerCount == 1)
@@ -119,19 +134,43 @@ void GameArena::AddPlayers()
 			playerTileIndex = i == 0 ? GetBottomLeftTileIndex() : GetBottomRightTileIndex();
 		}
 
-		qbertComponent->SetTile(&m_ArenaHexes[playerTileIndex]);
+		const std::shared_ptr<QBert> qbert = std::make_shared<QBert>(this, &m_ArenaHexes[playerTileIndex], i);
+		qbertObject->AddScript(qbert);
+		m_pParentObject->GetScene()->Add(qbertObject);
+
+		m_spPlayers.push_back(qbert);
 	}
 
 }
 
-const Color3i& GameArena::GetPrimaryColor() const
+void GameArena::HandleQbertDeath()
 {
-	return m_pStageSettings->activeColor;
+	m_Lives -= 1;
+	ResetStageEntities();
+
+	if(m_Lives <= 0)
+	{
+		GameScene* pGameScene = dynamic_cast<GameScene*>(m_pParentObject->GetScene());
+		if(pGameScene)
+		{
+			pGameScene->Restart();
+		}
+	}
 }
 
-const Color3i& GameArena::GetSecondaryColor() const
+void GameArena::ResetStageEntities()
 {
-	return m_pStageSettings->inactiveColor;
+	// Remove all dynamic entities except for the player
+
+	// Respawn players
+	if(m_spPlayers.size() == 1)
+	{
+		std::shared_ptr<TileMovementComponent> spTMC = m_spPlayers[0]->GetComponent<TileMovementComponent>();
+		if(spTMC)
+		{
+			spTMC->SetTile(GetTopTile());
+		}
+	}
 }
 
 float GameArena::GetTileSize() const
@@ -139,7 +178,7 @@ float GameArena::GetTileSize() const
 	return m_TileSize;
 }
 
-ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, MovementType movementType)
+ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement)
 {
 	const int currentIndex = pCurrentTile->GetIndex();
 
@@ -151,18 +190,18 @@ ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, MovementType mov
 
 	const int maxHeight = m_pStageSettings->size + 3;
 	const int rowLength = maxHeight - row;
-	switch (movementType)
+	switch (movement)
 	{
-	case MovementType::up:
+	case TileMovementComponent::MovementType::up:
 		newIndex = currentIndex + rowLength;
 		break;
-	case MovementType::down:
+	case TileMovementComponent::MovementType::down:
 		newIndex = currentIndex - (rowLength + 1);
 		break;
-	case MovementType::left:
+	case TileMovementComponent::MovementType::left:
 		newIndex = currentIndex + rowLength - 1;
 		break;
-	case MovementType::right:
+	case TileMovementComponent::MovementType::right:
 		newIndex = currentIndex - (rowLength + 1) + 1;
 		break;
 	}
