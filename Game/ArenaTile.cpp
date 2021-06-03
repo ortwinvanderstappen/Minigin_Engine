@@ -1,4 +1,7 @@
 #include "ArenaTile.h"
+
+#include <iostream>
+
 #include "Renderer.h"
 
 #include "GameArena.h"
@@ -49,6 +52,12 @@ GameArena* ArenaTile::GetArena() const
 
 void ArenaTile::AttachFlyingDisc(std::shared_ptr<FlyingDisc> spDisc)
 {
+	if(m_spDisc)
+	{
+		std::cout << "Tile " << m_Index << " already has a flying disc attached (ignore duplicate)\n";
+		return;
+	}
+	
 	m_spDisc = spDisc;
 }
 

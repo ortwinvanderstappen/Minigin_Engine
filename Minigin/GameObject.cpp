@@ -4,7 +4,8 @@
 #include "Script.h"
 
 minigen::GameObject::GameObject() :
-	m_IsMarkedForDelete(false)
+	m_IsMarkedForDelete(false),
+	m_Tag("GameObject")
 {}
 
 void minigen::GameObject::MarkForDelete()
