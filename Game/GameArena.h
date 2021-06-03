@@ -34,7 +34,10 @@ public:
 	const Color3i& GetPrimaryColor() const;
 	const Color3i& GetSecondaryColor() const;
 
+	float GetTileSize() const;
+
 	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, MovementType movementType);
+	ArenaTile* GetTopTile();
 private:
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;
@@ -45,4 +48,5 @@ private:
 	int m_PlayerCount = 1;
 
 	GameScene::StageSettings* m_pStageSettings;
+	float m_TileSize;
 };

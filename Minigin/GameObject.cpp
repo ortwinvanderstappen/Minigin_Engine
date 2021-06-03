@@ -3,6 +3,19 @@
 #include "RenderComponent.h"
 #include "Script.h"
 
+minigen::GameObject::GameObject() :
+	m_IsMarkedForDelete(false)
+{}
+
+void minigen::GameObject::MarkForDelete()
+{
+	m_IsMarkedForDelete = true;
+}
+
+bool minigen::GameObject::IsMarkedForDelete() const
+{
+	return m_IsMarkedForDelete;
+}
 
 void minigen::GameObject::AddComponent(std::shared_ptr<Component> spComponent)
 {
@@ -18,9 +31,19 @@ void minigen::GameObject::AddScript(std::shared_ptr<Script> spScript)
 	spScript->Initialize();
 }
 
+void minigen::GameObject::SetCollisionSubject(std::shared_ptr<CollisionSubject> spCollisionSubject)
+{
+	m_spCollisionSubject = spCollisionSubject;
+}
+
 const std::vector<std::shared_ptr<minigen::Script>>& minigen::GameObject::GetScripts() const
 {
 	return m_Scripts;
+}
+
+std::shared_ptr<minigen::CollisionSubject> minigen::GameObject::GetCollisionSubject() const
+{
+	return m_spCollisionSubject;
 }
 
 void minigen::GameObject::SetParentScene(Scene* pScene)
@@ -31,6 +54,16 @@ void minigen::GameObject::SetParentScene(Scene* pScene)
 minigen::Scene* minigen::GameObject::GetScene() const
 {
 	return m_pParentScene;
+}
+
+void minigen::GameObject::SetTag(const std::string& tag)
+{
+	m_Tag = tag;
+}
+
+const std::string& minigen::GameObject::GetTag() const
+{
+	return m_Tag;
 }
 
 const glm::vec3& minigen::GameObject::GetPosition() const

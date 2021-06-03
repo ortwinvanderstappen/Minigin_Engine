@@ -22,12 +22,10 @@
 #include "GameTime.h"
 // Components
 #include "ImageRenderComponent.h"
-#include "HealthComponent.h"
 #include "ImGuiComponent.h"
 #include "FPSComponent.h"
 #include "Subject.h"
 #include "SuicideCommand.h"
-#include "VitalsObserver.h"
 // Services
 #include "ServiceLocator.h"
 

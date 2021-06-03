@@ -12,7 +12,8 @@
 #include "structs.h"
 
 GameArena::GameArena(GameScene::StageSettings* const stageSettings) :
-	m_pStageSettings(stageSettings)
+	m_pStageSettings(stageSettings),
+	m_TileSize(0.f)
 {}
 
 GameArena::~GameArena()
@@ -21,8 +22,8 @@ GameArena::~GameArena()
 void GameArena::Initialize()
 {
 	InitializeArena();
-	AddPlayers();
 	CreateDiscs();
+	AddPlayers();
 }
 
 void GameArena::InitializeArena()
@@ -37,13 +38,13 @@ void GameArena::InitializeArena()
 	const int baseWidth = m_pStageSettings->size;
 
 	// Calculate hex size
-	const float hexSize = static_cast<float>(std::min(width, height)) / static_cast<float>(baseWidth * 2);
+	m_TileSize = static_cast<float>(std::min(width, height)) / static_cast<float>(baseWidth * 2);
 
 	// Calculate the start position based on hex sizes and screen size
-	const float offsetX = static_cast<float>(sqrt(3)) * hexSize;
-	const float offsetY = 2 * hexSize;
+	const float offsetX = static_cast<float>(sqrt(3)) * m_TileSize;
+	const float offsetY = 2 * m_TileSize;
 	const float totalWidthNeeded = offsetX * baseWidth + offsetX * 2;
-	const Point2f startPos{ ((static_cast<float>(width) - totalWidthNeeded) / 2.f), static_cast<float>(height) - (offsetY) };
+	const Point2f startPos{ ((static_cast<float>(width) - totalWidthNeeded) / 2.f), static_cast<float>(height) - (offsetY * .5f) };
 	Point2f currentPos{ startPos };
 
 	int index = 0;
@@ -57,7 +58,7 @@ void GameArena::InitializeArena()
 
 			const bool isNullTile = (row == 0 || row == baseWidth + 1) || (column - row == 0 || column == baseWidth + 2);
 
-			ArenaTile hex{ this, index, hexSize, currentPos, isNullTile };
+			ArenaTile hex{ this, index, m_TileSize, currentPos, isNullTile };
 			m_ArenaHexes.push_back(std::move(hex));
 			currentPos.x += offsetX;
 			++index;
@@ -73,12 +74,14 @@ void GameArena::CreateDiscs()
 	for (GameScene::Disc disc : m_pStageSettings->discs)
 	{
 		const int tileIndex = GetNullTileIndexOnRow(disc.row, disc.isLeft);
+		ArenaTile* pTile = &m_ArenaHexes[tileIndex];
+		
 		// Make sure parent object is a seperate gameobject
 		std::shared_ptr<minigen::GameObject> spDiscObject = std::make_shared<minigen::GameObject>();
 		// Spawn the disc and attach it to the null tile
-		const std::shared_ptr<FlyingDisc> m_spFlyingDisc = std::make_shared<FlyingDisc>();
+		const std::shared_ptr<FlyingDisc> m_spFlyingDisc = std::make_shared<FlyingDisc>(this, pTile);
 		spDiscObject->AddScript(m_spFlyingDisc);
-		m_ArenaHexes[tileIndex].AttachFlyingDisc(m_spFlyingDisc);
+		pTile->AttachFlyingDisc(m_spFlyingDisc);
 		// Correctly position the disc
 		m_spFlyingDisc->SetPosition(m_ArenaHexes[tileIndex].GetCenter());
 
@@ -102,7 +105,7 @@ void GameArena::AddPlayers()
 	for (int i = 0; i < m_PlayerCount; ++i)
 	{
 		std::shared_ptr<minigen::GameObject> qbertObject = std::make_shared<minigen::GameObject>();
-		const std::shared_ptr<QBert> qbertComponent = std::make_shared<QBert>(i);
+		const std::shared_ptr<QBert> qbertComponent = std::make_shared<QBert>(this, i);
 		qbertObject->AddScript(qbertComponent);
 		m_pParentObject->GetScene()->Add(qbertObject);
 
@@ -129,6 +132,11 @@ const Color3i& GameArena::GetPrimaryColor() const
 const Color3i& GameArena::GetSecondaryColor() const
 {
 	return m_pStageSettings->inactiveColor;
+}
+
+float GameArena::GetTileSize() const
+{
+	return m_TileSize;
 }
 
 ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, MovementType movementType)
@@ -167,6 +175,11 @@ ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, MovementType mov
 	}
 
 	return pTile;
+}
+
+ArenaTile* GameArena::GetTopTile()
+{
+	return &m_ArenaHexes[GetTopTileIndex()];
 }
 
 int GameArena::GetTopTileIndex() const

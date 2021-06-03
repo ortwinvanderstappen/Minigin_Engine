@@ -18,12 +18,17 @@ void ArenaTile::Update()
 
 void ArenaTile::Render() const
 {
-	//if (!m_IsNullTile)
+	if (!m_IsNullTile)
 	DrawHex(m_Position, m_Size);
 }
 
 Point2f ArenaTile::GetCenter() const
 {
+	if(m_IsNullTile)
+	{
+		return m_Position + Point2f{0.f, m_Size * .5f};	
+	}
+	
 	return m_Position + Point2f{ 0.f,-m_Size * .5f };
 }
 

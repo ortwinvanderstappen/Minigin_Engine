@@ -23,6 +23,7 @@ namespace minigen
 		void RenderTexture(const Texture2D& texture, float x, float y, float scale = 1.f) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
 		void RenderPolygon(const std::vector<Point2f>& points, const Color3f& color) const;
+		void RenderRect(const Rectf& rect, const Color3f& color);
 		
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 	private:

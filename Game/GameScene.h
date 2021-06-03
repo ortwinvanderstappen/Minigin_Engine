@@ -3,7 +3,7 @@
 #include <vector>
 #include "structs.h"
 
-class GameScene : public minigen::Scene
+class GameScene final: public minigen::Scene
 {
 public:
 	struct Disc

@@ -3,10 +3,13 @@
 #include "ImageRenderComponent.h"
 #include "InputComponent.h"
 #include "ArenaTile.h"
+#include "CollisionObserver.h"
+#include "CollisionSubject.h"
 #include "GameArena.h"
 #include "GameObject.h"
 
-QBert::QBert(int playerIndex) :
+QBert::QBert(GameArena* pArena, int playerIndex) :
+	m_pArena(pArena),
 	m_QbertImagePath("images/QBert.png"),
 	m_PlayerIndex(playerIndex),
 	m_pCurrentTile(nullptr)
@@ -29,15 +32,28 @@ void QBert::Update()
 
 void QBert::Initialize()
 {
+	m_pParentObject->SetTag("QBert");
+	
 	InitializeSprite();
 	InitializeControls();
+	
+	// Create a collision subject
+	const float scale = m_pArena->GetTileSize() / 15.f;
+	const Point2f collisionSize = {10.f * scale, 8.f * scale};
+ 	Rectf collisionBounds{ - collisionSize.x * .5f, - collisionSize.y * .5f, 12.f, 8.f };
+	std::shared_ptr<minigen::CollisionSubject> spCollisionSubject = std::make_shared<minigen::CollisionSubject>(m_pParentObject, collisionBounds);
+	m_pParentObject->SetCollisionSubject(spCollisionSubject);
+
+	// Add observers
+	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
+	spCollisionSubject->AddObserver(spCollisionObserver);
 }
 
 void QBert::InitializeSprite()
 {
 	std::shared_ptr<minigen::ImageRenderComponent> imageRenderComponent = std::make_shared<minigen::ImageRenderComponent>();
 
-	const float scale = 2.f;
+	const float scale = m_pArena->GetTileSize() / 15.f;
 	imageRenderComponent->AddImage(m_QbertImagePath, { -8 * scale,-16 * scale }, scale);
 	AddComponent(imageRenderComponent);
 }
@@ -119,4 +135,14 @@ void QBert::ProcessInput()
 void QBert::SetTile(ArenaTile* pTile)
 {
 	m_pCurrentTile = pTile;
+}
+
+void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
+{
+	std::cout << "QBert collided with tagged object: " << pOtherGameObject->GetTag() << "\n";
+
+	if(pOtherGameObject->GetTag() == "Disc")
+	{
+		m_pCurrentTile = m_pArena->GetTopTile();
+	}
 }

@@ -161,12 +161,6 @@
     <ClInclude Include="Observer.h">
       <Filter>Source Files\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Source Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="VitalsObserver.h">
-      <Filter>Source Files\Observers</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Source Files\Observers</Filter>
     </ClInclude>
@@ -217,8 +211,11 @@
       <Filter>Source Files\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="CustomCommand.h" />
-    <ClInclude Include="ColliderComponent.h">
-      <Filter>Source Files\Components</Filter>
+    <ClInclude Include="CollisionObserver.h">
+      <Filter>Source Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSubject.h">
+      <Filter>Source Files\Observers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -312,12 +309,6 @@
     <ClCompile Include="Observer.cpp">
       <Filter>Source Files\Observers</Filter>
     </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="VitalsObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Source Files\Observers</Filter>
     </ClCompile>
@@ -372,8 +363,11 @@
     <ClCompile Include="CustomCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ColliderComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+    <ClCompile Include="CollisionObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSubject.cpp">
+      <Filter>Source Files\Observers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

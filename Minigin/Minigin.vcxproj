@@ -232,7 +232,8 @@
     <ClInclude Include="BasicSoundSystem.h" />
     <ClInclude Include="ChangeSoundSystemCommand.h" />
     <ClInclude Include="CloseGameCommand.h" />
-    <ClInclude Include="ColliderComponent.h" />
+    <ClInclude Include="CollisionSubject.h" />
+    <ClInclude Include="CollisionObserver.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentHolder.h" />
@@ -242,7 +243,6 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="helper.h" />
     <ClInclude Include="ImageRenderComponent.h" />
     <ClInclude Include="ImGuiComponent.h" />
@@ -273,7 +273,6 @@
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="VitalsObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.81\backends\imgui_impl_opengl2.cpp">
@@ -321,7 +320,8 @@
     <ClCompile Include="BasicSoundSystem.cpp" />
     <ClCompile Include="ChangeSoundSystemCommand.cpp" />
     <ClCompile Include="CloseGameCommand.cpp" />
-    <ClCompile Include="ColliderComponent.cpp" />
+    <ClCompile Include="CollisionSubject.cpp" />
+    <ClCompile Include="CollisionObserver.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentHolder.cpp" />
@@ -331,7 +331,6 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="helper.cpp" />
     <ClCompile Include="ImageRenderComponent.cpp" />
     <ClCompile Include="ImGuiComponent.cpp" />
@@ -367,7 +366,6 @@
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="VitalsObserver.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
