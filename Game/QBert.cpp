@@ -20,14 +20,6 @@ void QBert::Update()
 	Script::Update();
 
 	ProcessInput();
-
-	//if (m_pCurrentTile)
-	//{
-	//	m_pCurrentTile->Activate();
-
-	//	const Point2f& tileCenter = m_pCurrentTile->GetCenter();
-	//	m_pParentObject->SetPosition(tileCenter.x, tileCenter.y);
-	//}
 }
 
 void QBert::Initialize()

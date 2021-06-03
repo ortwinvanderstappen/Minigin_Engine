@@ -57,7 +57,7 @@ void JsonParser::ParseDifficulties(std::vector<GameScene::StageSettings>& stageS
 			const Value& rowValue = discValue["row"];
 			const Value& positionValue = discValue["position"];
 
-			const int row = rowValue.GetInt();
+			const int row = rowValue.GetInt() + 1;
 			const int discPosition = positionValue.GetInt();
 
 			switch (discPosition)

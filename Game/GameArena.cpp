@@ -187,7 +187,9 @@ void GameArena::ResetStageEntities()
 		std::shared_ptr<TileMovementComponent> spTMC = m_spPlayers[0]->GetComponent<TileMovementComponent>();
 		if (spTMC)
 		{
-			spTMC->SetTile(GetTopTile());
+			ArenaTile* pLastTile = spTMC->GetTile();
+			if (pLastTile && pLastTile->IsNullTile())
+				spTMC->SetTile(GetTopTile());
 		}
 	}
 }
