@@ -39,8 +39,8 @@ void QBert::Initialize()
 
 	// Create a collision subject
 	const float scale = m_pArena->GetTileSize() / 15.f;
-	const Point2f collisionSize = { 10.f * scale, 8.f * scale };
-	Rectf collisionBounds{ -collisionSize.x * .5f, -collisionSize.y * .5f, 12.f, 8.f };
+	const Point2f collisionSize = { 7.f * scale, 4.f * scale };
+	Rectf collisionBounds{ -collisionSize.x * .5f, -collisionSize.y * .5f, collisionSize.x, collisionSize.y };
 	std::shared_ptr<minigen::CollisionSubject> spCollisionSubject = std::make_shared<minigen::CollisionSubject>(m_pParentObject, collisionBounds);
 	m_pParentObject->SetCollisionSubject(spCollisionSubject);
 

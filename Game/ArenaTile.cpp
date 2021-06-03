@@ -76,30 +76,45 @@ void ArenaTile::AttachFlyingDisc(const std::shared_ptr<FlyingDisc>& spDisc)
 
 void ArenaTile::Activate()
 {
-	++m_ColorState;
-
+	if(m_IsNullTile) return;
+	
+	const int previousColor = m_ColorState;
 	const int activeColors = static_cast<int>(m_pStageSettings->activeColors.size());
-
+	
+	++m_ColorState;
 	if (m_pStageSettings->cyclesColor)
 	{
 		m_ColorState %= (activeColors + 1);
+		if (m_ColorState == 0)
+		{
+			m_pArena->IncreaseCompletedTiles(-1);
+		}
 	}
 	else
 	{
 		if (m_ColorState > activeColors)
+		{
 			m_ColorState = activeColors;
+		}
+	}
+
+	// Is this the last color state and did the state change?
+	if (m_ColorState == activeColors && previousColor != m_ColorState)
+	{
+		m_pArena->IncreaseCompletedTiles(1);
 	}
 }
 
 void ArenaTile::DrawHex(Point2f center, float size) const
 {
 	Color3i topColorI;
-	if(m_ColorState == 0)
+	if (m_ColorState == 0)
 	{
 		topColorI = m_pStageSettings->inactiveColor;
-	} else
+	}
+	else
 	{
-		topColorI = m_pStageSettings->activeColors[m_ColorState-1];
+		topColorI = m_pStageSettings->activeColors[m_ColorState - 1];
 	}
 
 	//const Color3i& topColorI = m_IsActive ? m_pArena->GetPrimaryColor() : m_pArena->GetSecondaryColor();

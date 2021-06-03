@@ -25,8 +25,8 @@ void FlyingDisc::Initialize()
 
 	// Create a collision subject
 	const float scale = m_pArena->GetTileSize() / 15.f;
-	const Point2f collisionSize = { 10.f * scale, 8.f * scale };
-	Rectf collisionBounds{ -collisionSize.x * .25f, -collisionSize.y * .5f, 12.f, 8.f };
+	const Point2f collisionSize = { 5.f * scale, 4.f * scale };
+	Rectf collisionBounds{ -collisionSize.x * .25f, -collisionSize.y * .5f, collisionSize.x, collisionSize.y };
 	std::shared_ptr<minigen::CollisionSubject> spCollisionSubject = std::make_shared<minigen::CollisionSubject>(m_pParentObject, collisionBounds);
 	m_pParentObject->SetCollisionSubject(spCollisionSubject);
 
@@ -42,7 +42,6 @@ void FlyingDisc::SetPosition(const Point2f& pos) const
 
 void FlyingDisc::OnCollisionEnter(minigen::GameObject* const)
 {
-	//std::cout << "Flying disc collided with tagged object: " << pOtherGameObject->GetTag() << "\n";
 	m_pParentObject->MarkForLateDelete();
 }
 

@@ -25,10 +25,15 @@ public:
 	void Render() const override;
 
 	void AddPlayers();
+	
 	void HandleQbertDeath();
+	void HandleLevelCompletion() const;
+	
 	void ResetStageEntities();
 
 	float GetTileSize() const;
+
+	void IncreaseCompletedTiles(int change);
 
 	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
 	ArenaTile* GetTopTile();
@@ -39,12 +44,15 @@ private:
 	int GetNullTileIndexOnRow(int row, bool isLeft) const;
 
 	std::vector<ArenaTile> m_ArenaHexes{};
-	int m_PlayerCount = 1;
+	int m_PlayerCount;
 	int m_Lives;
 
 	GameScene::StageSettings* m_pStageSettings;
 	int m_Stage;
 	float m_TileSize;
-
+	int m_TileCount;
+	
 	std::vector<std::shared_ptr<QBert>> m_spPlayers;
+
+	int m_CompletedTiles;
 };

@@ -29,10 +29,12 @@ public:
 	void Render() const override;
 
 	void Restart();
+	void LoadNextStage();
 
 private:
 	void InitializeStageSettings();
 	void InitializeStage();
+
 
 	int m_Stage;
 	std::vector<StageSettings> m_Stages;

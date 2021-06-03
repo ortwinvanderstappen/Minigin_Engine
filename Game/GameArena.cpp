@@ -16,7 +16,10 @@ GameArena::GameArena(GameScene::StageSettings* const stageSettings, int stage) :
 	m_pStageSettings(stageSettings),
 	m_Stage(stage),
 	m_TileSize(0.f),
-	m_Lives(stageSettings->lives)
+	m_Lives(stageSettings->lives),
+	m_PlayerCount(1),
+	m_TileCount(0),
+	m_CompletedTiles(0)
 {}
 
 GameArena::~GameArena()
@@ -70,6 +73,11 @@ void GameArena::InitializeArena()
 		currentPos.x = startPos.x + (offsetX / 2) * (static_cast<float>(row) + 1.f);
 		currentPos.y -= static_cast<float>(offsetY) * .75f;
 	}
+
+	for (int i = m_pStageSettings->size; i > 0; --i)
+	{
+		m_TileCount += i;
+	}
 }
 
 void GameArena::CreateDiscs()
@@ -112,8 +120,10 @@ void GameArena::Render() const
 	ImGui::Begin("Info", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::SetWindowPos(ImVec2{ 0.f,5.f });
 	ImGui::Text("FPS: %.1f", static_cast<double>(ImGui::GetIO().Framerate));
-	ImGui::Text("Stage %i", (m_Stage+1));
+	ImGui::Text("Stage %i", (m_Stage + 1));
 	ImGui::Text("Lives %i", m_Lives);
+	ImGui::Text("Completed tiles %i", m_CompletedTiles);
+	ImGui::Text("Uncompleted tiles %i", m_TileCount - m_CompletedTiles);
 	ImGui::Separator();
 	ImGui::End();
 }
@@ -148,13 +158,22 @@ void GameArena::HandleQbertDeath()
 	m_Lives -= 1;
 	ResetStageEntities();
 
-	if(m_Lives <= 0)
+	if (m_Lives <= 0)
 	{
 		GameScene* pGameScene = dynamic_cast<GameScene*>(m_pParentObject->GetScene());
-		if(pGameScene)
+		if (pGameScene)
 		{
 			pGameScene->Restart();
 		}
+	}
+}
+
+void GameArena::HandleLevelCompletion() const
+{
+	GameScene* pGameScene = dynamic_cast<GameScene*>(m_pParentObject->GetScene());
+	if (pGameScene)
+	{
+		pGameScene->LoadNextStage();
 	}
 }
 
@@ -163,10 +182,10 @@ void GameArena::ResetStageEntities()
 	// Remove all dynamic entities except for the player
 
 	// Respawn players
-	if(m_spPlayers.size() == 1)
+	if (m_spPlayers.size() == 1)
 	{
 		std::shared_ptr<TileMovementComponent> spTMC = m_spPlayers[0]->GetComponent<TileMovementComponent>();
-		if(spTMC)
+		if (spTMC)
 		{
 			spTMC->SetTile(GetTopTile());
 		}
@@ -176,6 +195,15 @@ void GameArena::ResetStageEntities()
 float GameArena::GetTileSize() const
 {
 	return m_TileSize;
+}
+
+void GameArena::IncreaseCompletedTiles(int change)
+{
+	m_CompletedTiles += change;
+	if (m_CompletedTiles == m_TileCount)
+	{
+		HandleLevelCompletion();
+	}
 }
 
 ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement)

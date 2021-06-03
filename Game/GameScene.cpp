@@ -59,3 +59,15 @@ void GameScene::InitializeStage()
 	std::cout << "Stage started, objects: " << m_Objects.size();
 	std::cout << "...\n";
 }
+
+void GameScene::LoadNextStage()
+{
+	if(m_Stage < m_Stages.size() - 1)
+	{
+		++m_Stage;
+		InitializeStage();
+	} else
+	{
+		std::cout << "VICTORY!\n";
+	}
+}
