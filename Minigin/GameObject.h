@@ -22,7 +22,7 @@ namespace minigen
 		void SetPosition(float x, float y);
 
 		GameObject();
-		virtual ~GameObject() = default;
+		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;

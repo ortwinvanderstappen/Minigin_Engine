@@ -9,6 +9,11 @@ minigen::GameObject::GameObject() :
 	m_Tag("GameObject")
 {}
 
+minigen::GameObject::~GameObject()
+{
+	std::cout << "Gameobject with tag " << GetTag() << " destructing\n";
+}
+
 void minigen::GameObject::MarkForDelete()
 {
 	m_IsMarkedForDelete = true;

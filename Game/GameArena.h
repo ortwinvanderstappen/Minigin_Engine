@@ -9,6 +9,7 @@
 #include "structs.h"
 #include "TileMovementComponent.h"
 
+class Coily;
 class QBert;
 
 class GameArena : public minigen::Script
@@ -25,16 +26,15 @@ public:
 	void Render() const override;
 
 	void AddPlayers();
+	void SpawnCoily();
 	
 	void HandleQbertDeath();
 	void HandleLevelCompletion() const;
 	
 	void ResetStageEntities();
-
-	float GetTileSize() const;
-
 	void IncreaseCompletedTiles(int change);
-
+	
+	float GetTileSize() const;
 	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
 	ArenaTile* GetTopTile();
 private:
@@ -55,4 +55,8 @@ private:
 	std::vector<std::shared_ptr<QBert>> m_spPlayers;
 
 	int m_CompletedTiles;
+
+	float m_CoilySpawnTime;
+	float m_CoilySpawnTimer;
+	std::shared_ptr<Coily> m_spCoily;
 };

@@ -118,7 +118,7 @@ void QBert::ProcessInput() const
 		{
 			Die();
 		}
-		
+
 		m_spMovementComponent->GetTile()->Activate();
 	}
 
@@ -137,5 +137,9 @@ void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 	{
 		m_spMovementComponent->SetTile(m_pArena->GetTopTile());
 		m_spMovementComponent->GetTile()->Activate();
+	}
+	else if (pOtherGameObject->GetTag() == "Coily")
+	{
+		Die();
 	}
 }

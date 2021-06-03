@@ -14,6 +14,7 @@ namespace minigen {
 		void Render() const override;
 
 		void AddImage(const std::string& imagePath, const Point2f& position = { 0.f,0.f }, float scale = 1.f);
+		void RemoveImage(const std::string& imagePath);
 
 	private:
 		struct ImageEntry

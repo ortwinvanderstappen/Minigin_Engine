@@ -34,3 +34,13 @@ void minigen::ImageRenderComponent::AddImage(const std::string& imagePath, const
 	const std::shared_ptr<Texture2D> spTexture = ResourceManager::GetInstance().LoadTexture(imagePath);
 	m_spTextureMap.insert(std::make_pair(imagePath, ImageEntry{ spTexture,position, scale }));
 }
+
+void minigen::ImageRenderComponent::RemoveImage(const std::string& imagePath)
+{
+	m_spTextureMap.erase(std::find_if(m_spTextureMap.begin(), m_spTextureMap.end(), 
+		[imagePath](const std::pair<std::string, ImageEntry>& entry)
+		{
+			return entry.first == imagePath;
+		}
+	), m_spTextureMap.end());	
+}

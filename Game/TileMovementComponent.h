@@ -6,12 +6,13 @@ class ArenaTile;
 class TileMovementComponent : public minigen::Component
 {
 public:
+	// Make sure down is 0 and right is 1!
 	enum class MovementType
 	{
-		up,
-		down,
+		down = 0,
+		right = 1,
 		left,
-		right
+		up
 	};
 	
 	TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, float movementCooldown = .5f);

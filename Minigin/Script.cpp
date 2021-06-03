@@ -31,3 +31,8 @@ void minigen::Script::SetParent(GameObject* pGameObject)
 {
 	m_pParentObject = pGameObject;
 }
+
+minigen::GameObject* minigen::Script::GetParent() const
+{
+	return m_pParentObject;
+}

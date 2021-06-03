@@ -12,7 +12,8 @@ using namespace minigen;
 GameScene::GameScene(const std::string& sceneName) :
 	Scene(sceneName),
 	m_Stage(0)
-{}
+{
+}
 
 void GameScene::Initialize()
 {

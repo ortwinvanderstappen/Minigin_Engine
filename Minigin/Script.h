@@ -18,7 +18,9 @@ namespace minigen {
 		virtual void OnCollisionEnter(GameObject* const){};
 
 		void AddComponent(std::shared_ptr<Component> spComponent) override;
+		
 		void SetParent(GameObject* pGameObject);
+		GameObject* GetParent() const;
 
 	protected:
 		GameObject* m_pParentObject = nullptr;

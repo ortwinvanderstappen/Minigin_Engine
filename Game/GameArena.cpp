@@ -4,8 +4,10 @@
 #include <SDL_render.h>
 
 #include "ArenaTile.h"
+#include "Coily.h"
 #include "FlyingDisc.h"
 #include "GameObject.h"
+#include "GameTime.h"
 #include "QBert.h"
 #include "Renderer.h"
 #include "Scene.h"
@@ -19,7 +21,10 @@ GameArena::GameArena(GameScene::StageSettings* const stageSettings, int stage) :
 	m_Lives(stageSettings->lives),
 	m_PlayerCount(1),
 	m_TileCount(0),
-	m_CompletedTiles(0)
+	m_CompletedTiles(0),
+	m_CoilySpawnTime(0.5f),
+	m_CoilySpawnTimer(0.f),
+	m_spCoily(nullptr)
 {}
 
 GameArena::~GameArena()
@@ -108,7 +113,22 @@ void GameArena::CreateDiscs()
 }
 
 void GameArena::Update()
-{}
+{
+	const float deltaTime = Time::GetInstance().DeltaTime();
+
+	if (!m_spCoily)
+	{
+		if (m_CoilySpawnTimer < m_CoilySpawnTime)
+		{
+			m_CoilySpawnTimer += deltaTime;
+		}
+		else
+		{
+			SpawnCoily();
+			m_CoilySpawnTimer -= m_CoilySpawnTime;
+		}
+	}
+}
 
 void GameArena::Render() const
 {
@@ -153,6 +173,14 @@ void GameArena::AddPlayers()
 
 }
 
+void GameArena::SpawnCoily()
+{
+	std::shared_ptr<minigen::GameObject> spCoilyObject = std::make_shared<minigen::GameObject>();
+	m_spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
+	spCoilyObject->AddScript(m_spCoily);
+	m_pParentObject->GetScene()->Add(spCoilyObject);
+}
+
 void GameArena::HandleQbertDeath()
 {
 	m_Lives -= 1;
@@ -180,8 +208,13 @@ void GameArena::HandleLevelCompletion() const
 void GameArena::ResetStageEntities()
 {
 	// Remove all dynamic entities except for the player
+	if (m_spCoily)
+	{
+		m_spCoily->GetParent()->MarkForDelete();
+		m_spCoily = nullptr;
+	}
 
-	// Respawn players
+	// Set player positions
 	if (m_spPlayers.size() == 1)
 	{
 		std::shared_ptr<TileMovementComponent> spTMC = m_spPlayers[0]->GetComponent<TileMovementComponent>();

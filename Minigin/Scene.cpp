@@ -11,17 +11,26 @@ using namespace minigen;
 
 unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(const std::string& name) : m_Name(name)
+Scene::Scene(const std::string& name) :
+	m_Name(name),
+	m_DrawDebugColliders(false)
 {}
 
 void Scene::Add(const std::shared_ptr<GameObject>& object)
 {
-	m_Objects.push_back(object);
+	m_ObjectsToAdd.push_back(object);
 	object->SetParentScene(this);
 }
 
 void Scene::Update()
 {
+	// Add new objects
+	for(const std::shared_ptr<GameObject>& newObject: m_ObjectsToAdd)
+	{
+		m_Objects.push_back(newObject);
+	}
+	m_ObjectsToAdd.clear();
+
 	for (auto& object : m_Objects)
 	{
 		object->Update();
@@ -30,8 +39,8 @@ void Scene::Update()
 	// Collision pass
 	for (auto& object : m_Objects)
 	{
-		if(object->IsMarkedForDelete()) continue;
-		
+		if (object->IsMarkedForDelete()) continue;
+
 		std::shared_ptr<CollisionSubject> collisionSubject = object->GetCollisionSubject();
 		if (collisionSubject)
 		{
@@ -49,12 +58,12 @@ void Scene::Update()
 	}
 
 	// Remove objects that are marked for delete
-	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(), 
+	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(),
 		[](std::shared_ptr<GameObject> spObject)
 		{
-			if(spObject->IsMarkedForDelete() || spObject->IsMarkedForLateDelete())
+			if (spObject->IsMarkedForDelete() || spObject->IsMarkedForLateDelete())
 				std::cout << "Deleting object with tag: " << spObject->GetTag() << "\n";
-			
+
 			return spObject->IsMarkedForDelete() || spObject->IsMarkedForLateDelete();
 		}
 	), m_Objects.end());
@@ -81,14 +90,16 @@ void Scene::Render() const
 
 		// Collision render pass (debug only)
 #ifdef _DEBUG
-		std::shared_ptr<CollisionSubject> col = object->GetCollisionSubject();
-		if (col)
+		if (m_DrawDebugColliders)
 		{
-			const Rectf& collisionBounds = col->GetCollisionBounds();
-			Renderer::GetInstance().RenderRect(collisionBounds, debugDrawColor);
+			std::shared_ptr<CollisionSubject> col = object->GetCollisionSubject();
+			if (col)
+			{
+				const Rectf& collisionBounds = col->GetCollisionBounds();
+				Renderer::GetInstance().RenderRect(collisionBounds, debugDrawColor);
+			}
 		}
 #endif
-
 	}
 }
 
