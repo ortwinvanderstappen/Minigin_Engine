@@ -230,6 +230,7 @@
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_truetype.h" />
     <ClInclude Include="BasicSoundSystem.h" />
+    <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="ChangeSoundSystemCommand.h" />
     <ClInclude Include="CloseGameCommand.h" />
     <ClInclude Include="CollisionSubject.h" />
@@ -318,6 +319,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="BasicSoundSystem.cpp" />
+    <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="ChangeSoundSystemCommand.cpp" />
     <ClCompile Include="CloseGameCommand.cpp" />
     <ClCompile Include="CollisionSubject.cpp" />

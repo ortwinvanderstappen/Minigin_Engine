@@ -66,6 +66,9 @@
     <Filter Include="Source Files\Components\Menu">
       <UniqueIdentifier>{06eec68c-2154-4da0-9892-83e1d93d6e24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\Input">
+      <UniqueIdentifier>{7f4d4fb9-3b31-40bf-b05b-defeffa1dfaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -191,9 +194,6 @@
     <ClInclude Include="ChangeSoundSystemCommand.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="InputComponent.h">
-      <Filter>Source Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="OpenGameSceneCommand.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
@@ -218,6 +218,12 @@
       <Filter>Source Files\Observers</Filter>
     </ClInclude>
     <ClInclude Include="MenuComponent.h">
+      <Filter>Source Files\Components\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Source Files\Components\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonComponent.h">
       <Filter>Source Files\Components\Menu</Filter>
     </ClInclude>
   </ItemGroup>
@@ -339,9 +345,6 @@
     <ClCompile Include="ChangeSoundSystemCommand.cpp">
       <Filter>Source Files\Input\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="InputComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="OpenGameSceneCommand.cpp">
       <Filter>Source Files\Input\Commands</Filter>
     </ClCompile>
@@ -370,6 +373,12 @@
       <Filter>Source Files\Observers</Filter>
     </ClCompile>
     <ClCompile Include="MenuComponent.cpp">
+      <Filter>Source Files\Components\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="InputComponent.cpp">
+      <Filter>Source Files\Components\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonComponent.cpp">
       <Filter>Source Files\Components\Menu</Filter>
     </ClCompile>
   </ItemGroup>

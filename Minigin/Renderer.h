@@ -31,6 +31,8 @@ namespace minigen
 		SDL_Window * m_Window = nullptr;
 		SDL_GLContext m_Context = nullptr;
 
+		int m_Width, m_Height;
+		
 		bool m_ShowDemo = true;
 	};
 }

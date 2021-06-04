@@ -34,6 +34,9 @@ void minigen::Renderer::Init(SDL_Window* window)
 	}
 
 	m_Context = SDL_GL_CreateContext(m_Window);
+	
+	// Obtain window size
+	SDL_GetRendererOutputSize(m_Renderer, &m_Width, &m_Height);
 
 	SDL_RendererInfo displayRendererInfo;
 	SDL_GetRendererInfo(m_Renderer, &displayRendererInfo);
@@ -44,8 +47,8 @@ void minigen::Renderer::Init(SDL_Window* window)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, 640, 0, 480, 0, 1000);
-	glViewport(0, 0, 640, 480);
+	glOrtho(0, m_Width, 0, m_Height, 0, 1000);
+	glViewport(0, 0, m_Width, m_Height);
 	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -66,9 +69,8 @@ void minigen::Renderer::Render() const
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0, 640, 480, 0, -1, 1);
+	glOrtho(0, m_Width, m_Height, 0, -1, 1);
 
-	// Render ImGui demo window
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_Window);
 	ImGui::NewFrame();
@@ -134,9 +136,4 @@ void minigen::Renderer::RenderRect(const Rectf& rect, const Color3f& color)
 		glVertex2f(rect.x, rect.y + rect.h);
 	}
 	glEnd();
-	
-	//glPointSize(50);
-	//glBegin(GL_POINT);
-	//glVertex3f(rect.x, rect.y, 0.f);
-	//glEnd();
 }

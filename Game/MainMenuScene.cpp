@@ -2,12 +2,19 @@
 
 #include <iostream>
 
+
+#include "ButtonComponent.h"
 #include "GameObject.h"
 #include "ImageRenderComponent.h"
 #include "ImGuiComponent.h"
 #include "InputComponent.h"
+#include "MenuComponent.h"
 #include "OpenGameSceneCommand.h"
 #include "TextRenderComponent.h"
+
+namespace minigen {
+	class MenuComponent;
+}
 
 MainMenuScene::MainMenuScene(const std::string& sceneName) :
 	Scene(sceneName)
@@ -59,6 +66,14 @@ void MainMenuScene::Initialize()
 	inputComponent->AddInput(openGameSceneInput3);
 
 	HUDGameObject->AddComponent(inputComponent);
+
+	// Menu buttons
+	std::shared_ptr<GameObject> menuObject = std::make_shared<GameObject>();
+	//std::shared_ptr<MenuComponent> menuComponent = std::make_shared<MenuComponent>();
+	Rectf rect{};
+	std::shared_ptr<ButtonComponent> singlePlayButton = std::make_shared<ButtonComponent>(rect);
+	menuObject->AddComponent(singlePlayButton);
+	
 }
 
 void MainMenuScene::Update()
