@@ -18,34 +18,31 @@ Scene::Scene(const std::string& name) :
 
 void Scene::Add(const std::shared_ptr<GameObject>& object)
 {
-	m_ObjectsToAdd.push_back(object);
+	m_Objects.push_back(object);
 	object->SetParentScene(this);
 }
 
 void Scene::Update()
 {
-	// Add new objects
-	for(const std::shared_ptr<GameObject>& newObject: m_ObjectsToAdd)
+	const size_t objects = m_Objects.size();
+	
+	for (int i = 0; i < objects; ++i)
 	{
-		m_Objects.push_back(newObject);
-	}
-	m_ObjectsToAdd.clear();
-
-	for (auto& object : m_Objects)
-	{
-		object->Update();
+		m_Objects[i]->Update();
 	}
 
 	// Collision pass
-	for (auto& object : m_Objects)
+	for (int i = 0; i < objects; ++i)
 	{
+		const std::shared_ptr<GameObject>& object = m_Objects[i];
 		if (object->IsMarkedForDelete()) continue;
 
 		std::shared_ptr<CollisionSubject> collisionSubject = object->GetCollisionSubject();
 		if (collisionSubject)
 		{
-			for (auto& otherObject : m_Objects)
+			for (int j = 0; j < objects; ++j)
 			{
+				const std::shared_ptr<GameObject>& otherObject = m_Objects[j];
 				if (object == otherObject || otherObject->IsMarkedForDelete()) continue;
 
 				std::shared_ptr<CollisionSubject> otherCollisionSubject = otherObject->GetCollisionSubject();

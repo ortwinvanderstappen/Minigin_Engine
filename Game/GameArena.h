@@ -15,7 +15,14 @@ class QBert;
 class GameArena : public minigen::Script
 {
 public:
-	GameArena(GameScene::StageSettings* const stageSettings, int stage);
+	enum class GameMode
+	{
+		Single,
+		Duo,
+		Versus
+	};
+	
+	GameArena(GameMode gameMode, GameScene::StageSettings* const stageSettings, int stage);
 	~GameArena() override;
 
 	void Initialize() override;
@@ -26,37 +33,39 @@ public:
 	void Render() const override;
 
 	void AddPlayers();
+	const std::vector<std::shared_ptr<QBert>>& GetPlayers() const;
+
 	void SpawnCoily();
-	
+
 	void HandleQbertDeath();
 	void HandleLevelCompletion() const;
-	
+
 	void ResetStageEntities();
 	void IncreaseCompletedTiles(int change);
-	
+
 	float GetTileSize() const;
 	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
 	ArenaTile* GetTopTile();
+	bool IsBottomTileIndex(int index) const;
 private:
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;
 	int GetBottomRightTileIndex() const;
 	int GetNullTileIndexOnRow(int row, bool isLeft) const;
 
-	std::vector<ArenaTile> m_ArenaHexes{};
-	int m_PlayerCount;
-	int m_Lives;
-
+	GameMode m_GameMode;
 	GameScene::StageSettings* m_pStageSettings;
 	int m_Stage;
-	float m_TileSize;
-	int m_TileCount;
+	int m_Lives;
 	
-	std::vector<std::shared_ptr<QBert>> m_spPlayers;
-
+	float m_TileSize;
+	int m_PlayerCount;
+	int m_TileCount;
 	int m_CompletedTiles;
-
 	float m_CoilySpawnTime;
 	float m_CoilySpawnTimer;
 	std::shared_ptr<Coily> m_spCoily;
+
+	std::vector<ArenaTile> m_ArenaHexes{};
+	std::vector<std::shared_ptr<QBert>> m_spPlayers;
 };

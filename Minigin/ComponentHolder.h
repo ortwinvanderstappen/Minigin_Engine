@@ -13,6 +13,7 @@ namespace minigen
 		
 		template <typename T>
 		std::shared_ptr<T> GetComponent() const;
+		
 		virtual void AddComponent(std::shared_ptr<Component> spComponent);
 		const std::vector<std::shared_ptr<Component>>& GetComponents() const;
 

@@ -62,6 +62,9 @@
     <ClCompile Include="Coily.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="CoilyAIComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -93,6 +96,9 @@
     </ClInclude>
     <ClInclude Include="Coily.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilyAIComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

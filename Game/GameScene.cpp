@@ -12,8 +12,7 @@ using namespace minigen;
 GameScene::GameScene(const std::string& sceneName) :
 	Scene(sceneName),
 	m_Stage(0)
-{
-}
+{}
 
 void GameScene::Initialize()
 {
@@ -54,7 +53,7 @@ void GameScene::InitializeStage()
 	std::shared_ptr<GameObject> spArena = std::make_shared<GameObject>();
 	Add(spArena);
 
-	const auto gameArenaScript = std::make_shared<GameArena>(&m_Stages[m_Stage], m_Stage);
+	const auto gameArenaScript = std::make_shared<GameArena>(GameArena::GameMode::Single, &m_Stages[m_Stage], m_Stage);
 	spArena->AddScript(gameArenaScript);
 
 	std::cout << "Stage started, objects: " << m_Objects.size();
@@ -63,11 +62,12 @@ void GameScene::InitializeStage()
 
 void GameScene::LoadNextStage()
 {
-	if(m_Stage < m_Stages.size() - 1)
+	if (m_Stage < m_Stages.size() - 1)
 	{
 		++m_Stage;
 		InitializeStage();
-	} else
+	}
+	else
 	{
 		std::cout << "VICTORY!\n";
 	}

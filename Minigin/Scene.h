@@ -27,8 +27,6 @@ namespace minigen
 		std::vector <std::shared_ptr<GameObject>> m_Objects{};
 
 	private:
-		std::vector<std::shared_ptr<GameObject>> m_ObjectsToAdd{};
-		
 		std::string m_Name;
 		static unsigned int m_IdCounter;
 		bool m_DrawDebugColliders;

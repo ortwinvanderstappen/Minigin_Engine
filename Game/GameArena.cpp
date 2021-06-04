@@ -5,6 +5,7 @@
 
 #include "ArenaTile.h"
 #include "Coily.h"
+#include "CoilyAIComponent.h"
 #include "FlyingDisc.h"
 #include "GameObject.h"
 #include "GameTime.h"
@@ -14,18 +15,21 @@
 #include "structs.h"
 #include "TileMovementComponent.h"
 
-GameArena::GameArena(GameScene::StageSettings* const stageSettings, int stage) :
+GameArena::GameArena(GameMode gameMode, GameScene::StageSettings* const stageSettings, int stage) :
+	m_GameMode(gameMode),
 	m_pStageSettings(stageSettings),
 	m_Stage(stage),
-	m_TileSize(0.f),
 	m_Lives(stageSettings->lives),
+	m_TileSize(0.f),
 	m_PlayerCount(1),
 	m_TileCount(0),
 	m_CompletedTiles(0),
-	m_CoilySpawnTime(0.5f),
+	m_CoilySpawnTime(3.0f),
 	m_CoilySpawnTimer(0.f),
 	m_spCoily(nullptr)
-{}
+{
+	std::cout << "Arena started, lives: " << m_Lives << "\n";
+}
 
 GameArena::~GameArena()
 {}
@@ -150,6 +154,7 @@ void GameArena::Render() const
 
 void GameArena::AddPlayers()
 {
+	std::cout << "Spawning players...\n";
 	for (int i = 0; i < m_PlayerCount; ++i)
 	{
 		std::shared_ptr<minigen::GameObject> qbertObject = std::make_shared<minigen::GameObject>();
@@ -164,6 +169,7 @@ void GameArena::AddPlayers()
 			playerTileIndex = i == 0 ? GetBottomLeftTileIndex() : GetBottomRightTileIndex();
 		}
 
+		std::cout << "\t- player index: " << playerTileIndex << "\n";
 		const std::shared_ptr<QBert> qbert = std::make_shared<QBert>(this, &m_ArenaHexes[playerTileIndex], i);
 		qbertObject->AddScript(qbert);
 		m_pParentObject->GetScene()->Add(qbertObject);
@@ -173,17 +179,33 @@ void GameArena::AddPlayers()
 
 }
 
+const std::vector<std::shared_ptr<QBert>>& GameArena::GetPlayers() const
+{
+	return m_spPlayers;
+}
+
 void GameArena::SpawnCoily()
 {
 	std::shared_ptr<minigen::GameObject> spCoilyObject = std::make_shared<minigen::GameObject>();
 	m_spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
 	spCoilyObject->AddScript(m_spCoily);
+
+	if(m_GameMode == GameMode::Versus)
+	{
+		// Attach input component to Coily
+	} else
+	{
+		// Attach Coily AI component to Coily
+		spCoilyObject->AddComponent(std::make_shared<CoilyAIComponent>(this));
+	}
+	
 	m_pParentObject->GetScene()->Add(spCoilyObject);
 }
 
 void GameArena::HandleQbertDeath()
 {
 	m_Lives -= 1;
+	std::cout << "Ouch you died! new lives: " << m_Lives << "\n";
 	ResetStageEntities();
 
 	if (m_Lives <= 0)
@@ -214,17 +236,17 @@ void GameArena::ResetStageEntities()
 		m_spCoily = nullptr;
 	}
 
-	// Set player positions
-	if (m_spPlayers.size() == 1)
-	{
-		std::shared_ptr<TileMovementComponent> spTMC = m_spPlayers[0]->GetComponent<TileMovementComponent>();
-		if (spTMC)
-		{
-			ArenaTile* pLastTile = spTMC->GetTile();
-			if (pLastTile && pLastTile->IsNullTile())
-				spTMC->SetTile(GetTopTile());
-		}
-	}
+	//// Set player positions
+	//if (m_spPlayers.size() == 1)
+	//{
+	//	std::shared_ptr<TileMovementComponent> spTMC = m_spPlayers[0]->GetComponent<TileMovementComponent>();
+	//	if (spTMC)
+	//	{
+	//		ArenaTile* pLastTile = spTMC->GetTile();
+	//		if (pLastTile && pLastTile->IsNullTile())
+	//			spTMC->SetTile(GetTopTile());
+	//	}
+	//}
 }
 
 float GameArena::GetTileSize() const
@@ -282,6 +304,17 @@ ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComp
 ArenaTile* GameArena::GetTopTile()
 {
 	return &m_ArenaHexes[GetTopTileIndex()];
+}
+
+bool GameArena::IsBottomTileIndex(int index) const
+{
+	// Example, size 7
+	// First row has 10 indices (+2 because bigger null row), (+1 because pyramid)
+	// This means it goes until index 9 (size + 2)
+	// Second row adds (10 - 1) entries -> 9 + 9  (max index == 18)
+	// 18 is a null index so we use < instead of <=
+
+	return index < (m_pStageSettings->size + 2) * 2;
 }
 
 int GameArena::GetTopTileIndex() const

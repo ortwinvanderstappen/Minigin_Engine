@@ -8,6 +8,7 @@
 
 #include "ComponentHolder.h"
 #include "Transform.h"
+#include "string"
 
 namespace minigen
 {
@@ -27,6 +28,9 @@ namespace minigen
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+		
+		template <typename T>
+		std::shared_ptr<T> GetScript() const;
 
 		// Early deletion, no collision calls, will still be remove at the end of the frame
 		void MarkForDelete();
@@ -62,4 +66,19 @@ namespace minigen
 		bool m_IsMarkedForDelete;
 		bool m_IsMarkedForLateDelete;
 	};
+
+	template <typename T>
+	std::shared_ptr<T> GameObject::GetScript() const
+	{
+		for (const std::shared_ptr<Script>& script : m_Scripts)
+		{
+			std::shared_ptr<T> castedScript = std::dynamic_pointer_cast<T>(script);
+
+			if (castedScript)
+				return castedScript;
+		}
+
+		// No component found
+		return nullptr;
+	}
 }

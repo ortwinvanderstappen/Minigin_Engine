@@ -116,6 +116,7 @@ void QBert::ProcessInput() const
 
 		if (pTile->IsNullTile() && !pTile->HasDisc())
 		{
+			std::cout << "QBert is dying! Qbert ptr: " << this << "\n";
 			Die();
 		}
 
@@ -127,6 +128,9 @@ void QBert::ProcessInput() const
 void QBert::Die() const
 {
 	m_pArena->HandleQbertDeath();
+
+	// Reset QBerts position
+	m_spMovementComponent->SetTile(m_pArena->GetTopTile());
 }
 
 void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
