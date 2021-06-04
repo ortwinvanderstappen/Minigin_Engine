@@ -38,6 +38,9 @@ void Coily::Initialize()
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
 
+	auto movedCallback = [this]() { HandleTileChange(); };
+	m_spMovementComponent->SubscribeToMoved(movedCallback);
+	
 	// Movement
 	m_pParentObject->AddComponent(m_spMovementComponent);
 }
@@ -108,5 +111,13 @@ void Coily::HandleTransformation()
 	if (m_TransformTimer >= m_TransformTime)
 	{
 		TransformIntoSnake();
+	}
+}
+
+void Coily::HandleTileChange()
+{
+	if(m_spMovementComponent->GetTile()->IsNullTile())
+	{
+		m_pParentObject->MarkForDelete();
 	}
 }

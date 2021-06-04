@@ -25,8 +25,7 @@ GameArena::GameArena(GameMode gameMode, GameScene::StageSettings* const stageSet
 	m_TileCount(0),
 	m_CompletedTiles(0),
 	m_CoilySpawnTime(3.0f),
-	m_CoilySpawnTimer(0.f),
-	m_spCoily(nullptr)
+	m_CoilySpawnTimer(0.f)
 {
 	std::cout << "Arena started, lives: " << m_Lives << "\n";
 }
@@ -120,7 +119,7 @@ void GameArena::Update()
 {
 	const float deltaTime = Time::GetInstance().DeltaTime();
 
-	if (!m_spCoily)
+	if (!m_wpCoily.lock())
 	{
 		if (m_CoilySpawnTimer < m_CoilySpawnTime)
 		{
@@ -180,8 +179,10 @@ const std::vector<std::shared_ptr<QBert>>& GameArena::GetPlayers() const
 void GameArena::SpawnCoily()
 {
 	std::shared_ptr<minigen::GameObject> spCoilyObject = std::make_shared<minigen::GameObject>();
-	m_spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
-	spCoilyObject->AddScript(m_spCoily);
+	const std::shared_ptr<Coily> spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
+	spCoilyObject->AddScript(spCoily);
+
+	m_wpCoily = spCoily;
 
 	if (m_GameMode == GameMode::Versus)
 	{
@@ -227,10 +228,12 @@ void GameArena::HandleLevelCompletion() const
 void GameArena::ResetStageEntities()
 {
 	// Remove all dynamic entities except for the player
-	if (m_spCoily)
+
+	std::shared_ptr<Coily> coily = m_wpCoily.lock();
+	if (coily)
 	{
-		m_spCoily->GetParent()->MarkForDelete();
-		m_spCoily = nullptr;
+		coily->GetParent()->MarkForDelete();
+		coily = nullptr;
 	}
 
 	//// Set player positions

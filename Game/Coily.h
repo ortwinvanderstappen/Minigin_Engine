@@ -31,6 +31,8 @@ public:
 private:
 	void CheckTransformation();
 	void HandleTransformation();
+
+	void HandleTileChange();
 	
 	GameArena* m_pArena;
 	std::shared_ptr<TileMovementComponent> m_spMovementComponent;

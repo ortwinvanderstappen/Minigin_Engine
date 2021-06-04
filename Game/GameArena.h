@@ -65,7 +65,7 @@ private:
 	int m_CompletedTiles;
 	float m_CoilySpawnTime;
 	float m_CoilySpawnTimer;
-	std::shared_ptr<Coily> m_spCoily;
+	std::weak_ptr<Coily> m_wpCoily;
 
 	std::vector<ArenaTile> m_ArenaHexes{};
 	std::vector<std::shared_ptr<QBert>> m_spPlayers;

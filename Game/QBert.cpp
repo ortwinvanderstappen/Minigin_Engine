@@ -32,11 +32,7 @@ void QBert::Initialize()
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
 
-	auto movedCallback = [this]()
-	{
-		HandleTileChange();
-	};
-
+	auto movedCallback = [this]() { HandleTileChange(); };
 	m_spTileMovementComponent->SubscribeToMoved(movedCallback);
 
 	// Movement

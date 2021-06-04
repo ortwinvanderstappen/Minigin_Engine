@@ -53,7 +53,7 @@ void GameScene::InitializeStage()
 	std::shared_ptr<GameObject> spArena = std::make_shared<GameObject>();
 	Add(spArena);
 
-	const auto gameArenaScript = std::make_shared<GameArena>(GameArena::GameMode::Duo, &m_Stages[m_Stage], m_Stage);
+	const auto gameArenaScript = std::make_shared<GameArena>(GameArena::GameMode::Versus, &m_Stages[m_Stage], m_Stage);
 	spArena->AddScript(gameArenaScript);
 
 	std::cout << "Stage started, objects: " << m_Objects.size();
