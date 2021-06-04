@@ -10,7 +10,6 @@ namespace minigen
 	{
 	public:
 		void Initialize();
-		void LoadGame();
 		void Run();
 	private:
 		void Cleanup();

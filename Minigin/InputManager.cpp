@@ -2,10 +2,13 @@
 #include "InputManager.h"
 #include <SDL.h>
 
+#include "Subject.h"
+
 minigen::InputManager::InputManager() :
 	m_State{},
 	m_GlobalInputs{},
-	m_InputQueue{}
+	m_InputQueue{},
+	m_spMouseSubject(std::make_shared<Subject>())
 {
 }
 
@@ -17,9 +20,18 @@ bool minigen::InputManager::ProcessInput()
 	while (SDL_PollEvent(&e))
 	{
 		if (e.type == SDL_QUIT)
+		{
 			return false;
-		else if (e.type == SDL_KEYDOWN)
+		}
+
+		if (e.type == SDL_KEYDOWN)
+		{
 			m_KeyboardEvents.push_back(e);
+		}
+		else if (e.type == SDL_MOUSEBUTTONDOWN)
+		{
+			m_spMouseSubject->Notify(nullptr, Observer::Event::mouse_click);
+		}
 	}
 
 	// Check if any global inputs have been triggered (inputs shared across all scenes, always active)
@@ -28,7 +40,7 @@ bool minigen::InputManager::ProcessInput()
 
 	// Clear the commandless inputs
 	m_CommandlessInputs.clear();
-	
+
 	// Handle all active inputs, process the queue
 	while (!m_InputQueue.empty())
 	{
@@ -37,7 +49,8 @@ bool minigen::InputManager::ProcessInput()
 		{
 			if (!keyInput.spInputCommand->Execute())
 				return false;
-		} else
+		}
+		else
 		{
 			m_CommandlessInputs.push_back(keyInput);
 		}
@@ -57,16 +70,21 @@ void minigen::InputManager::AddGlobalInput(const KeyInput& keyInput)
 bool minigen::InputManager::IsInputTriggered(int inputId) const
 {
 	// Try to find the desired input and see if it's triggered
-	for(const KeyInput& input: m_CommandlessInputs)
+	for (const KeyInput& input : m_CommandlessInputs)
 	{
-		if(input.id == inputId)
+		if (input.id == inputId)
 		{
 			std::cout << "triggered key: " << inputId << "\n";
 			return true;
 		};
 	}
-	
+
 	return false;
+}
+
+const std::shared_ptr<minigen::Subject>& minigen::InputManager::GetMouseSubject() const
+{
+	return m_spMouseSubject;
 }
 
 bool minigen::InputManager::IsControllerPressed(ControllerButton button) const

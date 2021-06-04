@@ -1,6 +1,11 @@
 #include "MiniginPCH.h"
 #include "GameObject.h"
+
+#include "ButtonComponent.h"
+#include "InputManager.h"
+#include "MouseObserver.h"
 #include "RenderComponent.h"
+#include "Subject.h"
 
 minigen::GameObject::GameObject() :
 	m_pParentScene(nullptr),
@@ -40,6 +45,14 @@ void minigen::GameObject::AddComponent(std::shared_ptr<Component> spComponent)
 	ComponentHolder::AddComponent(spComponent);
 	spComponent->SetParent(this);
 	spComponent->Initialize();
+
+	// Assign buttons to a mouse observer
+	const std::shared_ptr<ButtonComponent> buttonComponent = std::dynamic_pointer_cast<ButtonComponent>(spComponent);
+	if (buttonComponent)
+	{
+		const std::shared_ptr<MouseObserver> spMouseObserver = std::make_shared<MouseObserver>(buttonComponent);
+		InputManager::GetInstance().GetMouseSubject()->AddObserver(spMouseObserver);
+	}
 }
 
 void minigen::GameObject::SetCollisionSubject(std::shared_ptr<CollisionSubject> spCollisionSubject)

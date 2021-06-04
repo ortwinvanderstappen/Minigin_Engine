@@ -6,7 +6,7 @@
 
 #include "GameArena.h"
 
-ArenaTile::ArenaTile(GameArena* pArena, int index, float size, const Point2f& position, bool isNullTile, GameScene::StageSettings* pStageSettings) :
+ArenaTile::ArenaTile(GameArena* pArena, int index, float size, const Point2f& position, bool isNullTile, GameManager::StageSettings* pStageSettings) :
 	m_pArena(pArena),
 	m_Index(index),
 	m_Size(size),
@@ -160,7 +160,7 @@ void ArenaTile::DrawHex(Point2f center, float size) const
 	minigen::Renderer::GetInstance().RenderPolygon(leftPoints, leftColor);
 }
 
-const Point2f ArenaTile::GetHexPoint(Point2f center, float size, int i) const
+Point2f ArenaTile::GetHexPoint(Point2f center, float size, int i) const
 {
 	const float angle_deg = 60.f * static_cast<float>(i) - 30.f;
 	const float angle_rad = static_cast<float>(M_PI) * angle_deg / 180.f;

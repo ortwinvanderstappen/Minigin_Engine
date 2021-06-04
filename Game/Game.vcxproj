@@ -189,10 +189,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClCompile Include="FlyingDisc.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameArena.cpp" />
-    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="JsonParser.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="PlayerControllerComponent.cpp" />
     <ClCompile Include="QBert.cpp" />
     <ClCompile Include="TileMovementComponent.cpp" />
@@ -204,9 +203,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClInclude Include="FlyingDisc.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameArena.h" />
-    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="JsonParser.h" />
-    <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="PlayerControllerComponent.h" />
     <ClInclude Include="QBert.h" />
     <ClInclude Include="TileMovementComponent.h" />

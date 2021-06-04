@@ -9,7 +9,8 @@ namespace minigen {
 		{
 			event_player_die,
 			event_player_lose_life,
-			event_collision
+			event_collision,
+			mouse_click
 		};
 
 		virtual ~Observer() = default;

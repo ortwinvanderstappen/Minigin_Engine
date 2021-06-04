@@ -6,7 +6,7 @@
 #include "filereadstream.h"
 #include "stream.h"
 
-void JsonParser::ParseDifficulties(std::vector<GameScene::StageSettings>& stageSettings)
+void JsonParser::ParseDifficulties(std::vector<GameManager::StageSettings>& stageSettings)
 {
 	using rapidjson::Value;
 
@@ -18,7 +18,7 @@ void JsonParser::ParseDifficulties(std::vector<GameScene::StageSettings>& stageS
 	for (Value::ConstValueIterator valueIt = difficultyObject.Begin(); valueIt != difficultyObject.End(); ++valueIt)
 	{
 		// Create stage entry
-		GameScene::StageSettings stage{};
+		GameManager::StageSettings stage{};
 		
 		// Basic properties
 		const Value& levelValue = *valueIt;
@@ -64,7 +64,7 @@ void JsonParser::ParseDifficulties(std::vector<GameScene::StageSettings>& stageS
 			{
 			case 1:
 			{
-				GameScene::Disc disc{};
+				GameManager::Disc disc{};
 				disc.row = row;
 				disc.isLeft = true;
 				stage.discs.push_back(disc);
@@ -72,7 +72,7 @@ void JsonParser::ParseDifficulties(std::vector<GameScene::StageSettings>& stageS
 			}
 			case 2:
 			{
-				GameScene::Disc disc{};
+				GameManager::Disc disc{};
 				disc.row = row;
 				disc.isLeft = false;
 				stage.discs.push_back(disc);
@@ -80,10 +80,10 @@ void JsonParser::ParseDifficulties(std::vector<GameScene::StageSettings>& stageS
 			}
 			case 3:
 			{
-				GameScene::Disc discL{};
+				GameManager::Disc discL{};
 				discL.row = row;
 				discL.isLeft = true;
-				GameScene::Disc discR{};
+				GameManager::Disc discR{};
 				discR.row = row;
 				discR.isLeft = false;
 				stage.discs.push_back(discL);

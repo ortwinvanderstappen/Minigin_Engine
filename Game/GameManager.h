@@ -1,17 +1,23 @@
 #pragma once
-#include <Scene.h>
-#include <vector>
-#include "structs.h"
+#include <Component.h>
 
-class GameScene final: public minigen::Scene
+#include "structs.h"
+#include <vector>
+
+class GameManager : public minigen::Component
 {
 public:
+	enum class GameMode
+	{
+		Single,
+		Duo,
+		Versus
+	};
 	struct Disc
 	{
 		int row;
 		bool isLeft;
 	};
-	
 	struct StageSettings
 	{
 		int size;
@@ -21,21 +27,21 @@ public:
 		Color3i inactiveColor;
 		std::vector<Disc> discs;
 	};
-
-	GameScene(const std::string& sceneName);
-
-	void Initialize() override;
+	
+	GameManager();
+	
 	void Update() override;
-	void Render() const override;
-
+	void Initialize() override;
+	void SetGameMode(GameMode gameMode);
+	
 	void Restart();
 	void LoadNextStage();
 
 private:
 	void InitializeStageSettings();
 	void InitializeStage();
-
-
+	
+	GameMode m_GameMode;
 	int m_Stage;
 	std::vector<StageSettings> m_Stages;
 };

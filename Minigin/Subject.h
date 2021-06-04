@@ -10,9 +10,9 @@ namespace minigen {
 		Subject();
 		
 		void AddObserver(std::shared_ptr<Observer> spObserver);
-
-	protected:
 		void Notify(GameObject* pGameObject, Observer::Event event);
+	
+	protected:
 		std::vector<std::shared_ptr<Observer>> m_Observers;
 
 	private:

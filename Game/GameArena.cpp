@@ -16,7 +16,9 @@
 #include "structs.h"
 #include "TileMovementComponent.h"
 
-GameArena::GameArena(GameMode gameMode, GameScene::StageSettings* const stageSettings, int stage) :
+GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
+	GameManager::StageSettings* const stageSettings, int stage) :
+	m_pGameManager(pGameManager),
 	m_GameMode(gameMode),
 	m_pStageSettings(stageSettings),
 	m_Stage(stage),
@@ -90,7 +92,7 @@ void GameArena::InitializeArena()
 
 void GameArena::CreateDiscs()
 {
-	for (GameScene::Disc disc : m_pStageSettings->discs)
+	for (GameManager::Disc disc : m_pStageSettings->discs)
 	{
 		const int tileIndex = GetNullTileIndexOnRow(disc.row, disc.isLeft);
 
@@ -157,14 +159,14 @@ void GameArena::AddPlayers()
 
 	switch (m_GameMode)
 	{
-	case GameMode::Single:
+	case GameManager::GameMode::Single:
 		SpawnPlayer(GetTopTile(), false);
 		break;
-	case GameMode::Duo:
+	case GameManager::GameMode::Duo:
 		SpawnPlayer(&m_ArenaHexes[GetBottomLeftTileIndex()], false);
 		SpawnPlayer(&m_ArenaHexes[GetBottomRightTileIndex()], true);
 		break;
-	case GameMode::Versus:
+	case GameManager::GameMode::Versus:
 		SpawnPlayer(GetTopTile(), false);
 		break;
 	default:;
@@ -184,7 +186,7 @@ void GameArena::SpawnCoily()
 
 	m_wpCoily = spCoily;
 
-	if (m_GameMode == GameMode::Versus)
+	if (m_GameMode == GameManager::GameMode::Versus)
 	{
 		// Attach player controller to Coily
 		PlayerControllerComponent::HardwareType hardwareType = PlayerControllerComponent::HardwareType::Controller;
@@ -208,21 +210,13 @@ void GameArena::HandleQbertDeath()
 
 	if (m_Lives <= 0)
 	{
-		GameScene* pGameScene = dynamic_cast<GameScene*>(m_pParentObject->GetScene());
-		if (pGameScene)
-		{
-			pGameScene->Restart();
-		}
+		m_pGameManager->Restart();
 	}
 }
 
 void GameArena::HandleLevelCompletion() const
 {
-	GameScene* pGameScene = dynamic_cast<GameScene*>(m_pParentObject->GetScene());
-	if (pGameScene)
-	{
-		pGameScene->LoadNextStage();
-	}
+	m_pGameManager->LoadNextStage();
 }
 
 void GameArena::ResetStageEntities()

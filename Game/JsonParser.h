@@ -1,12 +1,13 @@
 #pragma once
 #include <vector>
-#include "GameScene.h"
+
+#include "GameManager.h"
 
 class JsonParser
 {
 public:
 	JsonParser() = default;
 
-	void ParseDifficulties(std::vector<GameScene::StageSettings>& stageSettings);
+	void ParseDifficulties(std::vector<GameManager::StageSettings>& stageSettings);
 };
 

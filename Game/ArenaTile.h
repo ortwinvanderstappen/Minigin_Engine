@@ -1,5 +1,5 @@
 #pragma once
-#include "GameScene.h"
+#include "GameManager.h"
 #include "RenderComponent.h"
 #include "structs.h"
 
@@ -8,7 +8,7 @@ class GameArena;
 class ArenaTile : minigen::RenderComponent
 {
 public:
-	ArenaTile(GameArena* pArena,int index, float size, const Point2f& position, bool isNullTile, GameScene::StageSettings* pStageSettings);
+	ArenaTile(GameArena* pArena,int index, float size, const Point2f& position, bool isNullTile, GameManager::StageSettings* pStageSettings);
 
 	void Update() override;
 	void Render() const override;
@@ -29,14 +29,14 @@ public:
 	void Activate();
 private:
 	void DrawHex(Point2f center, float size) const;
-	const Point2f GetHexPoint(Point2f center, float size, int i) const;
+	Point2f GetHexPoint(Point2f center, float size, int i) const;
 
 	GameArena* m_pArena;
 	int m_Index;
 	float m_Size;
 	Point2f m_Position;
 	bool m_IsNullTile;
-	GameScene::StageSettings* m_pStageSettings;
+	GameManager::StageSettings* m_pStageSettings;
 	
 	int m_ColorState;
 	std::shared_ptr<FlyingDisc> m_spDisc;

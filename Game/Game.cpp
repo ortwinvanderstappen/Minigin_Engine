@@ -1,16 +1,17 @@
 #include "Game.h"
+
+#include <iostream>
 #include <Minigin.h>
 
-
-#include "CloseGameCommand.h"
-#include "SceneManager.h"
 #include "Scene.h"
+#include "ButtonComponent.h"
+#include "CloseGameCommand.h"
+#include "GameManager.h"
+#include "SceneManager.h"
 #include "GameObject.h"
 #include "ImageRenderComponent.h"
 #include "InputComponent.h"
-#include "MainMenuScene.h"
-#include "GameScene.h"
-#include "TextRenderComponent.h"
+#include "OpenGameSceneCommand.h"
 
 using namespace minigen;
 
@@ -24,9 +25,17 @@ void Game::Run()
 
 void Game::LoadGame()
 {
+	CreateGlobalInputs();
+	CreateMenuScene();
+	CreateGameScene();
+	SceneManager::GetInstance().SetActiveScene("MainMenu");
+}
+
+void Game::CreateGlobalInputs() const
+{
 	// Setup global inputs
 	InputManager& inputManager = InputManager::GetInstance();
-	
+
 	// Close game with controller
 	const std::shared_ptr<CloseGameCommand> closeGameCommand = std::make_shared<CloseGameCommand>();
 	InputManager::KeyInput closeGameInputController;
@@ -35,7 +44,7 @@ void Game::LoadGame()
 	closeGameInputController.inputType = InputManager::InputType::onKeyDown;
 	closeGameInputController.inputButton.controllerButton = InputManager::ControllerButton::BackButton;
 	inputManager.AddGlobalInput(closeGameInputController);
-	
+
 	// Close game with keyboard
 	InputManager::KeyInput closeGameInputKeyboard;
 	closeGameInputKeyboard.spInputCommand = closeGameCommand;
@@ -43,20 +52,118 @@ void Game::LoadGame()
 	closeGameInputKeyboard.inputType = InputManager::InputType::onKeyDown;
 	closeGameInputKeyboard.inputButton.keyboardButton = SDL_KeyCode::SDLK_ESCAPE;
 	inputManager.AddGlobalInput(closeGameInputKeyboard);
+}
+
+void Game::CreateMenuScene()
+{
+	const std::shared_ptr<Scene> spMainMenuScene = std::make_shared<Scene>("MainMenu");
+	SceneManager::GetInstance().AddScene(spMainMenuScene);
+
+	CreateMenuSceneInput(spMainMenuScene);
+	CreateMenuSceneButtons(spMainMenuScene);
+}
+void Game::CreateMenuSceneInput(const std::shared_ptr<Scene>& spScene) const
+{
+	std::shared_ptr<GameObject> spInputObject = std::make_shared<GameObject>();
+	spScene->Add(spInputObject);
+
+	// HUD input
+	const auto openSceneCommand = std::make_shared<OpenGameSceneCommand>();
+	auto inputComponent = std::make_shared<InputComponent>();
+
+	InputManager::KeyInput openGameSceneInput{};
+	openGameSceneInput.hardwareType = InputManager::HardwareType::controller;
+	openGameSceneInput.inputType = InputManager::InputType::onKeyDown;
+	openGameSceneInput.spInputCommand = openSceneCommand;
+	openGameSceneInput.inputButton.controllerButton = InputManager::ControllerButton::ButtonA;
+	inputComponent->AddInput(openGameSceneInput);
+
+	InputManager::KeyInput openGameSceneInput2{};
+	openGameSceneInput2.hardwareType = InputManager::HardwareType::keyboard;
+	openGameSceneInput2.inputType = InputManager::InputType::onKeyDown;
+	openGameSceneInput2.spInputCommand = openSceneCommand;
+	openGameSceneInput2.inputButton.keyboardButton = SDL_KeyCode::SDLK_a;
+	inputComponent->AddInput(openGameSceneInput2);
+
+	InputManager::KeyInput openGameSceneInput3{};
+	openGameSceneInput3.hardwareType = InputManager::HardwareType::keyboard;
+	openGameSceneInput3.inputType = InputManager::InputType::onKeyDown;
+	openGameSceneInput3.spInputCommand = openSceneCommand;
+	openGameSceneInput3.inputButton.keyboardButton = SDL_KeyCode::SDLK_SPACE;
+	inputComponent->AddInput(openGameSceneInput3);
+
+	spInputObject->AddComponent(inputComponent);
+}
+void Game::CreateMenuSceneButtons(const std::shared_ptr<Scene>& spScene)
+{
+	// Menu buttons
+	std::shared_ptr<GameObject> menuObject = std::make_shared<GameObject>();
+	spScene->Add(menuObject);
+
+	// Position data
+	const Point2f singleButtonPosition{ 510.f, 241.f };
+	const Point2f duoButtonPosition{ 510.f, 341.f };
+	const Point2f versusButtonPosition{ 510.f, 440.f };
+
+	/// Buttons
+	// Single
+	Rectf singlePlayColliderRect{ singleButtonPosition.x, singleButtonPosition.y, 765.f - singleButtonPosition.x, 309 - singleButtonPosition.y };
+	const std::shared_ptr<ButtonComponent> singlePlayButton = std::make_shared<ButtonComponent>(singlePlayColliderRect);
+	menuObject->AddComponent(singlePlayButton);
+	auto singleCallback = [this]() { StartGame(GameManager::GameMode::Single); };
+	singlePlayButton->SetCallback(singleCallback);
+	// Duo
+	Rectf duoPlayColliderRect{ duoButtonPosition.x, duoButtonPosition.y, 765.f - duoButtonPosition.x, 408 - duoButtonPosition.y };
+	const std::shared_ptr<ButtonComponent> duoPlayButton = std::make_shared<ButtonComponent>(duoPlayColliderRect);
+	menuObject->AddComponent(duoPlayButton);
+	auto duoCallback = [this]() { StartGame(GameManager::GameMode::Duo); };
+	duoPlayButton->SetCallback(duoCallback);
+	// Versus
+	Rectf versusPlayColliderRect{ versusButtonPosition.x, versusButtonPosition.y, 765.f - versusButtonPosition.x, 505 - versusButtonPosition.y };
+	const std::shared_ptr<ButtonComponent> versusPlayButton = std::make_shared<ButtonComponent>(versusPlayColliderRect);
+	menuObject->AddComponent(versusPlayButton);
+	auto versusCallback = [this]() { StartGame(GameManager::GameMode::Versus); };
+	versusPlayButton->SetCallback(versusCallback);
+
+	// Images
+	const std::shared_ptr<ImageRenderComponent> singlePlayImage = std::make_shared<ImageRenderComponent>();
+	singlePlayImage->AddImage("images/Menu/ButtonSingle.png", Point2f(singleButtonPosition.x, singleButtonPosition.y));
+	menuObject->AddComponent(singlePlayImage);
+	const std::shared_ptr<ImageRenderComponent> duoPlayImage = std::make_shared<ImageRenderComponent>();
+	singlePlayImage->AddImage("images/Menu/ButtonDuo.png", Point2f(duoButtonPosition.x, duoButtonPosition.y));
+	menuObject->AddComponent(duoPlayImage);
+	const std::shared_ptr<ImageRenderComponent> versusPlayImage = std::make_shared<ImageRenderComponent>();
+	singlePlayImage->AddImage("images/Menu/ButtonVersus.png", Point2f(versusButtonPosition.x, versusButtonPosition.y));
+	menuObject->AddComponent(versusPlayImage);
+}
+
+void Game::StartGame(GameManager::GameMode gameMode) const
+{
+	std::cout << "Starting game...\n";
 	
-	CreateMenuScene();
-	CreateGameScene();
-	SceneManager::GetInstance().SetActiveScene("MainMenu");
+	std::shared_ptr<GameManager> spGameManager = m_wpGameManager.lock();
+	if (spGameManager)
+	{
+		spGameManager->SetGameMode(gameMode);
+		SceneManager::GetInstance().SetActiveScene("GameScene");
+	}
+	else
+	{
+		std::cerr << "Game: No game manager found!\n";
+	}
 }
 
-void Game::CreateMenuScene() const
+void Game::CreateGameScene()
 {
-	const std::shared_ptr<MainMenuScene> mainMenuScene = std::make_shared<MainMenuScene>("MainMenu");
-	SceneManager::GetInstance().AddScene(mainMenuScene);
-}
+	const auto spGameScene = std::make_shared<Scene>("GameScene");
+	SceneManager::GetInstance().AddScene(spGameScene);
 
-void Game::CreateGameScene() const
-{
-	const auto gameScene = std::make_shared<GameScene>("GameScene");
-	SceneManager::GetInstance().AddScene(gameScene);
+	// Create the game manager
+	std::shared_ptr<GameObject> spManagerObject = std::make_shared<GameObject>();
+	spManagerObject->SetTag("GameManager");
+	spGameScene->Add(spManagerObject);
+	const std::shared_ptr<GameManager> spGameManager = std::make_shared<GameManager>();
+	spManagerObject->AddComponent(spGameManager);
+	// Store the game manager
+	m_wpGameManager = spGameManager;
 }

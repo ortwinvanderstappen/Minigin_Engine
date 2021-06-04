@@ -19,8 +19,7 @@ void minigen::SceneManager::Render() const
 }
 
 minigen::SceneManager::SceneManager()
-{
-}
+{}
 
 void minigen::SceneManager::AddScene(std::shared_ptr<Scene> newScene)
 {
@@ -57,7 +56,13 @@ void minigen::SceneManager::SetActiveScene(const std::string& name)
 	}
 
 	if (spScene != nullptr)
+	{
+		if (m_spActiveScene)
+			m_spActiveScene->OnSceneLeave();
+		
 		m_spActiveScene = spScene;
+		m_spActiveScene->OnSceneEnter();
+	}
 	else
 		std::cout << "SceneManager: ERROR, scene with name " << name << " does not exist\n";
 }

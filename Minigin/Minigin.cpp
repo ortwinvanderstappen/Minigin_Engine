@@ -13,27 +13,15 @@
 #include "ResourceManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
-// Objects
-#include "GameObject.h"
-#include "TextObject.h"
-
 #include "Renderer.h"
-#include "Scene.h"
 #include "GameTime.h"
 // Components
-#include "ImageRenderComponent.h"
 #include "ImGuiComponent.h"
-#include "FPSComponent.h"
-#include "Subject.h"
-#include "SuicideCommand.h"
 // Services
 #include "ServiceLocator.h"
-
 // Temp
 #include "BasicSoundSystem.h"
-#include "ChangeSoundSystemCommand.h"
 #include "LoggingSoundSystem.h"
-#include "PlaySoundCommand.h"
 
 // Github repo: https://github.com/ortwinvanderstappen/Minigin_Engine
 
@@ -77,11 +65,6 @@ void minigen::Minigin::Initialize()
 
 	m_IsInitialized = true;
 	std::cout << "Minigen: Initialize completed\n";
-}
-
-void minigen::Minigin::LoadGame()
-{
-	std::cout << "Minigen: LoadGame completed\n";
 }
 
 void minigen::Minigin::Cleanup()

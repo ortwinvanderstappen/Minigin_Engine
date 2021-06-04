@@ -11,14 +11,24 @@ minigen::ButtonComponent::ButtonComponent(const Rectf& buttonTransform) :
 
 void minigen::ButtonComponent::Update()
 {
+}
+
+void minigen::ButtonComponent::MouseClick() const
+{
 	Point2i mousePos;
 	SDL_GetMouseState(&mousePos.x, &mousePos.y);
-	//std::cout << "mousepos: [ " << mousePos.x << ", " << mousePos.y << " ] \n";
-
 	if(IsMouseOnButton(mousePos))
 	{
-		std::cout << "Mouse is on button \n";
+		if(m_ButtonCallback)
+		{
+			m_ButtonCallback();
+		}
 	}
+}
+
+void minigen::ButtonComponent::SetCallback(ButtonCallback callback)
+{
+	m_ButtonCallback = callback;
 }
 
 bool minigen::ButtonComponent::IsMouseOnButton(const Point2i& mousePos) const

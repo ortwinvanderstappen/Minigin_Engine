@@ -21,6 +21,11 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 	object->SetParentScene(this);
 }
 
+const std::vector<std::shared_ptr<GameObject>>& Scene::GetObjects() const
+{
+	return m_Objects;
+}
+
 void Scene::Update()
 {
 	const size_t objects = m_Objects.size();
@@ -96,5 +101,15 @@ void Scene::Render() const
 const std::string& Scene::GetName()
 {
 	return m_Name;
+}
+
+void Scene::SetOnSceneEnterCallback(EmptyFunctionCallback callback)
+{
+	m_OnSceneEnterCallback = callback;
+}
+
+void Scene::SetOnSceneLeaveCallback(EmptyFunctionCallback callback)
+{
+	m_OnSceneLeaveCallback = callback;
 }
 

@@ -11,6 +11,7 @@
 
 namespace minigen
 {
+	class Subject;
 
 	class InputManager final : public Singleton<InputManager>
 	{
@@ -76,6 +77,8 @@ namespace minigen
 
 		bool IsInputTriggered(int inputId) const;
 
+		const std::shared_ptr<Subject>& GetMouseSubject() const;
+	
 	private:
 		bool IsControllerPressed(ControllerButton button) const;
 		bool IsKeyboardButtonPressed(SDL_KeyCode keyCode) const;
@@ -91,5 +94,7 @@ namespace minigen
 		std::queue<KeyInput> m_InputQueue;
 		// All the inputs that are not automatically handled by a command
 		std::vector<KeyInput> m_CommandlessInputs{};
+
+		std::shared_ptr<Subject> m_spMouseSubject;
 	};
 }

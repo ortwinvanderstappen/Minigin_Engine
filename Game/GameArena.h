@@ -1,7 +1,7 @@
 #pragma once
 #include "RenderComponent.h"
 #include "ArenaTile.h"
-#include "GameScene.h"
+#include "GameManager.h"
 #include "TileMovementComponent.h"
 
 class Coily;
@@ -10,14 +10,8 @@ class QBert;
 class GameArena : public minigen::RenderComponent
 {
 public:
-	enum class GameMode
-	{
-		Single,
-		Duo,
-		Versus
-	};
 	
-	GameArena(GameMode gameMode, GameScene::StageSettings* const stageSettings, int stage);
+	GameArena(GameManager* pGameManager, GameManager::GameMode gameMode, GameManager::StageSettings* const stageSettings, int stage);
 	~GameArena() override;
 
 	void Initialize() override;
@@ -50,8 +44,9 @@ private:
 	int GetBottomRightTileIndex() const;
 	int GetNullTileIndexOnRow(int row, bool isLeft) const;
 
-	GameMode m_GameMode;
-	GameScene::StageSettings* m_pStageSettings;
+	GameManager* m_pGameManager;
+	GameManager::GameMode m_GameMode;
+	GameManager::StageSettings* m_pStageSettings;
 	int m_Stage;
 	int m_Lives;
 	

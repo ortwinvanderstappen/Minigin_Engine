@@ -1,11 +1,5 @@
 #pragma once
 #include "Component.h"
-
-#pragma warning (push)
-#pragma warning(disable: 4201)
-#include <glm.hpp>
-#pragma warning(pop)
-
 #include "ComponentHolder.h"
 #include "Transform.h"
 #include "string"
