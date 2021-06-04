@@ -57,7 +57,7 @@ namespace minigen
 
 		struct KeyInput
 		{
-			int id;
+			int id{INT_MAX};
 			HardwareType hardwareType;
 			InputType inputType;
 			std::shared_ptr<Command> spInputCommand = nullptr;

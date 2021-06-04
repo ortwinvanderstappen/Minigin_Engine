@@ -48,6 +48,8 @@ public:
 	ArenaTile* GetTopTile();
 	bool IsBottomTileIndex(int index) const;
 private:
+	void SpawnPlayer(ArenaTile* pTile, bool useController);
+	
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;
 	int GetBottomRightTileIndex() const;
@@ -59,7 +61,6 @@ private:
 	int m_Lives;
 	
 	float m_TileSize;
-	int m_PlayerCount;
 	int m_TileCount;
 	int m_CompletedTiles;
 	float m_CoilySpawnTime;

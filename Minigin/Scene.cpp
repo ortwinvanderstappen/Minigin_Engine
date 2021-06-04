@@ -13,7 +13,7 @@ unsigned int Scene::m_IdCounter = 0;
 
 Scene::Scene(const std::string& name) :
 	m_Name(name),
-	m_DrawDebugColliders(false)
+	m_DrawDebugColliders(true)
 {}
 
 void Scene::Add(const std::shared_ptr<GameObject>& object)
@@ -79,7 +79,7 @@ void Scene::Render() const
 			if (spRenderComponent) spRenderComponent->Render();
 		}
 
-		// Render all the scripts and it's components
+		// Render all the scripts
 		for (const std::shared_ptr<Script> spScript : object->GetScripts())
 		{
 			spScript->Render();

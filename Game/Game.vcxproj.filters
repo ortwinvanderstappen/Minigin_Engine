@@ -65,6 +65,9 @@
     <ClCompile Include="CoilyAIComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerControllerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -98,6 +101,9 @@
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CoilyAIComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerControllerComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

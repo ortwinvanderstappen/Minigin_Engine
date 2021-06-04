@@ -1,11 +1,14 @@
 #pragma once
 #include <Component.h>
+#include <functional>
 class GameArena;
 class ArenaTile;
 
 class TileMovementComponent : public minigen::Component
 {
 public:
+	typedef std::function<void ()> CommandCallback;
+	
 	// Make sure down is 0 and right is 1!
 	enum class MovementType
 	{
@@ -26,10 +29,16 @@ public:
 	
 	void SetParentPosition() const;
 
+	void SubscribeToMoved(const CommandCallback& movedCallback);
+
 private:
+	void TileMoved();
+	
 	GameArena* m_pArena;
 	ArenaTile* m_pTile;
 	float m_MovementCooldown;
 	float m_MovementTimer;
+
+	std::vector<CommandCallback> m_MovedCallbacks;
 };
 

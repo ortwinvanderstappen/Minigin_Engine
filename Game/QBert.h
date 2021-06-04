@@ -8,28 +8,19 @@ class ArenaTile;
 class QBert : public minigen::Script
 {
 public:
-	QBert(GameArena* pArena, ArenaTile* pStartTile, int playerIndex);
-	void Update() override;
+	QBert(GameArena* pArena, ArenaTile* pStartTile);
 	void OnCollisionEnter(minigen::GameObject* const pOtherGameObject) override;
 protected:
 	void Initialize() override;
 private:
-	enum class InputId
-	{
-		up,
-		right,
-		down,
-		left
-	};
-	
-	void InitializeSprite();
-	void InitializeControls();
-	void ProcessInput() const;
+	void InitializeSprite() const;
 	void Die() const;
 
+	void HandleTileChange() const;
+	
 	GameArena* m_pArena;
-	std::shared_ptr<TileMovementComponent> m_spMovementComponent;
+	ArenaTile* m_pSpawnTile;
+	std::shared_ptr<TileMovementComponent> m_spTileMovementComponent;
 	
 	std::string m_QbertImagePath;
-	int m_PlayerIndex;
 };

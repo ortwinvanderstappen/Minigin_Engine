@@ -53,5 +53,5 @@ void FlyingDisc::InitializeSprite()
 	const float verticalOffset = m_pArena->GetTileSize() * .1f;
 
 	imageRenderComponent->AddImage(m_FlyingDiscImagePath, { -8 * scale,-(8.f * scale) - verticalOffset }, scale);
-	AddComponent(imageRenderComponent);
+	m_pParentObject->AddComponent(imageRenderComponent);
 }

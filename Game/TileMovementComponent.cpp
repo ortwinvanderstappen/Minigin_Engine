@@ -1,5 +1,8 @@
 #include "TileMovementComponent.h"
 
+#include <iostream>
+
+
 #include "ArenaTile.h"
 #include "GameArena.h"
 #include "GameObject.h"
@@ -9,7 +12,8 @@ TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStar
 	m_pArena(pArena),
 	m_pTile(pStartTile),
 	m_MovementCooldown(movementCooldown),
-	m_MovementTimer(0.f)
+	m_MovementTimer(0.f),
+	m_MovedCallbacks()
 {}
 
 void TileMovementComponent::Initialize()
@@ -43,7 +47,7 @@ bool TileMovementComponent::Move(MovementType movement)
 	{
 		m_pTile = pNewTile;
 		SetParentPosition();
-		
+		TileMoved();
 		return true;
 	}
 
@@ -67,5 +71,20 @@ void TileMovementComponent::SetParentPosition() const
 	{
 		const Point2f& tileCenter = m_pTile->GetCenter();
 		m_pParentObject->SetPosition(tileCenter.x, tileCenter.y);
+	}
+}
+
+void TileMovementComponent::SubscribeToMoved(const CommandCallback& movedCallback)
+{
+	m_MovedCallbacks.push_back(movedCallback);
+}
+
+void TileMovementComponent::TileMoved()
+{
+	std::cout << "Moved to tile with index: " << m_pTile->GetIndex() << "\n";
+	
+	for(CommandCallback& movedCallback: m_MovedCallbacks)
+	{
+		movedCallback();
 	}
 }

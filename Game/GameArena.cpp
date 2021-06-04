@@ -9,6 +9,7 @@
 #include "FlyingDisc.h"
 #include "GameObject.h"
 #include "GameTime.h"
+#include "PlayerControllerComponent.h"
 #include "QBert.h"
 #include "Renderer.h"
 #include "Scene.h"
@@ -21,7 +22,6 @@ GameArena::GameArena(GameMode gameMode, GameScene::StageSettings* const stageSet
 	m_Stage(stage),
 	m_Lives(stageSettings->lives),
 	m_TileSize(0.f),
-	m_PlayerCount(1),
 	m_TileCount(0),
 	m_CompletedTiles(0),
 	m_CoilySpawnTime(3.0f),
@@ -155,28 +155,21 @@ void GameArena::Render() const
 void GameArena::AddPlayers()
 {
 	std::cout << "Spawning players...\n";
-	for (int i = 0; i < m_PlayerCount; ++i)
+
+	switch (m_GameMode)
 	{
-		std::shared_ptr<minigen::GameObject> qbertObject = std::make_shared<minigen::GameObject>();
-
-		int playerTileIndex;
-		if (m_PlayerCount == 1)
-		{
-			playerTileIndex = GetTopTileIndex();
-		}
-		else
-		{
-			playerTileIndex = i == 0 ? GetBottomLeftTileIndex() : GetBottomRightTileIndex();
-		}
-
-		std::cout << "\t- player index: " << playerTileIndex << "\n";
-		const std::shared_ptr<QBert> qbert = std::make_shared<QBert>(this, &m_ArenaHexes[playerTileIndex], i);
-		qbertObject->AddScript(qbert);
-		m_pParentObject->GetScene()->Add(qbertObject);
-
-		m_spPlayers.push_back(qbert);
+	case GameMode::Single:
+		SpawnPlayer(GetTopTile(), false);
+		break;
+	case GameMode::Duo:
+		SpawnPlayer(&m_ArenaHexes[GetBottomLeftTileIndex()], false);
+		SpawnPlayer(&m_ArenaHexes[GetBottomRightTileIndex()], true);
+		break;
+	case GameMode::Versus:
+		SpawnPlayer(GetTopTile(), false);
+		break;
+	default:;
 	}
-
 }
 
 const std::vector<std::shared_ptr<QBert>>& GameArena::GetPlayers() const
@@ -190,15 +183,19 @@ void GameArena::SpawnCoily()
 	m_spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
 	spCoilyObject->AddScript(m_spCoily);
 
-	if(m_GameMode == GameMode::Versus)
+	if (m_GameMode == GameMode::Versus)
 	{
-		// Attach input component to Coily
-	} else
+		// Attach player controller to Coily
+		PlayerControllerComponent::HardwareType hardwareType = PlayerControllerComponent::HardwareType::Controller;
+		const std::shared_ptr<PlayerControllerComponent> playerController = std::make_shared<PlayerControllerComponent>(hardwareType);
+		spCoilyObject->AddComponent(playerController);
+	}
+	else
 	{
 		// Attach Coily AI component to Coily
 		spCoilyObject->AddComponent(std::make_shared<CoilyAIComponent>(this));
 	}
-	
+
 	m_pParentObject->GetScene()->Add(spCoilyObject);
 }
 
@@ -315,6 +312,24 @@ bool GameArena::IsBottomTileIndex(int index) const
 	// 18 is a null index so we use < instead of <=
 
 	return index < (m_pStageSettings->size + 2) * 2;
+}
+
+void GameArena::SpawnPlayer(ArenaTile* pTile, bool useController)
+{
+	std::shared_ptr<minigen::GameObject> qbertObject = std::make_shared<minigen::GameObject>();
+	const std::shared_ptr<QBert> qbert = std::make_shared<QBert>(this, pTile);
+	qbertObject->AddScript(qbert);
+
+	// Setup player controller
+	PlayerControllerComponent::HardwareType hardwareType = PlayerControllerComponent::HardwareType::Keyboard;
+	if (useController)
+		hardwareType = PlayerControllerComponent::HardwareType::Controller;
+
+	const std::shared_ptr<PlayerControllerComponent> playerController = std::make_shared<PlayerControllerComponent>(hardwareType);
+	qbertObject->AddComponent(playerController);
+
+	m_pParentObject->GetScene()->Add(qbertObject);
+	m_spPlayers.push_back(qbert);
 }
 
 int GameArena::GetTopTileIndex() const

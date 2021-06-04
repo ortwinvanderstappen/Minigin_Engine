@@ -2,7 +2,7 @@
 	"levels":
 	[
 		{
-			"size": 6,
+			"size": 7,
 			"lives": 3,
 			"cyclesColor": false,
 			"activeColors":

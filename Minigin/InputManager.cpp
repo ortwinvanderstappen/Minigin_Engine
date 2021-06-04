@@ -59,7 +59,11 @@ bool minigen::InputManager::IsInputTriggered(int inputId) const
 	// Try to find the desired input and see if it's triggered
 	for(const KeyInput& input: m_CommandlessInputs)
 	{
-		if(input.id == inputId) return true;
+		if(input.id == inputId)
+		{
+			std::cout << "triggered key: " << inputId << "\n";
+			return true;
+		};
 	}
 	
 	return false;

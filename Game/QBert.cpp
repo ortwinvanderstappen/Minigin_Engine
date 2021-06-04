@@ -8,26 +8,18 @@
 #include "GameArena.h"
 #include "GameObject.h"
 
-QBert::QBert(GameArena* pArena, ArenaTile* pStartTile, int playerIndex) :
+QBert::QBert(GameArena* pArena, ArenaTile* pStartTile) :
 	m_pArena(pArena),
-	m_spMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile, .01f)),
-	m_QbertImagePath("images/QBert.png"),
-	m_PlayerIndex(playerIndex)
+	m_pSpawnTile(pStartTile),
+	m_spTileMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile, .01f)),
+	m_QbertImagePath("images/QBert.png")
 {}
-
-void QBert::Update()
-{
-	Script::Update();
-
-	ProcessInput();
-}
 
 void QBert::Initialize()
 {
 	m_pParentObject->SetTag("QBert");
 
 	InitializeSprite();
-	InitializeControls();
 
 	// Create a collision subject
 	const float scale = m_pArena->GetTileSize() / 15.f;
@@ -40,97 +32,48 @@ void QBert::Initialize()
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
 
+	auto movedCallback = [this]()
+	{
+		HandleTileChange();
+	};
+
+	m_spTileMovementComponent->SubscribeToMoved(movedCallback);
+
 	// Movement
-	AddComponent(m_spMovementComponent);
+	m_pParentObject->AddComponent(m_spTileMovementComponent);
 }
 
-void QBert::InitializeSprite()
+void QBert::InitializeSprite() const
 {
 	std::shared_ptr<minigen::ImageRenderComponent> imageRenderComponent = std::make_shared<minigen::ImageRenderComponent>();
 
 	const float scale = m_pArena->GetTileSize() / 15.f;
 	imageRenderComponent->AddImage(m_QbertImagePath, { -8 * scale,-16 * scale }, scale);
-	AddComponent(imageRenderComponent);
-}
-
-void QBert::InitializeControls()
-{
-	if (m_PlayerIndex == 0)
-	{
-		auto inputComponent = std::make_shared<minigen::InputComponent>();
-		minigen::InputManager::KeyInput upInput{};
-		upInput.id = static_cast<int>(InputId::up);
-		upInput.hardwareType = minigen::InputManager::HardwareType::keyboard;
-		upInput.inputType = minigen::InputManager::InputType::onKeyDown;
-		upInput.inputButton.keyboardButton = SDLK_w;
-		inputComponent->AddInput(upInput);
-
-		minigen::InputManager::KeyInput rightInput{};
-		rightInput.id = static_cast<int>(InputId::right);
-		rightInput.hardwareType = minigen::InputManager::HardwareType::keyboard;
-		rightInput.inputType = minigen::InputManager::InputType::onKeyDown;
-		rightInput.inputButton.keyboardButton = SDLK_d;
-		inputComponent->AddInput(rightInput);
-
-		minigen::InputManager::KeyInput downInput{};
-		downInput.id = static_cast<int>(InputId::down);
-		downInput.hardwareType = minigen::InputManager::HardwareType::keyboard;
-		downInput.inputType = minigen::InputManager::InputType::onKeyDown;
-		downInput.inputButton.keyboardButton = SDLK_s;
-		inputComponent->AddInput(downInput);
-
-		minigen::InputManager::KeyInput leftInput{};
-		leftInput.id = static_cast<int>(InputId::left);
-		leftInput.hardwareType = minigen::InputManager::HardwareType::keyboard;
-		leftInput.inputType = minigen::InputManager::InputType::onKeyDown;
-		leftInput.inputButton.keyboardButton = SDLK_a;
-		inputComponent->AddInput(leftInput);
-
-		AddComponent(inputComponent);
-	}
-	else
-	{
-
-	}
-}
-
-void QBert::ProcessInput() const
-{
-	bool moved = false;
-
-	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::up)))
-		moved = m_spMovementComponent->Move(TileMovementComponent::MovementType::up);
-
-	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::right)))
-		moved = m_spMovementComponent->Move(TileMovementComponent::MovementType::right);
-
-	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::down)))
-		moved = m_spMovementComponent->Move(TileMovementComponent::MovementType::down);
-
-	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::left)))
-		moved = m_spMovementComponent->Move(TileMovementComponent::MovementType::left);
-
-	if (moved)
-	{
-		ArenaTile* pTile = m_spMovementComponent->GetTile();
-
-		if (pTile->IsNullTile() && !pTile->HasDisc())
-		{
-			std::cout << "QBert is dying! Qbert ptr: " << this << "\n";
-			Die();
-		}
-
-		m_spMovementComponent->GetTile()->Activate();
-	}
-
+	m_pParentObject->AddComponent(imageRenderComponent);
 }
 
 void QBert::Die() const
 {
 	m_pArena->HandleQbertDeath();
+}
 
-	// Reset QBerts position
-	m_spMovementComponent->SetTile(m_pArena->GetTopTile());
+void QBert::HandleTileChange() const
+{
+	std::cout << "Qbert moved tiles!\n";
+
+	ArenaTile* pTile = m_spTileMovementComponent->GetTile();
+
+	if (pTile->IsNullTile() && !pTile->HasDisc())
+	{
+		Die();
+
+		// Reset QBerts position
+		m_spTileMovementComponent->SetTile(m_pSpawnTile);
+	}
+	else
+	{
+		pTile->Activate();
+	}
 }
 
 void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
@@ -139,8 +82,8 @@ void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 
 	if (pOtherGameObject->GetTag() == "Disc")
 	{
-		m_spMovementComponent->SetTile(m_pArena->GetTopTile());
-		m_spMovementComponent->GetTile()->Activate();
+		m_spTileMovementComponent->SetTile(m_pArena->GetTopTile());
+		m_spTileMovementComponent->GetTile()->Activate();
 	}
 	else if (pOtherGameObject->GetTag() == "Coily")
 	{

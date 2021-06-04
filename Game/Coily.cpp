@@ -39,7 +39,7 @@ void Coily::Initialize()
 	spCollisionSubject->AddObserver(spCollisionObserver);
 
 	// Movement
-	AddComponent(m_spMovementComponent);
+	m_pParentObject->AddComponent(m_spMovementComponent);
 }
 
 void Coily::InitializeSprite()
@@ -48,7 +48,9 @@ void Coily::InitializeSprite()
 	std::shared_ptr<minigen::ImageRenderComponent> imageRenderComponent = std::make_shared<minigen::ImageRenderComponent>();
 	const float scale = m_pArena->GetTileSize() / 15.f;
 	imageRenderComponent->AddImage(path, { -8 * scale,-10 * scale }, scale);
-	AddComponent(imageRenderComponent);
+	//AddComponent(imageRenderComponent);
+
+	m_pParentObject->AddComponent(imageRenderComponent);
 }
 
 void Coily::Update()
@@ -75,7 +77,7 @@ void Coily::OnCollisionEnter(minigen::GameObject* const)
 void Coily::TransformIntoSnake()
 {
 	m_CoilyState = CoilyState::Snake;
-	std::shared_ptr<minigen::ImageRenderComponent> spImageComponent = GetComponent<minigen::ImageRenderComponent>();
+	std::shared_ptr<minigen::ImageRenderComponent> spImageComponent = m_pParentObject->GetComponent<minigen::ImageRenderComponent>();
 	if (spImageComponent)
 	{
 		spImageComponent->RemoveImage(m_CoilyBallImagePath);

@@ -97,7 +97,7 @@ void minigen::GameObject::Update()
 		component->Update();
 	}
 
-	// Update all the scripts and it's components
+	// Update all the scripts
 	for (std::shared_ptr<Script> script : m_Scripts)
 	{
 		script->Update();

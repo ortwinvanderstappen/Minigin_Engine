@@ -25,7 +25,7 @@ void CoilyAIComponent::Initialize()
 		return;
 	}
 	
-	m_spTileMovementComponent = m_CoilyScript->GetComponent<TileMovementComponent>();
+	m_spTileMovementComponent = m_pParentObject->GetComponent<TileMovementComponent>();
 	if (m_spTileMovementComponent == nullptr)
 	{
 		std::cerr << "CoilyAIComponent: Required component in Coily: TileMovementComponent not found!\n";
