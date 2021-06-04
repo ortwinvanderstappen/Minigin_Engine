@@ -54,7 +54,7 @@ void GameScene::InitializeStage()
 	Add(spArena);
 
 	const auto gameArenaScript = std::make_shared<GameArena>(GameArena::GameMode::Single, &m_Stages[m_Stage], m_Stage);
-	spArena->AddScript(gameArenaScript);
+	spArena->AddComponent(gameArenaScript);
 
 	std::cout << "Stage started, objects: " << m_Objects.size();
 	std::cout << "...\n";

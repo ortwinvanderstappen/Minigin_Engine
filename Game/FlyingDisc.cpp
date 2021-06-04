@@ -17,6 +17,11 @@ FlyingDisc::FlyingDisc(GameArena* pArena, ArenaTile* pTile) :
 	m_IsUsed(false)
 {}
 
+void FlyingDisc::Update()
+{
+	
+}
+
 void FlyingDisc::Initialize()
 {
 	m_pParentObject->SetTag("Disc");

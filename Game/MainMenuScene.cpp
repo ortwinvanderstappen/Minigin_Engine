@@ -1,4 +1,7 @@
 #include "MainMenuScene.h"
+
+#include <iostream>
+
 #include "GameObject.h"
 #include "ImageRenderComponent.h"
 #include "ImGuiComponent.h"
@@ -15,10 +18,8 @@ void MainMenuScene::Initialize()
 	using namespace minigen;
 
 	// Create HUD object
-	auto HUDGameObject = std::make_shared<GameObject>();
+	std::shared_ptr<GameObject> HUDGameObject = std::make_shared<GameObject>();
 	Add(HUDGameObject);
-	auto imguiC = std::make_shared<ImGuiComponent>();
-	HUDGameObject->AddComponent(imguiC);
 
 	// Background image
 	std::shared_ptr<ImageRenderComponent> imageRenderComponent = std::make_shared<ImageRenderComponent>();
@@ -58,4 +59,13 @@ void MainMenuScene::Initialize()
 	inputComponent->AddInput(openGameSceneInput3);
 
 	HUDGameObject->AddComponent(inputComponent);
+}
+
+void MainMenuScene::Update()
+{
+	Scene::Update();
+	
+	//Point2i mousePos;
+	//SDL_GetMouseState(&mousePos.x, &mousePos.y);
+	//std::cout << "mousepos: [ " << mousePos.x << ", " << mousePos.y <<" ] \n";
 }

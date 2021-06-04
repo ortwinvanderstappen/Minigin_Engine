@@ -7,5 +7,7 @@ public:
 
 private:
 	void Initialize() override;
+public:
+	void Update() override;
 };
 

@@ -1,18 +1,13 @@
 #pragma once
-#pragma warning (push)
-#pragma warning(disable: 4201)
 #include "RenderComponent.h"
-#pragma warning(pop)
-
 #include "ArenaTile.h"
 #include "GameScene.h"
-#include "structs.h"
 #include "TileMovementComponent.h"
 
 class Coily;
 class QBert;
 
-class GameArena : public minigen::Script
+class GameArena : public minigen::RenderComponent
 {
 public:
 	enum class GameMode

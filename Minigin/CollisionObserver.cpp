@@ -1,18 +1,18 @@
 #include "MiniginPCH.h"
 #include "CollisionObserver.h"
+#include "Component.h"
 
-#include "Script.h"
-
-minigen::CollisionObserver::CollisionObserver(Script* pScript) :
-	m_pScript(pScript)
-{}
+minigen::CollisionObserver::CollisionObserver(Component* pComponent) :
+	m_pComponent(pComponent)
+{
+}
 
 void minigen::CollisionObserver::Notify(GameObject* pOther, Event event)
 {
 	switch (event)
 	{
 	case Event::event_collision:
-		m_pScript->OnCollisionEnter(pOther);
+		m_pComponent->OnCollisionEnter(pOther);
 		break;
 	default:;
 	}

@@ -4,7 +4,6 @@
 #include "GameObject.h"
 #include "RenderComponent.h"
 #include "Renderer.h"
-#include "Script.h"
 #include <algorithm>
 
 using namespace minigen;
@@ -77,12 +76,6 @@ void Scene::Render() const
 		{
 			std::shared_ptr<RenderComponent> spRenderComponent = std::dynamic_pointer_cast<RenderComponent>(spComponent);
 			if (spRenderComponent) spRenderComponent->Render();
-		}
-
-		// Render all the scripts
-		for (const std::shared_ptr<Script> spScript : object->GetScripts())
-		{
-			spScript->Render();
 		}
 
 		// Collision render pass (debug only)

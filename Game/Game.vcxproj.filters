@@ -25,14 +25,17 @@
       <UniqueIdentifier>{94422565-aec9-4cc7-9dfa-26a059f4e147}</UniqueIdentifier>
     </Filter>
     <Filter Include="Components">
-      <UniqueIdentifier>{4d559441-5832-470c-a2e5-01f34637e690}</UniqueIdentifier>
+      <UniqueIdentifier>{33c59c2d-b2e6-4fe6-a399-b48e33ae37c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Arena">
+      <UniqueIdentifier>{e3925a3f-a8d3-4bd2-b92e-0e381ed9ac90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Entities">
+      <UniqueIdentifier>{4b4f7561-f079-47f7-bed5-5f071a8b544a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainMenuScene.cpp">
@@ -41,32 +44,35 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="GameArena.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="JsonParser.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="ArenaTile.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="QBert.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="FlyingDisc.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="TileMovementComponent.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ArenaTile.cpp">
+      <Filter>Components\Arena</Filter>
+    </ClCompile>
+    <ClCompile Include="GameArena.cpp">
+      <Filter>Components\Arena</Filter>
     </ClCompile>
     <ClCompile Include="Coily.cpp">
-      <Filter>Scripts</Filter>
+      <Filter>Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="FlyingDisc.cpp">
+      <Filter>Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="QBert.cpp">
+      <Filter>Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="CoilyAIComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="PlayerControllerComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMovementComponent.cpp">
+      <Filter>Components\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,32 +85,32 @@
     <ClInclude Include="GameScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="GameArena.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="JsonParser.h">
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="ArenaTile.h">
-      <Filter>Scripts</Filter>
+      <Filter>Components\Arena</Filter>
     </ClInclude>
-    <ClInclude Include="QBert.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="FlyingDisc.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMovementComponent.h">
-      <Filter>Components</Filter>
+    <ClInclude Include="GameArena.h">
+      <Filter>Components\Arena</Filter>
     </ClInclude>
     <ClInclude Include="Coily.h">
-      <Filter>Scripts</Filter>
+      <Filter>Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="FlyingDisc.h">
+      <Filter>Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="QBert.h">
+      <Filter>Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="CoilyAIComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="PlayerControllerComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMovementComponent.h">
+      <Filter>Components\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

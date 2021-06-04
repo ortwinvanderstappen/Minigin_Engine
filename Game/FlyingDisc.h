@@ -1,16 +1,17 @@
 #pragma once
-#include <Script.h>
+#include <Component.h>
 #include <string>
 
 class ArenaTile;
 class GameArena;
 struct Point2f;
 
-class FlyingDisc : public minigen::Script
+class FlyingDisc : public minigen::Component
 {
 public:
 	FlyingDisc(GameArena* pArena, ArenaTile* pTile);
 
+	void Update() override;
 	void Initialize() override;
 	void SetPosition(const Point2f& pos) const;
 	void OnCollisionEnter(minigen::GameObject* const pOtherGameObject) override;

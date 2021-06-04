@@ -1,5 +1,5 @@
 #pragma once
-#include <Script.h>
+#include <Component.h>
 #include <string>
 
 class QBert;
@@ -7,7 +7,7 @@ class TileMovementComponent;
 class GameArena;
 class ArenaTile;
 
-class Coily : public minigen::Script
+class Coily : public minigen::Component
 {
 public:
 	enum class CoilyState

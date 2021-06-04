@@ -1,9 +1,9 @@
 #include "MiniginPCH.h"
 #include "GameObject.h"
 #include "RenderComponent.h"
-#include "Script.h"
 
 minigen::GameObject::GameObject() :
+	m_pParentScene(nullptr),
 	m_IsMarkedForDelete(false),
 	m_IsMarkedForLateDelete(false),
 	m_Tag("GameObject")
@@ -42,21 +42,9 @@ void minigen::GameObject::AddComponent(std::shared_ptr<Component> spComponent)
 	spComponent->Initialize();
 }
 
-void minigen::GameObject::AddScript(std::shared_ptr<Script> spScript)
-{
-	m_Scripts.push_back(spScript);
-	spScript->SetParent(this);
-	spScript->Initialize();
-}
-
 void minigen::GameObject::SetCollisionSubject(std::shared_ptr<CollisionSubject> spCollisionSubject)
 {
 	m_spCollisionSubject = spCollisionSubject;
-}
-
-const std::vector<std::shared_ptr<minigen::Script>>& minigen::GameObject::GetScripts() const
-{
-	return m_Scripts;
 }
 
 std::shared_ptr<minigen::CollisionSubject> minigen::GameObject::GetCollisionSubject() const
@@ -92,15 +80,9 @@ const Point2f& minigen::GameObject::GetPosition() const
 void minigen::GameObject::Update()
 {
 	// Update all the components of this game object
-	for (std::shared_ptr<Component> component : m_spComponents)
+	for (int i = 0; i < m_spComponents.size(); ++i)
 	{
-		component->Update();
-	}
-
-	// Update all the scripts
-	for (std::shared_ptr<Script> script : m_Scripts)
-	{
-		script->Update();
+		m_spComponents[i]->Update();
 	}
 }
 

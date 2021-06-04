@@ -203,7 +203,6 @@ void minigen::Minigin::Run()
 
 	auto lastTime = high_resolution_clock::now();
 	bool doContinue = true;
-
 	while (doContinue)
 	{
 		const auto currentTime = high_resolution_clock::now();

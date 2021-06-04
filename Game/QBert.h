@@ -1,14 +1,15 @@
 #pragma once
 #include <string>
-#include "Script.h"
+#include "Component.h"
 
 class TileMovementComponent;
 class GameArena;
 class ArenaTile;
-class QBert : public minigen::Script
+class QBert : public minigen::Component
 {
 public:
 	QBert(GameArena* pArena, ArenaTile* pStartTile);
+	void Update() override;
 	void OnCollisionEnter(minigen::GameObject* const pOtherGameObject) override;
 protected:
 	void Initialize() override;

@@ -106,7 +106,7 @@ void GameArena::CreateDiscs()
 		std::shared_ptr<minigen::GameObject> spDiscObject = std::make_shared<minigen::GameObject>();
 		// Spawn the disc and attach it to the null tile
 		const std::shared_ptr<FlyingDisc> m_spFlyingDisc = std::make_shared<FlyingDisc>(this, pTile);
-		spDiscObject->AddScript(m_spFlyingDisc);
+		spDiscObject->AddComponent(m_spFlyingDisc);
 		pTile->AttachFlyingDisc(m_spFlyingDisc);
 		// Correctly position the disc
 		m_spFlyingDisc->SetPosition(m_ArenaHexes[tileIndex].GetCenter());
@@ -180,7 +180,7 @@ void GameArena::SpawnCoily()
 {
 	std::shared_ptr<minigen::GameObject> spCoilyObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<Coily> spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
-	spCoilyObject->AddScript(spCoily);
+	spCoilyObject->AddComponent(spCoily);
 
 	m_wpCoily = spCoily;
 
@@ -321,7 +321,7 @@ void GameArena::SpawnPlayer(ArenaTile* pTile, bool useController)
 {
 	std::shared_ptr<minigen::GameObject> qbertObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<QBert> qbert = std::make_shared<QBert>(this, pTile);
-	qbertObject->AddScript(qbert);
+	qbertObject->AddComponent(qbert);
 
 	// Setup player controller
 	PlayerControllerComponent::HardwareType hardwareType = PlayerControllerComponent::HardwareType::Keyboard;

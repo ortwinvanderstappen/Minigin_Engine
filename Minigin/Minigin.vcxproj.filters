@@ -63,6 +63,9 @@
     <Filter Include="Source Files\FileParsing">
       <UniqueIdentifier>{0c1e41f7-c9ea-423a-b669-d4d99f1ea3e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Components\Menu">
+      <UniqueIdentifier>{06eec68c-2154-4da0-9892-83e1d93d6e24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h">
@@ -207,15 +210,15 @@
     <ClInclude Include="ComponentHolder.h">
       <Filter>Source Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Script.h">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="CustomCommand.h" />
     <ClInclude Include="CollisionObserver.h">
       <Filter>Source Files\Observers</Filter>
     </ClInclude>
     <ClInclude Include="CollisionSubject.h">
       <Filter>Source Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuComponent.h">
+      <Filter>Source Files\Components\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -357,9 +360,6 @@
     <ClCompile Include="ComponentHolder.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>Source Files\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="CustomCommand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -368,6 +368,9 @@
     </ClCompile>
     <ClCompile Include="CollisionSubject.cpp">
       <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuComponent.cpp">
+      <Filter>Source Files\Components\Menu</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ CoilyAIComponent::CoilyAIComponent(GameArena* pArena) :
 
 void CoilyAIComponent::Initialize()
 {
-	m_CoilyScript = m_pParentObject->GetScript<Coily>();
+	m_CoilyScript = m_pParentObject->GetComponent<Coily>();
 	if (m_CoilyScript == nullptr)
 	{
 		std::cerr << "CoilyAIComponent: Required component in parent: Coily not found!\n";

@@ -15,6 +15,10 @@ QBert::QBert(GameArena* pArena, ArenaTile* pStartTile) :
 	m_QbertImagePath("images/QBert.png")
 {}
 
+void QBert::Update()
+{
+}
+
 void QBert::Initialize()
 {
 	m_pParentObject->SetTag("QBert");

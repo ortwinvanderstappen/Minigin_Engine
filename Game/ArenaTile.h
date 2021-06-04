@@ -1,11 +1,11 @@
 #pragma once
 #include "GameScene.h"
-#include "Script.h"
+#include "RenderComponent.h"
 #include "structs.h"
 
 class FlyingDisc;
 class GameArena;
-class ArenaTile : minigen::Script
+class ArenaTile : minigen::RenderComponent
 {
 public:
 	ArenaTile(GameArena* pArena,int index, float size, const Point2f& position, bool isNullTile, GameScene::StageSettings* pStageSettings);

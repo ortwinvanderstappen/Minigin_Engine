@@ -13,3 +13,8 @@ void minigen::Component::SetParent(GameObject* pParentObject)
 {
 	m_pParentObject = pParentObject;
 }
+
+minigen::GameObject* minigen::Component::GetParent() const
+{
+	return m_pParentObject;
+}

@@ -2,17 +2,17 @@
 #include "Observer.h"
 
 namespace minigen {
-	class Script;
+	class Component;
 
 	class CollisionObserver :public Observer
 	{
 	public:
-		CollisionObserver(Script* pScript);
+		CollisionObserver(Component* pScript);
 		
 		void Notify(GameObject* pGameObject, Event event) override;
 
 	private:
-		Script* m_pScript;
+		Component* m_pComponent;
 	};
 }
 
