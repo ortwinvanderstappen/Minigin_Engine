@@ -9,7 +9,7 @@ namespace minigen
 	{
 	public:
 		void Update();
-		void Render(const glm::vec3& positionOffset) const;
+		void Render(const Point2f& positionOffset) const;
 
 		void SetText(const std::string& text);
 		void SetPosition(float x, float y);

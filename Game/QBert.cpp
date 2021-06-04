@@ -11,7 +11,7 @@
 QBert::QBert(GameArena* pArena, ArenaTile* pStartTile) :
 	m_pArena(pArena),
 	m_pSpawnTile(pStartTile),
-	m_spTileMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile, .01f)),
+	m_spTileMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile)),
 	m_QbertImagePath("images/QBert.png")
 {}
 
@@ -78,8 +78,8 @@ void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 
 	if (pOtherGameObject->GetTag() == "Disc")
 	{
-		m_spTileMovementComponent->SetTile(m_pArena->GetTopTile());
-		m_spTileMovementComponent->GetTile()->Activate();
+		m_spTileMovementComponent->CompleteMovement();
+		m_spTileMovementComponent->MoveToTile(m_pArena->GetTopTile());
 	}
 	else if (pOtherGameObject->GetTag() == "Coily")
 	{

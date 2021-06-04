@@ -7,12 +7,13 @@
 #include "GameArena.h"
 #include "GameObject.h"
 #include "GameTime.h"
+#include <cmath>
 
-TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, float movementCooldown) :
+TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile) :
 	m_pArena(pArena),
 	m_pTile(pStartTile),
-	m_MovementCooldown(movementCooldown),
-	m_MovementTimer(0.f),
+	m_MoveState(MoveState::Idle),
+	m_MovementProgress(0.f),
 	m_MovedCallbacks()
 {}
 
@@ -23,9 +24,33 @@ void TileMovementComponent::Initialize()
 
 void TileMovementComponent::Update()
 {
-	if (m_MovementTimer < m_MovementCooldown)
+
+	if (m_MoveState == MoveState::Moving)
 	{
-		m_MovementTimer += Time::GetInstance().GetDeltaTime();
+		const float deltaTime = Time::GetInstance().GetDeltaTime();
+
+		const Point2f& currentPosition = m_pParentObject->GetPosition();
+		const Point2f& startPosition = m_pTile->GetCenter();
+		const Point2f& goalPosition = m_pGoalTile->GetCenter();
+
+		// Calculate intermediate bezier point
+		Point2f bezierPoint;
+
+		if (goalPosition.y < currentPosition.y)
+			bezierPoint = Point2f(currentPosition.x, goalPosition.y);
+		else
+			bezierPoint = Point2f(goalPosition.x, currentPosition.y);
+
+		// Calculate quadratic bezier curve https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Quadratic_B%C3%A9zier_curves
+		const float t = 1 - m_MovementProgress;
+		const Point2f pointOnCurve = (startPosition * t + bezierPoint * m_MovementProgress) * t + (bezierPoint * t + goalPosition * m_MovementProgress) * m_MovementProgress;
+		m_pParentObject->SetPosition(pointOnCurve);
+
+		if (m_MovementProgress >= 1.f)
+		{
+			CompleteMovement();
+		}
+		m_MovementProgress += deltaTime * m_MoveSpeedMultiplier;
 	}
 }
 
@@ -33,21 +58,19 @@ bool TileMovementComponent::Move(MovementType movement)
 {
 	if (!m_pTile) return false;
 
-	// Don't accept input when movement is on cooldown
-	if (m_MovementTimer < m_MovementCooldown)
-		return false;
+	// Don't move if we're mid animation
+	if (m_MoveState != MoveState::Idle) return false;
 
-	// Apply movement cooldown
-	m_MovementTimer -= m_MovementCooldown;
+	m_MoveSpeedMultiplier = m_BaseMoveSpeedMultiplier;
 
 	GameArena* pArena = m_pTile->GetArena();
 	ArenaTile* pNewTile = pArena->GetNeighbourTile(m_pTile, movement);
 
 	if (pNewTile)
 	{
-		m_pTile = pNewTile;
-		SetParentPosition();
-		TileMoved();
+		m_pGoalTile = pNewTile;
+		m_MoveState = MoveState::Moving;
+		m_MovementProgress = 0.f;
 		return true;
 	}
 
@@ -60,9 +83,25 @@ void TileMovementComponent::SetTile(ArenaTile* pTile)
 	SetParentPosition();
 }
 
+void TileMovementComponent::MoveToTile(ArenaTile* pTile)
+{
+	m_pGoalTile = pTile;
+	m_MoveState = MoveState::Moving;
+	m_MovementProgress = 0.f;
+	m_MoveSpeedMultiplier = m_SlowedMoveSpeedMultiplier;
+}
+
 ArenaTile* TileMovementComponent::GetTile() const
 {
 	return m_pTile;
+}
+
+void TileMovementComponent::CompleteMovement()
+{
+	m_MoveState = MoveState::Idle;
+	m_pTile = m_pGoalTile;
+	SetParentPosition();
+	TileMoved();
 }
 
 void TileMovementComponent::SetParentPosition() const
@@ -82,8 +121,8 @@ void TileMovementComponent::SubscribeToMoved(const CommandCallback& movedCallbac
 void TileMovementComponent::TileMoved()
 {
 	std::cout << "Moved to tile with index: " << m_pTile->GetIndex() << "\n";
-	
-	for(CommandCallback& movedCallback: m_MovedCallbacks)
+
+	for (CommandCallback& movedCallback : m_MovedCallbacks)
 	{
 		movedCallback();
 	}

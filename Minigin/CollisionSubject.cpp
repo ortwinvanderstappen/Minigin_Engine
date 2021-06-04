@@ -12,7 +12,7 @@ minigen::CollisionSubject::CollisionSubject(GameObject* pParentObject, const Rec
 
 Rectf minigen::CollisionSubject::GetCollisionBounds() const
 {
-	const glm::vec3& parentPos = m_pParentObject->GetPosition();
+	const Point2f& parentPos = m_pParentObject->GetPosition();
 	return Rectf{ m_Boundaries.x + parentPos.x, m_Boundaries.y + parentPos.y, m_Boundaries.w, m_Boundaries.h };
 }
 

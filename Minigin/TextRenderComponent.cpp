@@ -43,7 +43,7 @@ void minigen::TextRenderComponent::Update()
 
 void minigen::TextRenderComponent::Render() const
 {
-	const glm::vec3& pos = m_pParentObject->GetPosition();
+	const Point2f& pos = m_pParentObject->GetPosition();
 	std::for_each(m_upTextObjectMap.begin(), m_upTextObjectMap.end(), [pos](std::pair<int, std::shared_ptr<minigen::TextObject>> textPair)
 		{
 			textPair.second->Render(pos);

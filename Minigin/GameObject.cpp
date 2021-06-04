@@ -84,7 +84,7 @@ const std::string& minigen::GameObject::GetTag() const
 	return m_Tag;
 }
 
-const glm::vec3& minigen::GameObject::GetPosition() const
+const Point2f& minigen::GameObject::GetPosition() const
 {
 	return m_Transform.GetPosition();
 }
@@ -106,5 +106,10 @@ void minigen::GameObject::Update()
 
 void minigen::GameObject::SetPosition(float x, float y)
 {
-	m_Transform.SetPosition(x, y, 0.0f);
+	m_Transform.SetPosition(x, y);
+}
+
+void minigen::GameObject::SetPosition(const Point2f& pos)
+{
+	m_Transform.SetPosition(pos.x, pos.y);
 }

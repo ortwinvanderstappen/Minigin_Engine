@@ -1,17 +1,14 @@
 #pragma once
-#pragma warning(push)
-#pragma warning (disable:4201)
-#include <glm.hpp>
-#pragma warning(pop)
+#include "structs.h"
 
 namespace minigen
 {
 	class Transform final
 	{
 	public:
-		const glm::vec3& GetPosition() const { return m_Position; }
-		void SetPosition(float x, float y, float z);
+		const Point2f& GetPosition() const { return m_Position; }
+		void SetPosition(float x, float y);
 	private:
-		glm::vec3 m_Position;
+		Point2f m_Position;
 	};
 }

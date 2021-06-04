@@ -1,9 +1,8 @@
 #include "MiniginPCH.h"
 #include "Transform.h"
 
-void minigen::Transform::SetPosition(const float x, const float y, const float z)
+void minigen::Transform::SetPosition(float x, float y)
 {
 	m_Position.x = x;
 	m_Position.y = y;
-	m_Position.z = z;
 }

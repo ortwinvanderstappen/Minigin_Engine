@@ -24,7 +24,7 @@ void CoilyAIComponent::Initialize()
 		std::cerr << "CoilyAIComponent: Required component in parent: Coily not found!\n";
 		return;
 	}
-	
+
 	m_spTileMovementComponent = m_pParentObject->GetComponent<TileMovementComponent>();
 	if (m_spTileMovementComponent == nullptr)
 	{
@@ -114,7 +114,7 @@ bool CoilyAIComponent::IsRandomMovementTileNull(int movementDirection) const
 
 float CoilyAIComponent::GetAngleToClosestPlayer() const
 {
-	const glm::vec3& coilyPosition = m_pParentObject->GetPosition();
+	const Point2f& coilyPosition = m_pParentObject->GetPosition();
 
 	std::vector<std::shared_ptr<QBert>> spPlayers = m_pArena->GetPlayers();
 
@@ -125,8 +125,8 @@ float CoilyAIComponent::GetAngleToClosestPlayer() const
 		if (spClosestPlayer == spPlayer) continue;
 
 		// Calculate distance between gameobjects
-		const glm::vec3& playerPosition = spPlayer->GetParent()->GetPosition();
-		const float distance{ glm::distance(playerPosition, coilyPosition) };
+		const Point2f& playerPosition = spPlayer->GetParent()->GetPosition();
+		const float distance{ playerPosition.Distance(coilyPosition) };
 		if (distance < closestDistance)
 		{
 			spClosestPlayer = spPlayer;
@@ -134,6 +134,6 @@ float CoilyAIComponent::GetAngleToClosestPlayer() const
 		}
 	}
 
-	const glm::vec3& playerPosition = spClosestPlayer->GetParent()->GetPosition();
+	const Point2f& playerPosition = spClosestPlayer->GetParent()->GetPosition();
 	return atan2(coilyPosition.y - playerPosition.y, coilyPosition.x - playerPosition.x);
 }

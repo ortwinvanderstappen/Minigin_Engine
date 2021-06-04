@@ -18,27 +18,40 @@ public:
 		up
 	};
 	
-	TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, float movementCooldown = .5f);
+	TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile);
 
 	void Initialize() override;
 	void Update() override;
 	bool Move(MovementType movement);
 
 	void SetTile(ArenaTile* pTile);
+	void MoveToTile(ArenaTile* pTile);
 	ArenaTile* GetTile() const;
-	
-	void SetParentPosition() const;
 
+	void CompleteMovement();
+	void SetParentPosition() const;
 	void SubscribeToMoved(const CommandCallback& movedCallback);
 
 private:
+	enum class MoveState
+	{
+		Idle,
+		Moving
+	};
+	
 	void TileMoved();
 	
 	GameArena* m_pArena;
 	ArenaTile* m_pTile;
-	float m_MovementCooldown;
-	float m_MovementTimer;
+	MoveState m_MoveState;
+	float m_MovementProgress;
+
+	ArenaTile* m_pGoalTile;
 
 	std::vector<CommandCallback> m_MovedCallbacks;
+
+	float m_MoveSpeedMultiplier = 1.4f;
+	float m_BaseMoveSpeedMultiplier = 1.5f;
+	float m_SlowedMoveSpeedMultiplier = .3f;
 };
 

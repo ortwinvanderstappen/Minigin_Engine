@@ -13,7 +13,7 @@
 
 Coily::Coily(GameArena* pArena, ArenaTile* pStartTile, const std::vector<std::shared_ptr<QBert>>& spPlayers) :
 	m_pArena(pArena),
-	m_spMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile, 0.f)),
+	m_spMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile)),
 	m_spPlayers(spPlayers),
 	m_CoilyBallImagePath("images/CoilyBall.png"),
 	m_CoilySnakeImagePath("images/CoilySnake.png"),

@@ -21,7 +21,7 @@ void minigen::ImageRenderComponent::Update()
 
 void minigen::ImageRenderComponent::Render() const
 {
-	const glm::vec3& positionOffset = m_pParentObject->GetPosition();
+	const Point2f& positionOffset = m_pParentObject->GetPosition();
 	for (auto image : m_spTextureMap)
 	{
 		const ImageEntry& entry = image.second;

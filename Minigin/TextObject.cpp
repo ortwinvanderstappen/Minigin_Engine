@@ -1,7 +1,6 @@
 #include "MiniginPCH.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include <GL/gl.h>
 #include "TextObject.h"
 #include "Renderer.h"
 #include "Font.h"
@@ -29,7 +28,7 @@ void minigen::TextObject::Update()
 	}
 }
 
-void minigen::TextObject::Render(const glm::vec3& positionOffset) const
+void minigen::TextObject::Render(const Point2f& positionOffset) const
 {
 	if (m_Texture != nullptr)
 	{
@@ -47,5 +46,5 @@ void minigen::TextObject::SetText(const std::string& text)
 
 void minigen::TextObject::SetPosition(const float x, const float y)
 {
-	m_Transform.SetPosition(x, y, 0.0f);
+	m_Transform.SetPosition(x, y);
 }

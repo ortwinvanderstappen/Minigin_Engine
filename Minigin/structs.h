@@ -2,15 +2,35 @@
 
 struct Point2f
 {
+	float x{}, y{};
+	
+	Point2f() :
+		Point2f(0.f, 0.f)
+	{}
+
 	Point2f(float px, float py)
 	{
 		x = px; y = py;
 	}
-	float x{}, y{};
 
 	Point2f operator+ (const Point2f& other) const
 	{
 		return Point2f(x + other.x, y + other.y);
+	}
+
+	Point2f operator*(float scalar) const
+	{
+		return Point2f(x * scalar, y * scalar);
+	}
+
+	float Distance(const Point2f& other) const
+	{
+		return abs(Length() - other.Length());
+	}
+
+	float Length() const
+	{
+		return static_cast<float>(sqrt(x*x + y*y));
 	}
 };
 

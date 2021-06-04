@@ -21,6 +21,7 @@ namespace minigen
 	public:
 		void Update();
 		void SetPosition(float x, float y);
+		void SetPosition(const Point2f& pos);
 
 		GameObject();
 		virtual ~GameObject();
@@ -52,7 +53,7 @@ namespace minigen
 		void SetTag(const std::string& tag);
 		const std::string& GetTag() const;
 
-		const glm::vec3& GetPosition() const;
+		const Point2f& GetPosition() const;
 
 	protected:
 		Scene* m_pParentScene;
