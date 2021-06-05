@@ -18,6 +18,7 @@
 #include "TileMovementComponent.h"
 #include "HealthObserver.h"
 #include "ScoreObserver.h"
+#include "ScoreRenderComponent.h"
 
 GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
 	GameManager::StageSettings* const stageSettings, int stage) :
@@ -40,6 +41,16 @@ GameArena::~GameArena()
 
 void GameArena::Initialize()
 {
+	using namespace minigen;
+	SDL_Renderer* pRenderer = Renderer::GetInstance().GetSDLRenderer();
+	// Obtain window size
+	int width; int height;
+	SDL_GetRendererOutputSize(pRenderer, &width, &height);
+
+	const Point2f scorePosition{ static_cast<float>(width) * .7f, 50.f };
+	const std::shared_ptr<ScoreRenderComponent> spScoreRenderComponent = std::make_shared<ScoreRenderComponent>(scorePosition);
+	GetParent()->AddComponent(spScoreRenderComponent);
+
 	InitializeArena();
 	CreateDiscs();
 	AddPlayers();
@@ -149,10 +160,10 @@ void GameArena::Render() const
 	ImGui::Begin("Info", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::SetWindowPos(ImVec2{ 0.f,5.f });
 	ImGui::Text("FPS: %.1f", static_cast<double>(ImGui::GetIO().Framerate));
+	ImGui::Separator();
 	ImGui::Text("Stage %i", (m_Stage + 1));
 	ImGui::Text("Lives %i", m_spHealthObserver->GetLives());
-	ImGui::Text("Score %i", m_pGameManager->GetScore());
-	ImGui::Text("Completed tiles %i", m_spCompletedTilesObserver->GetCompletedTileCount());
+	ImGui::Separator();
 	ImGui::Text("Uncompleted tiles %i", m_TileCount - m_spCompletedTilesObserver->GetCompletedTileCount());
 	ImGui::Separator();
 	ImGui::End();
@@ -208,17 +219,6 @@ void GameArena::SpawnCoily()
 	m_pParentObject->GetScene()->Add(spCoilyObject);
 }
 
-//void GameArena::HandleQbertDeath()
-//{
-//	std::cout << "Ouch you died! new lives: " << m_Lives << "\n";
-//	ResetStageEntities();
-//
-//	if (m_Lives <= 0)
-//	{
-//		m_pGameManager->Restart();
-//	}
-//}
-
 void GameArena::Restart() const
 {
 	m_pGameManager->Restart();
@@ -257,15 +257,6 @@ float GameArena::GetTileSize() const
 {
 	return m_TileSize;
 }
-
-//void GameArena::IncreaseCompletedTiles(int change)
-//{
-//	m_CompletedTiles += change;
-//	if (m_CompletedTiles == m_TileCount)
-//	{
-//		HandleLevelCompletion();
-//	}
-//}
 
 ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement)
 {

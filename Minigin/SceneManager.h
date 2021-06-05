@@ -13,6 +13,8 @@ namespace minigen
 		void AddScene(std::shared_ptr<Scene> newScene);
 		Scene& CreateScene(const std::string& name);
 		void SetActiveScene(const std::string& name);
+
+		const std::string& GetActiveSceneName() const;
 		
 		void Update() const;
 		void Render() const;

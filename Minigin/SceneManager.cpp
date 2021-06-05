@@ -66,3 +66,8 @@ void minigen::SceneManager::SetActiveScene(const std::string& name)
 	else
 		std::cout << "SceneManager: ERROR, scene with name " << name << " does not exist\n";
 }
+
+const std::string& minigen::SceneManager::GetActiveSceneName() const
+{
+	return m_spActiveScene->GetName();
+}

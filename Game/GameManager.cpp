@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "JsonParser.h"
 #include "GameArena.h"
+#include "GameContext.h"
 #include "Scene.h"
 #include "ScoreObserver.h"
 
@@ -23,10 +24,14 @@ void GameManager::Update()
 
 void GameManager::Initialize()
 {
+	GameContext::GetInstance().SetScoreObserver(m_spScoreObserver);
+	
 	InitializeStageSettings();
 
 	auto onSceneEnter = [this]() { InitializeStage(); };
 	GetParent()->GetScene()->SetOnSceneEnterCallback(onSceneEnter);
+
+	//GetParent()->AddComponent(m_spScoreObserver);
 }
 
 void GameManager::InitializeStageSettings()
@@ -58,9 +63,10 @@ void GameManager::InitializeStage()
 	spArena->AddComponent(gameArenaScript);
 }
 
-void GameManager::SetGameMode(GameMode gameMode)
+void GameManager::StartGame(GameMode gameMode)
 {
 	m_GameMode = gameMode;
+	m_spScoreObserver->ResetScore();
 }
 
 void GameManager::Restart()
@@ -79,7 +85,7 @@ void GameManager::LoadNextStage()
 	}
 	else
 	{
-		// TODO: Win
+		SceneManager::GetInstance().SetActiveScene("VictoryScene");
 	}
 }
 

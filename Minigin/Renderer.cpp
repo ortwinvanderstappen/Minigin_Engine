@@ -44,6 +44,15 @@ void minigen::Renderer::Init(SDL_Window* window)
 	{
 		std::cout << "No correct render flags\n";
 	}
+	
+	// Initialize ImGui
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplSDL2_InitForOpenGL(m_Window, SDL_GL_GetCurrentContext());
+	ImGui_ImplOpenGL2_Init();
+	ImGuiIO& imGuiIo = ImGui::GetIO();
+	ImFont* pFont = imGuiIo.Fonts->AddFontFromFileTTF("../Data/DiaryOfAn8BitMage-lYDD.ttf", 22);
+	imGuiIo.FontDefault = pFont;
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -54,12 +63,6 @@ void minigen::Renderer::Init(SDL_Window* window)
 	glLoadIdentity();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	// Initialize ImGui
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(window, SDL_GL_GetCurrentContext());
-	ImGui_ImplOpenGL2_Init();
 }
 
 void minigen::Renderer::Render() const

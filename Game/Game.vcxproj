@@ -190,6 +190,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClCompile Include="FlyingDisc.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameArena.cpp" />
+    <ClCompile Include="GameContext.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="JsonParser.cpp" />
@@ -197,6 +198,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClCompile Include="PlayerControllerComponent.cpp" />
     <ClCompile Include="QBert.cpp" />
     <ClCompile Include="ScoreObserver.cpp" />
+    <ClCompile Include="ScoreRenderComponent.cpp" />
     <ClCompile Include="TileMovementComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -207,12 +209,14 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClInclude Include="FlyingDisc.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameArena.h" />
+    <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="PlayerControllerComponent.h" />
     <ClInclude Include="QBert.h" />
     <ClInclude Include="ScoreObserver.h" />
+    <ClInclude Include="ScoreRenderComponent.h" />
     <ClInclude Include="TileMovementComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

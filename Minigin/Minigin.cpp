@@ -22,6 +22,8 @@
 // Temp
 #include "BasicSoundSystem.h"
 #include "LoggingSoundSystem.h"
+#include "backends/imgui_impl_opengl2.h"
+#include "backends/imgui_impl_sdl.h"
 
 // Github repo: https://github.com/ortwinvanderstappen/Minigin_Engine
 
@@ -53,6 +55,7 @@ void minigen::Minigin::Initialize()
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
+
 
 	Renderer::GetInstance().Init(m_Window);
 

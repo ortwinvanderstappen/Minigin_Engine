@@ -34,7 +34,7 @@ public:
 	
 	void Update() override;
 	void Initialize() override;
-	void SetGameMode(GameMode gameMode);
+	void StartGame(GameMode gameMode);
 	
 	void Restart();
 	void LoadNextStage();

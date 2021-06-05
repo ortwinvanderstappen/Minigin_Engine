@@ -28,13 +28,10 @@ public:
 
 	void SpawnCoily();
 
-	//void HandleQbertDeath();
 	void Restart() const;
 	void HandleLevelCompletion() const;
 	void ResetStageEntities();
 	
-	//void IncreaseCompletedTiles(int change);
-
 	float GetTileSize() const;
 	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
 	ArenaTile* GetTopTile();
@@ -54,7 +51,6 @@ private:
 	
 	float m_TileSize;
 	int m_TileCount;
-	//int m_CompletedTiles;
 	float m_CoilySpawnTime;
 	float m_CoilySpawnTimer;
 	std::weak_ptr<Coily> m_wpCoily;

@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <Minigin.h>
+#include <SDL_render.h>
+
 
 #include "Scene.h"
 #include "ButtonComponent.h"
@@ -12,6 +14,8 @@
 #include "ImageRenderComponent.h"
 #include "InputComponent.h"
 #include "OpenGameSceneCommand.h"
+#include "Renderer.h"
+#include "ScoreRenderComponent.h"
 
 using namespace minigen;
 
@@ -28,6 +32,7 @@ void Game::LoadGame()
 	CreateGlobalInputs();
 	CreateMenuScene();
 	CreateGameScene();
+	CreateVictoryScene();
 	SceneManager::GetInstance().SetActiveScene("MainMenu");
 }
 
@@ -140,11 +145,11 @@ void Game::CreateMenuSceneButtons(const std::shared_ptr<Scene>& spScene)
 void Game::StartGame(GameManager::GameMode gameMode) const
 {
 	std::cout << "Starting game...\n";
-	
+
 	std::shared_ptr<GameManager> spGameManager = m_wpGameManager.lock();
 	if (spGameManager)
 	{
-		spGameManager->SetGameMode(gameMode);
+		spGameManager->StartGame(gameMode);
 		SceneManager::GetInstance().SetActiveScene("GameScene");
 	}
 	else
@@ -166,4 +171,51 @@ void Game::CreateGameScene()
 	spManagerObject->AddComponent(spGameManager);
 	// Store the game manager
 	m_wpGameManager = spGameManager;
+}
+
+void Game::CreateVictoryScene() const
+{
+	const auto spScene = std::make_shared<Scene>("VictoryScene");
+	SceneManager::GetInstance().AddScene(spScene);
+	CreateVictorySceneButtons(spScene);
+
+	std::shared_ptr<GameObject> spScoreObject = std::make_shared<GameObject>();
+	spScoreObject->SetTag("Score");
+
+
+	using namespace minigen;
+	SDL_Renderer* pRenderer = Renderer::GetInstance().GetSDLRenderer();
+	// Obtain window size
+	int width; int height;
+	SDL_GetRendererOutputSize(pRenderer, &width, &height);
+
+	const Point2f scorePosition{ static_cast<float>(width) * .5f, 215.f };
+	const std::shared_ptr<ScoreRenderComponent> spScoreRenderComponent = std::make_shared<ScoreRenderComponent>(scorePosition);
+	spScoreObject->AddComponent(spScoreRenderComponent);
+	spScene->Add(spScoreObject);
+}
+void Game::CreateVictorySceneButtons(const std::shared_ptr<Scene>& spScene) const
+{
+	// Menu buttons
+	std::shared_ptr<GameObject> spMenuObject = std::make_shared<GameObject>();
+	spScene->Add(spMenuObject);
+
+	const Point2f menuButtonPosition{ 510.f, 341.f };
+
+	// Menu
+	Rectf menuPlayColliderRect{ menuButtonPosition.x, menuButtonPosition.y, 765.f - menuButtonPosition.x, 408 - menuButtonPosition.y };
+	const std::shared_ptr<ButtonComponent> spMenuButton = std::make_shared<ButtonComponent>(menuPlayColliderRect);
+	spMenuObject->AddComponent(spMenuButton);
+	auto singleCallback = []() { SceneManager::GetInstance().SetActiveScene("MainMenu"); };
+	spMenuButton->SetCallback(singleCallback);
+
+	// Image
+	const std::shared_ptr<ImageRenderComponent> spMenuButtonImage = std::make_shared<ImageRenderComponent>();
+	spMenuButtonImage->AddImage("images/Menu/ButtonMainMenu.png", Point2f(menuButtonPosition.x, menuButtonPosition.y));
+	spMenuObject->AddComponent(spMenuButtonImage);
+
+	// Image
+	const std::shared_ptr<ImageRenderComponent> spBeatGameImage = std::make_shared<ImageRenderComponent>();
+	spMenuButtonImage->AddImage("images/Menu/GameBeatImage.png", Point2f(428.f, 121.f));
+	spMenuObject->AddComponent(spMenuButtonImage);
 }

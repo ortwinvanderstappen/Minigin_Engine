@@ -50,8 +50,8 @@ private:
 
 	std::vector<CommandCallback> m_MovedCallbacks;
 
-	float m_MoveSpeedMultiplier = 1.4f;
-	float m_BaseMoveSpeedMultiplier = 1.5f;
+	float m_MoveSpeedMultiplier = 0.f;
+	float m_BaseMoveSpeedMultiplier = 2.5f;
 	float m_SlowedMoveSpeedMultiplier = .3f;
 };
 

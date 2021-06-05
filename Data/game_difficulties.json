@@ -2,7 +2,7 @@
 	"levels":
 	[
 		{
-			"size": 7,
+			"size": 5,
 			"lives": 3,
 			"cyclesColor": false,
 			"activeColors":
@@ -30,36 +30,6 @@
 					"position": 3
 				}
 			]
-		},
-		{
-			"size": 8,
-			"lives": 3,
-			"cyclesColor": false,
-			"activeColors":
-			[
-				{
-					"r": 223,
-					"g": 223,
-					"b": 0
-				}
-			],
-			"inactiveColor":
-			{
-				"r": 80,
-				"g": 64,
-				"b": 239
-			},
-			"discs":
-			[
-				{
-					"row": 1,
-					"position": 1
-				}, 
-				{
-					"row": 3,
-					"position": 2
-				}
-			]
-		}
+		}		
 	]
 }

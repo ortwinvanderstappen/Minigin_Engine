@@ -27,6 +27,9 @@
     <Filter Include="Observers">
       <UniqueIdentifier>{545cd4b1-5437-4ccd-9471-9caa622313b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Singletons">
+      <UniqueIdentifier>{2b7d2685-c447-476e-8611-5426a10b5b41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JsonParser.cpp">
@@ -72,6 +75,12 @@
     <ClCompile Include="CompletedTilesObserver.cpp">
       <Filter>Observers</Filter>
     </ClCompile>
+    <ClCompile Include="GameContext.cpp">
+      <Filter>Singletons</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreRenderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -115,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="CompletedTilesObserver.h">
       <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameContext.h">
+      <Filter>Singletons</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreRenderComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

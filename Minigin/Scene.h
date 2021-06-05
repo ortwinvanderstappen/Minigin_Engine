@@ -23,8 +23,10 @@ namespace minigen
 		const std::string& GetName() const;
 
 		void Initialize() {};
-		void OnSceneEnter() { if (m_OnSceneEnterCallback) m_OnSceneEnterCallback(); };
-		void OnSceneLeave() { if (m_OnSceneLeaveCallback) m_OnSceneLeaveCallback(); };
+		void OnSceneEnter() const { if (m_OnSceneEnterCallback) m_OnSceneEnterCallback(); };
+		void OnSceneLeave() const { if (m_OnSceneLeaveCallback) m_OnSceneLeaveCallback(); };
+
+		bool IsActive() const;
 
 		void SetOnSceneEnterCallback(EmptyFunctionCallback callback);
 		void SetOnSceneLeaveCallback(EmptyFunctionCallback callback);

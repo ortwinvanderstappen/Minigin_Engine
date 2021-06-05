@@ -5,6 +5,7 @@
 #include "RenderComponent.h"
 #include "Renderer.h"
 #include <algorithm>
+#include "SceneManager.h"
 
 using namespace minigen;
 
@@ -101,6 +102,11 @@ void Scene::Render() const
 const std::string& Scene::GetName() const
 {
 	return m_Name;
+}
+
+bool Scene::IsActive() const
+{
+	return (SceneManager::GetInstance().GetActiveSceneName() == m_Name);
 }
 
 void Scene::SetOnSceneEnterCallback(EmptyFunctionCallback callback)

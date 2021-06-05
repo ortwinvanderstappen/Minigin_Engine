@@ -26,6 +26,9 @@ private:
 	void StartGame(GameManager::GameMode gameMode) const;
 	// Game
 	void CreateGameScene();
+	// Win
+	void CreateVictoryScene() const;
+	void CreateVictorySceneButtons(const std::shared_ptr<minigen::Scene>& spScene) const;
 
 	std::weak_ptr<GameManager> m_wpGameManager;
 };
