@@ -118,6 +118,7 @@ void Coily::HandleTileChange()
 {
 	if(m_spMovementComponent->GetTile()->IsNullTile())
 	{
+		Notify(GetParent(), minigen::Observer::Event::event_coily_fall);
 		m_pParentObject->MarkForDelete();
 	}
 }

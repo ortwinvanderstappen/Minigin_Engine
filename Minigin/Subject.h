@@ -4,7 +4,7 @@
 
 namespace minigen {
 	class Observer;
-	class Subject : public Singleton<Subject>
+	class Subject
 	{
 	public:
 		Subject();
@@ -14,9 +14,6 @@ namespace minigen {
 	
 	protected:
 		std::vector<std::shared_ptr<Observer>> m_Observers;
-
-	private:
-		friend class Singleton<Subject>;
 	};
 }
 

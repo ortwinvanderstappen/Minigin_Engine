@@ -3,18 +3,21 @@
 #include <iostream>
 #include <SDL_render.h>
 
+#include "Renderer.h"
+#include "Scene.h"
 #include "ArenaTile.h"
 #include "Coily.h"
 #include "CoilyAIComponent.h"
+#include "CompletedTilesObserver.h"
 #include "FlyingDisc.h"
 #include "GameObject.h"
 #include "GameTime.h"
 #include "PlayerControllerComponent.h"
 #include "QBert.h"
-#include "Renderer.h"
-#include "Scene.h"
 #include "structs.h"
 #include "TileMovementComponent.h"
+#include "HealthObserver.h"
+#include "ScoreObserver.h"
 
 GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
 	GameManager::StageSettings* const stageSettings, int stage) :
@@ -22,14 +25,14 @@ GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
 	m_GameMode(gameMode),
 	m_pStageSettings(stageSettings),
 	m_Stage(stage),
-	m_Lives(stageSettings->lives),
 	m_TileSize(0.f),
 	m_TileCount(0),
-	m_CompletedTiles(0),
 	m_CoilySpawnTime(3.0f),
-	m_CoilySpawnTimer(0.f)
+	m_CoilySpawnTimer(0.f),
+	m_spHealthObserver(std::make_shared<HealthObserver>(this, stageSettings->lives)),
+	m_spCompletedTilesObserver(std::make_shared<CompletedTilesObserver>(this))
 {
-	std::cout << "Arena started, lives: " << m_Lives << "\n";
+	std::cout << "Arena started, lives: " << m_spHealthObserver->GetLives() << "\n";
 }
 
 GameArena::~GameArena()
@@ -71,11 +74,10 @@ void GameArena::InitializeArena()
 		for (int column = 0; column <= baseWidth + 2; ++column)
 		{
 			if (!(column - row >= 0)) continue;
-
 			const bool isNullTile = (row == 0 || row == baseWidth + 1) || (column - row == 0 || column == baseWidth + 2);
-
 			ArenaTile hex{ this, index, m_TileSize, currentPos, isNullTile, m_pStageSettings };
 			m_ArenaHexes.push_back(std::move(hex));
+			m_ArenaHexes[m_ArenaHexes.size() - 1].AddObserver(m_spCompletedTilesObserver);
 			currentPos.x += offsetX;
 			++index;
 		}
@@ -88,6 +90,8 @@ void GameArena::InitializeArena()
 	{
 		m_TileCount += i;
 	}
+	m_spCompletedTilesObserver->SetTileCount(m_TileCount);
+
 }
 
 void GameArena::CreateDiscs()
@@ -146,9 +150,10 @@ void GameArena::Render() const
 	ImGui::SetWindowPos(ImVec2{ 0.f,5.f });
 	ImGui::Text("FPS: %.1f", static_cast<double>(ImGui::GetIO().Framerate));
 	ImGui::Text("Stage %i", (m_Stage + 1));
-	ImGui::Text("Lives %i", m_Lives);
-	ImGui::Text("Completed tiles %i", m_CompletedTiles);
-	ImGui::Text("Uncompleted tiles %i", m_TileCount - m_CompletedTiles);
+	ImGui::Text("Lives %i", m_spHealthObserver->GetLives());
+	ImGui::Text("Score %i", m_pGameManager->GetScore());
+	ImGui::Text("Completed tiles %i", m_spCompletedTilesObserver->GetCompletedTileCount());
+	ImGui::Text("Uncompleted tiles %i", m_TileCount - m_spCompletedTilesObserver->GetCompletedTileCount());
 	ImGui::Separator();
 	ImGui::End();
 }
@@ -183,6 +188,7 @@ void GameArena::SpawnCoily()
 	std::shared_ptr<minigen::GameObject> spCoilyObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<Coily> spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
 	spCoilyObject->AddComponent(spCoily);
+	spCoily->AddObserver(m_pGameManager->GetScoreObserver());
 
 	m_wpCoily = spCoily;
 
@@ -202,16 +208,20 @@ void GameArena::SpawnCoily()
 	m_pParentObject->GetScene()->Add(spCoilyObject);
 }
 
-void GameArena::HandleQbertDeath()
-{
-	m_Lives -= 1;
-	std::cout << "Ouch you died! new lives: " << m_Lives << "\n";
-	ResetStageEntities();
+//void GameArena::HandleQbertDeath()
+//{
+//	std::cout << "Ouch you died! new lives: " << m_Lives << "\n";
+//	ResetStageEntities();
+//
+//	if (m_Lives <= 0)
+//	{
+//		m_pGameManager->Restart();
+//	}
+//}
 
-	if (m_Lives <= 0)
-	{
-		m_pGameManager->Restart();
-	}
+void GameArena::Restart() const
+{
+	m_pGameManager->Restart();
 }
 
 void GameArena::HandleLevelCompletion() const
@@ -248,14 +258,14 @@ float GameArena::GetTileSize() const
 	return m_TileSize;
 }
 
-void GameArena::IncreaseCompletedTiles(int change)
-{
-	m_CompletedTiles += change;
-	if (m_CompletedTiles == m_TileCount)
-	{
-		HandleLevelCompletion();
-	}
-}
+//void GameArena::IncreaseCompletedTiles(int change)
+//{
+//	m_CompletedTiles += change;
+//	if (m_CompletedTiles == m_TileCount)
+//	{
+//		HandleLevelCompletion();
+//	}
+//}
 
 ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement)
 {
@@ -316,6 +326,9 @@ void GameArena::SpawnPlayer(ArenaTile* pTile, bool useController)
 	std::shared_ptr<minigen::GameObject> qbertObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<QBert> qbert = std::make_shared<QBert>(this, pTile);
 	qbertObject->AddComponent(qbert);
+
+	qbert->AddObserver(m_spHealthObserver);
+	qbert->AddObserver(m_pGameManager->GetScoreObserver());
 
 	// Setup player controller
 	PlayerControllerComponent::HardwareType hardwareType = PlayerControllerComponent::HardwareType::Keyboard;

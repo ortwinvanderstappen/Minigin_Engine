@@ -186,27 +186,33 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClCompile Include="ArenaTile.cpp" />
     <ClCompile Include="Coily.cpp" />
     <ClCompile Include="CoilyAIComponent.cpp" />
+    <ClCompile Include="CompletedTilesObserver.cpp" />
     <ClCompile Include="FlyingDisc.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameArena.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="JsonParser.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlayerControllerComponent.cpp" />
     <ClCompile Include="QBert.cpp" />
+    <ClCompile Include="ScoreObserver.cpp" />
     <ClCompile Include="TileMovementComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArenaTile.h" />
     <ClInclude Include="Coily.h" />
     <ClInclude Include="CoilyAIComponent.h" />
+    <ClInclude Include="CompletedTilesObserver.h" />
     <ClInclude Include="FlyingDisc.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameArena.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="PlayerControllerComponent.h" />
     <ClInclude Include="QBert.h" />
+    <ClInclude Include="ScoreObserver.h" />
     <ClInclude Include="TileMovementComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

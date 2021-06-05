@@ -2,10 +2,11 @@
 #include "GameManager.h"
 #include "RenderComponent.h"
 #include "structs.h"
+#include "Subject.h"
 
 class FlyingDisc;
 class GameArena;
-class ArenaTile : minigen::RenderComponent
+class ArenaTile : minigen::RenderComponent, public minigen::Subject
 {
 public:
 	ArenaTile(GameArena* pArena,int index, float size, const Point2f& position, bool isNullTile, GameManager::StageSettings* pStageSettings);

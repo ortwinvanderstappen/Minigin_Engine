@@ -31,7 +31,7 @@ void QBert::Initialize()
 	Rectf collisionBounds{ -collisionSize.x * .5f, -collisionSize.y * .5f, collisionSize.x, collisionSize.y };
 	std::shared_ptr<minigen::CollisionSubject> spCollisionSubject = std::make_shared<minigen::CollisionSubject>(m_pParentObject, collisionBounds);
 	m_pParentObject->SetCollisionSubject(spCollisionSubject);
-
+	
 	// Add observers
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
@@ -52,12 +52,12 @@ void QBert::InitializeSprite() const
 	m_pParentObject->AddComponent(imageRenderComponent);
 }
 
-void QBert::Die() const
+void QBert::Die()
 {
-	m_pArena->HandleQbertDeath();
+	Notify(GetParent(), minigen::Observer::Event::event_qbert_death	);
 }
 
-void QBert::HandleTileChange() const
+void QBert::HandleTileChange()
 {
 	std::cout << "Qbert moved tiles!\n";
 
@@ -72,6 +72,7 @@ void QBert::HandleTileChange() const
 	}
 	else
 	{
+		Notify(GetParent(), minigen::Observer::Event::event_tile_color_change);
 		pTile->Activate();
 	}
 }

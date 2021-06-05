@@ -4,6 +4,8 @@
 #include "structs.h"
 #include <vector>
 
+class ScoreObserver;
+
 class GameManager : public minigen::Component
 {
 public:
@@ -37,6 +39,10 @@ public:
 	void Restart();
 	void LoadNextStage();
 
+	int GetScore() const;
+
+	const std::shared_ptr<ScoreObserver>& GetScoreObserver() const;
+
 private:
 	void InitializeStageSettings();
 	void InitializeStage();
@@ -44,5 +50,6 @@ private:
 	GameMode m_GameMode;
 	int m_Stage;
 	std::vector<StageSettings> m_Stages;
+	std::shared_ptr<ScoreObserver> m_spScoreObserver;
 };
 

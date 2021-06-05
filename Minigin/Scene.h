@@ -20,7 +20,7 @@ namespace minigen
 		void Update();
 		void Render() const;
 
-		const std::string& GetName();
+		const std::string& GetName() const;
 
 		void Initialize() {};
 		void OnSceneEnter() { if (m_OnSceneEnterCallback) m_OnSceneEnterCallback(); };

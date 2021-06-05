@@ -10,7 +10,14 @@ namespace minigen {
 			event_player_die,
 			event_player_lose_life,
 			event_collision,
-			mouse_click
+			mouse_click,
+			event_qbert_death,
+			event_tile_color_change,
+			event_coily_fall,
+			event_stage_complete,
+			event_slick_sam_caught,
+			event_tile_complete,
+			event_tile_uncomplete
 		};
 
 		virtual ~Observer() = default;

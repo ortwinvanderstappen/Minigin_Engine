@@ -4,6 +4,8 @@
 #include "GameManager.h"
 #include "TileMovementComponent.h"
 
+class CompletedTilesObserver;
+class HealthObserver;
 class Coily;
 class QBert;
 
@@ -26,11 +28,12 @@ public:
 
 	void SpawnCoily();
 
-	void HandleQbertDeath();
+	//void HandleQbertDeath();
+	void Restart() const;
 	void HandleLevelCompletion() const;
-
 	void ResetStageEntities();
-	void IncreaseCompletedTiles(int change);
+	
+	//void IncreaseCompletedTiles(int change);
 
 	float GetTileSize() const;
 	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
@@ -48,15 +51,16 @@ private:
 	GameManager::GameMode m_GameMode;
 	GameManager::StageSettings* m_pStageSettings;
 	int m_Stage;
-	int m_Lives;
 	
 	float m_TileSize;
 	int m_TileCount;
-	int m_CompletedTiles;
+	//int m_CompletedTiles;
 	float m_CoilySpawnTime;
 	float m_CoilySpawnTimer;
 	std::weak_ptr<Coily> m_wpCoily;
 
 	std::vector<ArenaTile> m_ArenaHexes{};
 	std::vector<std::shared_ptr<QBert>> m_spPlayers;
+	std::shared_ptr<HealthObserver> m_spHealthObserver;
+	std::shared_ptr<CompletedTilesObserver> m_spCompletedTilesObserver;
 };

@@ -87,7 +87,8 @@ void ArenaTile::Activate()
 		m_ColorState %= (activeColors + 1);
 		if (m_ColorState == 0)
 		{
-			m_pArena->IncreaseCompletedTiles(-1);
+		Notify(GetParent(), minigen::Observer::Event::event_tile_uncomplete);
+			//m_pArena->IncreaseCompletedTiles(-1);
 		}
 	}
 	else
@@ -101,7 +102,8 @@ void ArenaTile::Activate()
 	// Is this the last color state and did the state change?
 	if (m_ColorState == activeColors && previousColor != m_ColorState)
 	{
-		m_pArena->IncreaseCompletedTiles(1);
+		Notify(GetParent(), minigen::Observer::Event::event_tile_complete);
+		//m_pArena->IncreaseCompletedTiles(1);
 	}
 }
 

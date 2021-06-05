@@ -5,17 +5,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Scripts">
-      <UniqueIdentifier>{d621409b-ec2b-4e2e-8af5-637a2e6339fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Helpers">
       <UniqueIdentifier>{0fa97a77-89bb-4708-bee9-a4d2f151a164}</UniqueIdentifier>
     </Filter>
     <Filter Include="structs">
       <UniqueIdentifier>{039091cd-4a1c-4021-95aa-f3ba8c4b4b78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Observers">
-      <UniqueIdentifier>{94422565-aec9-4cc7-9dfa-26a059f4e147}</UniqueIdentifier>
     </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{33c59c2d-b2e6-4fe6-a399-b48e33ae37c2}</UniqueIdentifier>
@@ -29,6 +23,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Observers">
+      <UniqueIdentifier>{545cd4b1-5437-4ccd-9471-9caa622313b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +63,15 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="HealthObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="CompletedTilesObserver.cpp">
+      <Filter>Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -100,6 +106,15 @@
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreObserver.h">
+      <Filter>Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="CompletedTilesObserver.h">
+      <Filter>Observers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

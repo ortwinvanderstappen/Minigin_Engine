@@ -1,11 +1,12 @@
 #pragma once
 #include <string>
 #include "Component.h"
+#include "Subject.h"
 
 class TileMovementComponent;
 class GameArena;
 class ArenaTile;
-class QBert : public minigen::Component
+class QBert : public minigen::Component, public minigen::Subject
 {
 public:
 	QBert(GameArena* pArena, ArenaTile* pStartTile);
@@ -15,9 +16,9 @@ protected:
 	void Initialize() override;
 private:
 	void InitializeSprite() const;
-	void Die() const;
+	void Die();
 
-	void HandleTileChange() const;
+	void HandleTileChange();
 	
 	GameArena* m_pArena;
 	ArenaTile* m_pSpawnTile;

@@ -2,12 +2,14 @@
 #include <Component.h>
 #include <string>
 
+#include "Subject.h"
+
 class QBert;
 class TileMovementComponent;
 class GameArena;
 class ArenaTile;
 
-class Coily : public minigen::Component
+class Coily : public minigen::Component, public minigen::Subject
 {
 public:
 	enum class CoilyState
