@@ -206,14 +206,14 @@ void GameArena::AddPlayers()
 	switch (m_GameMode)
 	{
 	case GameManager::GameMode::Single:
-		SpawnPlayer(GetTopTile(), false);
+		SpawnPlayer(GetTopTile(), PlayerControllerComponent::HardwareType::Both);
 		break;
 	case GameManager::GameMode::Duo:
-		SpawnPlayer(&m_ArenaHexes[GetBottomLeftTileIndex()], false);
-		SpawnPlayer(&m_ArenaHexes[GetBottomRightTileIndex()], true);
+		SpawnPlayer(&m_ArenaHexes[GetBottomLeftTileIndex()], PlayerControllerComponent::HardwareType::Keyboard);
+		SpawnPlayer(&m_ArenaHexes[GetBottomRightTileIndex()], PlayerControllerComponent::HardwareType::Controller);
 		break;
 	case GameManager::GameMode::Versus:
-		SpawnPlayer(GetTopTile(), false);
+		SpawnPlayer(GetTopTile(), PlayerControllerComponent::HardwareType::Keyboard);
 		break;
 	default:;
 	}
@@ -235,8 +235,7 @@ void GameArena::SpawnCoily()
 	if (m_GameMode == GameManager::GameMode::Versus)
 	{
 		// Attach player controller to Coily
-		PlayerControllerComponent::HardwareType hardwareType = PlayerControllerComponent::HardwareType::Controller;
-		const std::shared_ptr<PlayerControllerComponent> playerController = std::make_shared<PlayerControllerComponent>(hardwareType);
+		const std::shared_ptr<PlayerControllerComponent> playerController = std::make_shared<PlayerControllerComponent>(PlayerControllerComponent::HardwareType::Controller);
 		spCoilyObject->AddComponent(playerController);
 	}
 	else
@@ -386,18 +385,13 @@ bool GameArena::IsBottomTileIndex(int index) const
 	return index < (m_pStageSettings->size + 2) * 2;
 }
 
-void GameArena::SpawnPlayer(ArenaTile* pTile, bool useController)
+void GameArena::SpawnPlayer(ArenaTile* pTile, PlayerControllerComponent::HardwareType hardwareType)
 {
 	std::shared_ptr<minigen::GameObject> qbertObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<QBert> qbert = std::make_shared<QBert>(this, pTile);
 	qbertObject->AddComponent(qbert);
 
 	qbert->AddObserver(m_spHealthObserver);
-
-	// Setup player controller
-	PlayerControllerComponent::HardwareType hardwareType = PlayerControllerComponent::HardwareType::Keyboard;
-	if (useController)
-		hardwareType = PlayerControllerComponent::HardwareType::Controller;
 
 	const std::shared_ptr<PlayerControllerComponent> playerController = std::make_shared<PlayerControllerComponent>(hardwareType);
 	qbertObject->AddComponent(playerController);

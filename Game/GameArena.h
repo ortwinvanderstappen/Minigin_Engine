@@ -2,6 +2,7 @@
 #include "RenderComponent.h"
 #include "ArenaTile.h"
 #include "GameManager.h"
+#include "PlayerControllerComponent.h"
 #include "TileMovementComponent.h"
 #include "TileRevertCreature.h"
 
@@ -45,7 +46,7 @@ private:
 	};
 	
 	void HandleEnemySpawns();
-	void SpawnPlayer(ArenaTile* pTile, bool useController);
+	void SpawnPlayer(ArenaTile* pTile, PlayerControllerComponent::HardwareType hardwareType);
 	void SpawnCoily();
 	void SpawnSlickOrSam(TileRevertCreature::CreatureType type);
 	void SpawnUgg();
