@@ -14,12 +14,19 @@ TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStar
 	m_pTile(pStartTile),
 	m_MoveState(MoveState::Idle),
 	m_MovementProgress(0.f),
+	m_AllowedMovementsMap(),
 	m_MovedCallbacks()
 {}
 
 void TileMovementComponent::Initialize()
 {
 	SetParentPosition();
+
+	// Setup allowed movements map (allow all movements by default)
+	for (int i = 0; i < 4; ++i)
+	{
+		m_AllowedMovementsMap.insert(std::make_pair(static_cast<TileMovementComponent::MovementType>(i), true));
+	}
 }
 
 void TileMovementComponent::Update()
@@ -61,6 +68,9 @@ bool TileMovementComponent::Move(MovementType movement)
 	// Don't move if we're mid animation
 	if (m_MoveState != MoveState::Idle) return false;
 
+	// Don't allow disabled movements
+	if(m_AllowedMovementsMap[movement] == false) return false;
+
 	m_MoveSpeedMultiplier = m_BaseMoveSpeedMultiplier;
 
 	GameArena* pArena = m_pTile->GetArena();
@@ -75,6 +85,16 @@ bool TileMovementComponent::Move(MovementType movement)
 	}
 
 	return false;
+}
+
+const std::unordered_map<TileMovementComponent::MovementType, bool>& TileMovementComponent::GetAllowedMovements() const
+{
+	return m_AllowedMovementsMap;
+}
+
+void TileMovementComponent::SetMovementAllowed(TileMovementComponent::MovementType movement, bool state)
+{
+	m_AllowedMovementsMap[movement] = state;
 }
 
 void TileMovementComponent::SetTile(ArenaTile* pTile)

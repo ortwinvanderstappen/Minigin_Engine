@@ -43,6 +43,8 @@ void Coily::Initialize()
 
 	// Movement
 	m_pParentObject->AddComponent(m_spMovementComponent);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, false);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);
 }
 
 void Coily::InitializeSprite()
@@ -51,8 +53,6 @@ void Coily::InitializeSprite()
 	std::shared_ptr<minigen::ImageRenderComponent> imageRenderComponent = std::make_shared<minigen::ImageRenderComponent>();
 	const float scale = m_pArena->GetTileSize() / 15.f;
 	imageRenderComponent->AddImage(path, { -8 * scale,-10 * scale }, scale);
-	//AddComponent(imageRenderComponent);
-
 	m_pParentObject->AddComponent(imageRenderComponent);
 }
 
@@ -71,6 +71,12 @@ void Coily::OnCollisionEnter(minigen::GameObject* const)
 
 void Coily::TransformIntoSnake()
 {
+	// Enable all movements
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, true);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, true);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::down, true);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::right, true);
+
 	m_CoilyState = CoilyState::Snake;
 	std::shared_ptr<minigen::ImageRenderComponent> spImageComponent = m_pParentObject->GetComponent<minigen::ImageRenderComponent>();
 	if (spImageComponent)
@@ -90,6 +96,12 @@ void Coily::CheckTransformation()
 	// Coily should start transforming if he reaches the bottom tile
 	if (m_pArena->IsBottomTileIndex(m_spMovementComponent->GetTile()->GetIndex()))
 	{
+		// Disable all movements
+		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, false);
+		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);
+		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::down, false);
+		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::right, false);
+
 		m_CoilyState = CoilyState::Transforming;
 	}
 }

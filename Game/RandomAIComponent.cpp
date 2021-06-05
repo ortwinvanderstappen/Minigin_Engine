@@ -14,8 +14,7 @@ RandomAIComponent::RandomAIComponent(GameArena* pArena, float movementDelay, boo
 	m_AllowNullTile(allowNullTile),
 	m_OnlyAllowBottomNullTile(onlyAllowBottomNullTile),
 	m_MovementTimer(0.f),
-	m_IsEnabled(true),
-	m_AllowedMovementsMap()
+	m_IsEnabled(true)
 {}
 
 void RandomAIComponent::Initialize()
@@ -24,12 +23,6 @@ void RandomAIComponent::Initialize()
 	if (m_spTileMovementComponent == nullptr)
 	{
 		std::cerr << "RandomAIComponent: Required component in Coily: TileMovementComponent not found! Object tag :" << GetParent()->GetTag() << "\n";
-	}
-
-	// Setup allowed movements map (allow all movements by default)
-	for (int i = 0; i < 4; ++i)
-	{
-		m_AllowedMovementsMap.insert(std::make_pair(static_cast<TileMovementComponent::MovementType>(i), true));
 	}
 }
 
@@ -45,11 +38,6 @@ void RandomAIComponent::Disable()
 	m_IsEnabled = false;
 }
 
-void RandomAIComponent::SetMovementAllowed(TileMovementComponent::MovementType movement, bool state)
-{
-	m_AllowedMovementsMap[movement] = state;
-}
-
 void RandomAIComponent::HandleMovement()
 {
 	IncreaseMovementTimer();
@@ -59,7 +47,7 @@ void RandomAIComponent::HandleMovement()
 
 		// Find all the possible movement options
 		std::vector<TileMovementComponent::MovementType> possibleMovements{};
-		for (const std::pair<TileMovementComponent::MovementType, bool> movementOption : m_AllowedMovementsMap)
+		for (const std::pair<TileMovementComponent::MovementType, bool> movementOption : m_spTileMovementComponent->GetAllowedMovements())
 		{
 			const TileMovementComponent::MovementType movement = movementOption.first;
 

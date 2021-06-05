@@ -33,8 +33,6 @@ void CoilyAIComponent::Initialize()
 	}
 
 	m_spRandomAIComponent = std::make_shared<RandomAIComponent>(m_pArena, 1.f);
-	m_spRandomAIComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, false);
-	m_spRandomAIComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);
 	GetParent()->AddComponent(m_spRandomAIComponent);
 }
 

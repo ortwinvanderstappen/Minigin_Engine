@@ -1,6 +1,7 @@
 #pragma once
 #include <Component.h>
 #include <functional>
+#include <unordered_map>
 class GameArena;
 class ArenaTile;
 
@@ -24,6 +25,9 @@ public:
 	void Update() override;
 	bool Move(MovementType movement);
 
+	const std::unordered_map<MovementType, bool>& GetAllowedMovements() const;
+	void SetMovementAllowed(TileMovementComponent::MovementType movement, bool state = true);
+
 	void SetTile(ArenaTile* pTile);
 	void MoveToTile(ArenaTile* pTile);
 	ArenaTile* GetTile() const;
@@ -45,6 +49,7 @@ private:
 	ArenaTile* m_pTile;
 	MoveState m_MoveState;
 	float m_MovementProgress;
+	std::unordered_map<TileMovementComponent::MovementType, bool> m_AllowedMovementsMap;
 
 	ArenaTile* m_pGoalTile;
 

@@ -24,6 +24,8 @@ void TileRevertCreature::Initialize()
 	GetParent()->SetTag("SlickOrSam");
 
 	GetParent()->AddComponent(m_spTileMovementComponent);
+	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, false);
+	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);
 
 	// Collision
 	const float scale = m_pArena->GetTileSize() / 15.f;
@@ -36,8 +38,6 @@ void TileRevertCreature::Initialize()
 	spCollisionSubject->AddObserver(spCollisionObserver);
 
 	const std::shared_ptr<RandomAIComponent> spRandomAIComponent = std::make_shared<RandomAIComponent>(m_pArena,m_MovementDelay, true, true);
-	spRandomAIComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, false);
-	spRandomAIComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);
 	GetParent()->AddComponent(spRandomAIComponent);
 
 	InitializeSprite();

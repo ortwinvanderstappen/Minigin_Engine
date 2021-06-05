@@ -15,10 +15,10 @@ Ugg::Ugg(GameArena* pArena, ArenaTile* pTile) :
 void Ugg::Initialize()
 {
 	GetParent()->AddComponent(m_spTileMovementComponent);
+	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::down, false);
+	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::right, false);
 
 	const std::shared_ptr<RandomAIComponent> spRandomAIComponent = std::make_shared<RandomAIComponent>(m_pArena, 1.f, true, false);
-	spRandomAIComponent->SetMovementAllowed(TileMovementComponent::MovementType::down, false);
-	spRandomAIComponent->SetMovementAllowed(TileMovementComponent::MovementType::right, false);
 	GetParent()->AddComponent(spRandomAIComponent);
 }
 
