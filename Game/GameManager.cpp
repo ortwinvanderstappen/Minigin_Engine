@@ -44,15 +44,11 @@ void GameManager::InitializeStage()
 {
 	// Remove old stage objects
 	std::cout << "Init stage\n";
-	int index{ 0 };
 	for (const std::shared_ptr<GameObject>& spObject : GetParent()->GetScene()->GetObjects())
 	{
 		// Don't mark the game manager;
 		if (spObject->GetTag() == "GameManager") continue;
-
-		std::cout << "Deleting object with index: " << index << "\n";
 		spObject->MarkForDelete();
-		++index;
 	}
 
 	// Setup pyramid game object

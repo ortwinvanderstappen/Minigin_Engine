@@ -1,5 +1,6 @@
 #pragma once
 #include <Component.h>
+class RandomAIComponent;
 class Coily;
 class GameArena;
 class TileMovementComponent;
@@ -16,7 +17,6 @@ private:
 	void IncreaseMovementTimer();
 	void HandleBallMovement();
 	void HandleSnakeMovement();
-	bool IsRandomMovementTileNull(int movementDirection) const;
 	float GetAngleToClosestPlayer() const;
 
 	GameArena* m_pArena;
@@ -24,5 +24,6 @@ private:
 	float m_MovementDelay;
 	std::shared_ptr<TileMovementComponent> m_spTileMovementComponent;
 	std::shared_ptr<Coily> m_CoilyScript;
+	std::shared_ptr<RandomAIComponent> m_spRandomAIComponent;
 };
 

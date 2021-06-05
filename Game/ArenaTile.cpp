@@ -69,26 +69,25 @@ bool ArenaTile::IsComplete() const
 void ArenaTile::AttachFlyingDisc(const std::shared_ptr<FlyingDisc>& spDisc)
 {
 	if (m_spDisc)
-		std::cout << "Tile " << m_Index << " already has a flying disc attached (overwriting...)\n";
+		std::cerr << "Tile " << m_Index << " already has a flying disc attached (overwriting...)\n";
 
 	m_spDisc = spDisc;
 }
 
 void ArenaTile::Activate()
 {
-	if(m_IsNullTile) return;
-	
+	if (m_IsNullTile) return;
+
 	const int previousColor = m_ColorState;
 	const int activeColors = static_cast<int>(m_pStageSettings->activeColors.size());
-	
+
 	++m_ColorState;
 	if (m_pStageSettings->cyclesColor)
 	{
 		m_ColorState %= (activeColors + 1);
 		if (m_ColorState == 0)
 		{
-		Notify(GetParent(), minigen::Observer::Event::event_tile_uncomplete);
-			//m_pArena->IncreaseCompletedTiles(-1);
+			Notify(GetParent(), minigen::Observer::Event::event_tile_uncomplete);
 		}
 	}
 	else
@@ -100,11 +99,26 @@ void ArenaTile::Activate()
 	}
 
 	// Is this the last color state and did the state change?
-	if (m_ColorState == activeColors && previousColor != m_ColorState)
+	if (previousColor != m_ColorState)
 	{
-		Notify(GetParent(), minigen::Observer::Event::event_tile_complete);
-		//m_pArena->IncreaseCompletedTiles(1);
+		Notify(GetParent(), minigen::Observer::Event::event_tile_color_change);
+
+		if (m_ColorState == activeColors)
+		{
+			Notify(GetParent(), minigen::Observer::Event::event_tile_complete);
+		}
 	}
+}
+
+void ArenaTile::Revert()
+{
+	const int previousColor = m_ColorState;
+	const int activeColors = static_cast<int>(m_pStageSettings->activeColors.size());
+
+	m_ColorState = 0;
+
+	if (previousColor == activeColors)
+		Notify(GetParent(), minigen::Observer::Event::event_tile_uncomplete);
 }
 
 void ArenaTile::DrawHex(Point2f center, float size) const

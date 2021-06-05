@@ -9,6 +9,7 @@
 
 #include "Coily.h"
 #include "QBert.h"
+#include "RandomAIComponent.h"
 
 CoilyAIComponent::CoilyAIComponent(GameArena* pArena) :
 	m_pArena(pArena),
@@ -30,6 +31,11 @@ void CoilyAIComponent::Initialize()
 	{
 		std::cerr << "CoilyAIComponent: Required component in Coily: TileMovementComponent not found!\n";
 	}
+
+	m_spRandomAIComponent = std::make_shared<RandomAIComponent>(m_pArena, 1.f);
+	m_spRandomAIComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, false);
+	m_spRandomAIComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);
+	GetParent()->AddComponent(m_spRandomAIComponent);
 }
 
 void CoilyAIComponent::Update()
@@ -37,11 +43,14 @@ void CoilyAIComponent::Update()
 	switch (m_CoilyScript->GetState())
 	{
 	case Coily::CoilyState::Ball:
-		HandleBallMovement();
+		break;
+	case Coily::CoilyState::Transforming: 
+		m_spRandomAIComponent->Disable();
 		break;
 	case Coily::CoilyState::Snake:
 		HandleSnakeMovement();
 		break;
+	default: ;
 	}
 }
 
@@ -49,31 +58,6 @@ void CoilyAIComponent::IncreaseMovementTimer()
 {
 	const float deltaTime = Time::GetInstance().DeltaTime();
 	m_MovementTimer += deltaTime;
-}
-
-void CoilyAIComponent::HandleBallMovement()
-{
-	IncreaseMovementTimer();
-	if (m_MovementTimer > m_MovementDelay)
-	{
-		m_MovementTimer -= m_MovementDelay;
-		int movementDirection = rand() % 2;
-
-		// Check if the tile to move to is a null tile
-		if (IsRandomMovementTileNull(movementDirection))
-		{
-			// Try another direction
-			movementDirection = (movementDirection + 1) % 2;
-			if (IsRandomMovementTileNull(movementDirection))
-			{
-				// We have reached the bottom of the pyramid, no more movement allowed
-				return;
-			}
-		}
-
-		// A correct tile was found, move
-		m_spTileMovementComponent->Move(static_cast<TileMovementComponent::MovementType>(movementDirection));
-	}
 }
 
 void CoilyAIComponent::HandleSnakeMovement()
@@ -85,7 +69,6 @@ void CoilyAIComponent::HandleSnakeMovement()
 
 		// Move towards the player
 		const float angleToClosestPlayer = GetAngleToClosestPlayer();
-		std::cout << "Coily: angle to cloest player: " << angleToClosestPlayer << "\n";
 
 		// Move towards the correct tile
 		if (angleToClosestPlayer >= 0 && angleToClosestPlayer <= static_cast<float>(M_PI / 2))
@@ -105,11 +88,6 @@ void CoilyAIComponent::HandleSnakeMovement()
 			m_spTileMovementComponent->Move(TileMovementComponent::MovementType::right);
 		}
 	}
-}
-
-bool CoilyAIComponent::IsRandomMovementTileNull(int movementDirection) const
-{
-	return m_pArena->GetNeighbourTile(m_spTileMovementComponent->GetTile(), static_cast<TileMovementComponent::MovementType>(movementDirection))->IsNullTile();
 }
 
 float CoilyAIComponent::GetAngleToClosestPlayer() const

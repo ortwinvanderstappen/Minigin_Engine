@@ -16,13 +16,11 @@ minigen::GameObject::GameObject() :
 
 minigen::GameObject::~GameObject()
 {
-	std::cout << "Gameobject with tag " << GetTag() << " destructing\n";
 }
 
 void minigen::GameObject::MarkForDelete()
 {
 	m_IsMarkedForDelete = true;
-	std::cout << "Marking object with tag " << GetTag() << " for delete\n";
 }
 
 void minigen::GameObject::MarkForLateDelete()

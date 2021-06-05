@@ -22,12 +22,13 @@ public:
 
 	bool IsNullTile() const;
 	bool HasDisc() const;
-
+	
+	void Activate();
+	void Revert();
 	bool IsComplete() const;
 
 	void AttachFlyingDisc(const std::shared_ptr<FlyingDisc>& spDisc);
 	
-	void Activate();
 private:
 	void DrawHex(Point2f center, float size) const;
 	Point2f GetHexPoint(Point2f center, float size, int i) const;

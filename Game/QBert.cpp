@@ -72,7 +72,6 @@ void QBert::HandleTileChange()
 	}
 	else
 	{
-		Notify(GetParent(), minigen::Observer::Event::event_tile_color_change);
 		pTile->Activate();
 	}
 }

@@ -120,8 +120,6 @@ void TileMovementComponent::SubscribeToMoved(const CommandCallback& movedCallbac
 
 void TileMovementComponent::TileMoved()
 {
-	std::cout << "Moved to tile with index: " << m_pTile->GetIndex() << "\n";
-
 	for (CommandCallback& movedCallback : m_MovedCallbacks)
 	{
 		movedCallback();

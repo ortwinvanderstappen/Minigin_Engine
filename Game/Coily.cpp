@@ -40,7 +40,7 @@ void Coily::Initialize()
 
 	auto movedCallback = [this]() { HandleTileChange(); };
 	m_spMovementComponent->SubscribeToMoved(movedCallback);
-	
+
 	// Movement
 	m_pParentObject->AddComponent(m_spMovementComponent);
 }
@@ -58,17 +58,9 @@ void Coily::InitializeSprite()
 
 void Coily::Update()
 {
-	switch (m_CoilyState)
+	if (m_CoilyState == CoilyState::Transforming)
 	{
-	case CoilyState::Ball:
-		CheckTransformation();
-		break;
-	case CoilyState::Transforming:
 		HandleTransformation();
-		break;
-	case CoilyState::Snake: 
-		break;
-	default:;
 	}
 }
 
@@ -99,14 +91,13 @@ void Coily::CheckTransformation()
 	if (m_pArena->IsBottomTileIndex(m_spMovementComponent->GetTile()->GetIndex()))
 	{
 		m_CoilyState = CoilyState::Transforming;
-		TransformIntoSnake();
 	}
 }
 
 void Coily::HandleTransformation()
 {
 	const float deltaTime = Time::GetInstance().DeltaTime();
-	
+
 	m_TransformTimer += deltaTime;
 	if (m_TransformTimer >= m_TransformTime)
 	{
@@ -116,9 +107,13 @@ void Coily::HandleTransformation()
 
 void Coily::HandleTileChange()
 {
-	if(m_spMovementComponent->GetTile()->IsNullTile())
+	if (m_spMovementComponent->GetTile()->IsNullTile())
 	{
 		Notify(GetParent(), minigen::Observer::Event::event_coily_fall);
 		m_pParentObject->MarkForDelete();
+	}
+	else if (m_CoilyState == CoilyState::Ball)
+	{
+		CheckTransformation();
 	}
 }

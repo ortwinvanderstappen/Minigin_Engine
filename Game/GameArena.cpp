@@ -19,6 +19,7 @@
 #include "HealthObserver.h"
 #include "ScoreObserver.h"
 #include "ScoreRenderComponent.h"
+#include "TileRevertCreature.h"
 
 GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
 	GameManager::StageSettings* const stageSettings, int stage) :
@@ -28,8 +29,8 @@ GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
 	m_Stage(stage),
 	m_TileSize(0.f),
 	m_TileCount(0),
-	m_CoilySpawnTime(3.0f),
-	m_CoilySpawnTimer(0.f),
+	m_EnemySpawnTime(5.5f),
+	m_EnemySpawnTimer(0.0f),
 	m_spHealthObserver(std::make_shared<HealthObserver>(this, stageSettings->lives)),
 	m_spCompletedTilesObserver(std::make_shared<CompletedTilesObserver>(this))
 {
@@ -89,6 +90,7 @@ void GameArena::InitializeArena()
 			ArenaTile hex{ this, index, m_TileSize, currentPos, isNullTile, m_pStageSettings };
 			m_ArenaHexes.push_back(std::move(hex));
 			m_ArenaHexes[m_ArenaHexes.size() - 1].AddObserver(m_spCompletedTilesObserver);
+			m_ArenaHexes[m_ArenaHexes.size() - 1].AddObserver(m_pGameManager->GetScoreObserver());
 			currentPos.x += offsetX;
 			++index;
 		}
@@ -134,18 +136,41 @@ void GameArena::CreateDiscs()
 
 void GameArena::Update()
 {
+	HandleEnemySpawns();
+}
+
+void GameArena::HandleEnemySpawns()
+{
 	const float deltaTime = Time::GetInstance().DeltaTime();
 
-	if (!m_wpCoily.lock())
+	if (m_EnemySpawnTimer < m_EnemySpawnTime)
 	{
-		if (m_CoilySpawnTimer < m_CoilySpawnTime)
+		m_EnemySpawnTimer += deltaTime;
+	}
+	else
+	{
+		m_EnemySpawnTimer = 0.f;
+
+		std::vector<EntityType> spawnOptions{};
+
+		// Ticket spawn system for random spawn chances
+		if (m_wpCoily.lock() == nullptr) spawnOptions.push_back(EntityType::coily);
+		if (m_wpSam.lock() == nullptr) spawnOptions.push_back(EntityType::sam);
+		if (m_wpSlick.lock() == nullptr) spawnOptions.push_back(EntityType::slick);
+
+		const EntityType randomEntity = spawnOptions[(rand() % spawnOptions.size())];
+		switch (randomEntity)
 		{
-			m_CoilySpawnTimer += deltaTime;
-		}
-		else
-		{
+		case EntityType::coily:
 			SpawnCoily();
-			m_CoilySpawnTimer -= m_CoilySpawnTime;
+			break;
+		case EntityType::sam:
+			SpawnSlickOrSam(TileRevertCreature::CreatureType::Sam);
+			break;
+		case EntityType::slick:
+			SpawnSlickOrSam(TileRevertCreature::CreatureType::Slick);
+			break;
+		default:;
 		}
 	}
 }
@@ -200,7 +225,6 @@ void GameArena::SpawnCoily()
 	const std::shared_ptr<Coily> spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
 	spCoilyObject->AddComponent(spCoily);
 	spCoily->AddObserver(m_pGameManager->GetScoreObserver());
-
 	m_wpCoily = spCoily;
 
 	if (m_GameMode == GameManager::GameMode::Versus)
@@ -219,6 +243,26 @@ void GameArena::SpawnCoily()
 	m_pParentObject->GetScene()->Add(spCoilyObject);
 }
 
+void GameArena::SpawnSlickOrSam(TileRevertCreature::CreatureType type)
+{
+	std::shared_ptr<minigen::GameObject> spObject = std::make_shared<minigen::GameObject>();
+	const std::shared_ptr<TileRevertCreature> spSlickOrSam = std::make_shared<TileRevertCreature>(this, GetTopTile(), type);
+	spObject->AddComponent(spSlickOrSam);
+	spSlickOrSam->AddObserver(m_pGameManager->GetScoreObserver());
+	GetParent()->GetScene()->Add(spObject);
+
+	switch (type)
+	{
+	case TileRevertCreature::CreatureType::Slick:
+		m_wpSlick = spSlickOrSam;
+		break;
+	case TileRevertCreature::CreatureType::Sam:
+		m_wpSam = spSlickOrSam;
+		break;
+	default:;
+	}
+}
+
 void GameArena::Restart() const
 {
 	m_pGameManager->Restart();
@@ -232,25 +276,12 @@ void GameArena::HandleLevelCompletion() const
 void GameArena::ResetStageEntities()
 {
 	// Remove all dynamic entities except for the player
-
-	std::shared_ptr<Coily> coily = m_wpCoily.lock();
-	if (coily)
-	{
-		coily->GetParent()->MarkForDelete();
-		coily = nullptr;
-	}
-
-	//// Set player positions
-	//if (m_spPlayers.size() == 1)
-	//{
-	//	std::shared_ptr<TileMovementComponent> spTMC = m_spPlayers[0]->GetComponent<TileMovementComponent>();
-	//	if (spTMC)
-	//	{
-	//		ArenaTile* pLastTile = spTMC->GetTile();
-	//		if (pLastTile && pLastTile->IsNullTile())
-	//			spTMC->SetTile(GetTopTile());
-	//	}
-	//}
+	const std::shared_ptr<Coily> coily = m_wpCoily.lock();
+	if (coily) coily->GetParent()->MarkForDelete();
+	const std::shared_ptr<TileRevertCreature> spSam = m_wpSam.lock();
+	if (spSam) spSam->GetParent()->MarkForDelete();
+	const std::shared_ptr<TileRevertCreature> spSlick = m_wpSlick.lock();
+	if (spSlick) spSlick->GetParent()->MarkForDelete();
 }
 
 float GameArena::GetTileSize() const
@@ -319,7 +350,6 @@ void GameArena::SpawnPlayer(ArenaTile* pTile, bool useController)
 	qbertObject->AddComponent(qbert);
 
 	qbert->AddObserver(m_spHealthObserver);
-	qbert->AddObserver(m_pGameManager->GetScoreObserver());
 
 	// Setup player controller
 	PlayerControllerComponent::HardwareType hardwareType = PlayerControllerComponent::HardwareType::Keyboard;

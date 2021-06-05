@@ -24,7 +24,6 @@ bool ChangeSoundSystemCommand::Execute()
 
 	std::shared_ptr<SoundSystem> spBasicSoundSystem = std::make_shared<BasicSoundSystem>();
 
-	std::cout << "Swapping sound system\n";
 	switch (static_cast<SystemType>(currentSystem))
 	{
 	case SystemType::Basic:
@@ -39,10 +38,10 @@ bool ChangeSoundSystemCommand::Execute()
 	}
 	break;
 	case SystemType::End:
-		std::cout << "ERROR: ChangeSoundSystemCommand: No sound system found, end\n";
+		std::cerr << "ERROR: ChangeSoundSystemCommand: No sound system found, end\n";
 		break;
 	default:
-		std::cout << "ERROR: ChangeSoundSystemCommand: No sound system found, default\n";
+		std::cerr << "ERROR: ChangeSoundSystemCommand: No sound system found, default\n";
 	}
 
 	return true;

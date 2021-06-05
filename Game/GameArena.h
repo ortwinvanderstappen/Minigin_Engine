@@ -3,7 +3,9 @@
 #include "ArenaTile.h"
 #include "GameManager.h"
 #include "TileMovementComponent.h"
+#include "TileRevertCreature.h"
 
+class TileRevertCreature;
 class CompletedTilesObserver;
 class HealthObserver;
 class Coily;
@@ -26,8 +28,6 @@ public:
 	void AddPlayers();
 	const std::vector<std::shared_ptr<QBert>>& GetPlayers() const;
 
-	void SpawnCoily();
-
 	void Restart() const;
 	void HandleLevelCompletion() const;
 	void ResetStageEntities();
@@ -37,7 +37,17 @@ public:
 	ArenaTile* GetTopTile();
 	bool IsBottomTileIndex(int index) const;
 private:
+	enum class EntityType
+	{
+		coily,
+		sam,
+		slick
+	};
+	
+	void HandleEnemySpawns();
 	void SpawnPlayer(ArenaTile* pTile, bool useController);
+	void SpawnCoily();
+	void SpawnSlickOrSam(TileRevertCreature::CreatureType type);
 	
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;
@@ -51,9 +61,12 @@ private:
 	
 	float m_TileSize;
 	int m_TileCount;
-	float m_CoilySpawnTime;
-	float m_CoilySpawnTimer;
+	float m_EnemySpawnTime;
+	float m_EnemySpawnTimer;
+	
 	std::weak_ptr<Coily> m_wpCoily;
+	std::weak_ptr<TileRevertCreature> m_wpSam;
+	std::weak_ptr<TileRevertCreature> m_wpSlick;
 
 	std::vector<ArenaTile> m_ArenaHexes{};
 	std::vector<std::shared_ptr<QBert>> m_spPlayers;

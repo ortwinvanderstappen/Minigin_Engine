@@ -74,7 +74,6 @@ bool minigen::InputManager::IsInputTriggered(int inputId) const
 	{
 		if (input.id == inputId)
 		{
-			std::cout << "triggered key: " << inputId << "\n";
 			return true;
 		};
 	}
@@ -135,7 +134,7 @@ bool minigen::InputManager::HandleInputStates(std::vector<KeyInput>& inputs)
 			}
 			else
 			{
-				std::cout << "No controller plugged in!\n";
+				std::cerr << "No controller plugged in!\n";
 			}
 			break;
 		}

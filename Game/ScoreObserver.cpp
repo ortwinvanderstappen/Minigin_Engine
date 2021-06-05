@@ -22,21 +22,6 @@ void ScoreObserver::Notify(minigen::GameObject*, Event event)
 	default:;
 	}
 }
-//
-//void ScoreObserver::Update()
-//{}
-//
-//void ScoreObserver::Render() const
-//{
-//	int width; int height;
-//	SDL_GetRendererOutputSize(minigen::Renderer::GetInstance().GetSDLRenderer(), &width, &height);
-//
-//	ImGui::Begin("Score", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_AlwaysAutoResize);
-//	ImGui::SetWindowFontScale(1.3f);
-//	ImGui::SetWindowPos(ImVec2{ static_cast<float>(width) * .5f + 100.f,50.f });
-//	ImGui::Text("Score %i", GetScore());
-//	ImGui::End();
-//}
 
 int ScoreObserver::GetScore() const
 {
