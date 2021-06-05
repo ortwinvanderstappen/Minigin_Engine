@@ -23,17 +23,19 @@ void ArenaTile::Update()
 void ArenaTile::Render() const
 {
 	if (!m_IsNullTile)
-		DrawHex(m_Position, m_Size);
+	DrawHex(m_Position, m_Size);
 }
 
 Point2f ArenaTile::GetCenter() const
 {
-	if (m_IsNullTile)
-	{
-		return m_Position + Point2f{ 0.f, m_Size * .5f };
-	}
-
+	if(m_spDisc) return GetLoweredCenter();
+	
 	return m_Position + Point2f{ 0.f,-m_Size * .5f };
+}
+
+Point2f ArenaTile::GetLoweredCenter() const
+{
+	return m_Position + Point2f{ 0.f, m_Size * .5f };
 }
 
 const Point2f& ArenaTile::GetPosition() const

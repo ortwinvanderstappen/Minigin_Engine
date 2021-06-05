@@ -19,7 +19,7 @@ public:
 		up
 	};
 	
-	TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile);
+	TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, bool allowHorizontalMovement = false, bool upIsUp = true);
 
 	void Initialize() override;
 	void Update() override;
@@ -47,6 +47,8 @@ private:
 	
 	GameArena* m_pArena;
 	ArenaTile* m_pTile;
+	bool m_AllowHorizontalMovement;
+	bool m_UpIsUp;
 	MoveState m_MoveState;
 	float m_MovementProgress;
 	std::unordered_map<TileMovementComponent::MovementType, bool> m_AllowedMovementsMap;

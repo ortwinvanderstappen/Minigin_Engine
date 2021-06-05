@@ -20,6 +20,7 @@
 #include "ScoreObserver.h"
 #include "ScoreRenderComponent.h"
 #include "TileRevertCreature.h"
+#include "Ugg.h"
 
 GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
 	GameManager::StageSettings* const stageSettings, int stage) :
@@ -153,25 +154,29 @@ void GameArena::HandleEnemySpawns()
 
 		std::vector<EntityType> spawnOptions{};
 
-		// Ticket spawn system for random spawn chances
-		if (m_wpCoily.lock() == nullptr) spawnOptions.push_back(EntityType::coily);
-		if (m_wpSam.lock() == nullptr) spawnOptions.push_back(EntityType::sam);
-		if (m_wpSlick.lock() == nullptr) spawnOptions.push_back(EntityType::slick);
+		// Debug
+		SpawnUgg();
+		//return;
 
-		const EntityType randomEntity = spawnOptions[(rand() % spawnOptions.size())];
-		switch (randomEntity)
-		{
-		case EntityType::coily:
-			SpawnCoily();
-			break;
-		case EntityType::sam:
-			SpawnSlickOrSam(TileRevertCreature::CreatureType::Sam);
-			break;
-		case EntityType::slick:
-			SpawnSlickOrSam(TileRevertCreature::CreatureType::Slick);
-			break;
-		default:;
-		}
+		//// Ticket spawn system for random spawn chances
+		//if (m_wpCoily.lock() == nullptr) spawnOptions.push_back(EntityType::coily);
+		//if (m_wpSam.lock() == nullptr) spawnOptions.push_back(EntityType::sam);
+		//if (m_wpSlick.lock() == nullptr) spawnOptions.push_back(EntityType::slick);
+
+		//const EntityType randomEntity = spawnOptions[(rand() % spawnOptions.size())];
+		//switch (randomEntity)
+		//{
+		//case EntityType::coily:
+		//	SpawnCoily();
+		//	break;
+		//case EntityType::sam:
+		//	SpawnSlickOrSam(TileRevertCreature::CreatureType::Sam);
+		//	break;
+		//case EntityType::slick:
+		//	SpawnSlickOrSam(TileRevertCreature::CreatureType::Slick);
+		//	break;
+		//default:;
+		//}
 	}
 }
 
@@ -263,6 +268,15 @@ void GameArena::SpawnSlickOrSam(TileRevertCreature::CreatureType type)
 	}
 }
 
+void GameArena::SpawnUgg()
+{
+	std::shared_ptr<minigen::GameObject> spObject = std::make_shared<minigen::GameObject>();
+	const std::shared_ptr<Ugg> spUgg = std::make_shared<Ugg>(this, &m_ArenaHexes[GetBottomRightTileIndex()]);
+	spObject->AddComponent(spUgg);
+	//spUgg->AddObserver(m_pGameManager->GetScoreObserver());
+	GetParent()->GetScene()->Add(spObject);
+}
+
 void GameArena::Restart() const
 {
 	m_pGameManager->Restart();
@@ -289,7 +303,7 @@ float GameArena::GetTileSize() const
 	return m_TileSize;
 }
 
-ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement)
+ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement, bool allowHorizontalMovement, bool upIsUp)
 {
 	const int currentIndex = pCurrentTile->GetIndex();
 
@@ -301,20 +315,49 @@ ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComp
 
 	const int maxHeight = m_pStageSettings->size + 3;
 	const int rowLength = maxHeight - row;
-	switch (movement)
+
+	if (!allowHorizontalMovement)
 	{
-	case TileMovementComponent::MovementType::up:
-		newIndex = currentIndex + rowLength;
-		break;
-	case TileMovementComponent::MovementType::down:
-		newIndex = currentIndex - (rowLength + 1);
-		break;
-	case TileMovementComponent::MovementType::left:
-		newIndex = currentIndex + rowLength - 1;
-		break;
-	case TileMovementComponent::MovementType::right:
-		newIndex = currentIndex - (rowLength + 1) + 1;
-		break;
+		switch (movement)
+		{
+		case TileMovementComponent::MovementType::up:
+			newIndex = currentIndex + rowLength;
+			break;
+		case TileMovementComponent::MovementType::down:
+			newIndex = currentIndex - (rowLength + 1);
+			break;
+		case TileMovementComponent::MovementType::left:
+			newIndex = currentIndex + rowLength - 1;
+			break;
+		case TileMovementComponent::MovementType::right:
+			newIndex = currentIndex - (rowLength + 1) + 1;
+			break;
+		}
+	}
+	else
+	{
+		switch (movement)
+		{
+		case TileMovementComponent::MovementType::down:
+			if (upIsUp)
+				newIndex = currentIndex - (rowLength + 1) + 1;
+			else
+				newIndex = currentIndex - (rowLength + 1);
+			break;
+		case TileMovementComponent::MovementType::right:
+			newIndex = currentIndex + 1;
+			break;
+		case TileMovementComponent::MovementType::left:
+			newIndex = currentIndex - 1;
+			break;
+		case TileMovementComponent::MovementType::up:
+			if (upIsUp)
+				newIndex = currentIndex + rowLength;
+			else
+				newIndex = currentIndex + rowLength - 1;
+			break;
+		default:;
+		}
 	}
 
 	ArenaTile* pTile = nullptr;

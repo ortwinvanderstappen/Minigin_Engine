@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 #include "Component.h"
 
 class TileMovementComponent;
@@ -12,11 +14,16 @@ public:
 
 	void Initialize() override;
 	void Update() override;
+	
+	void InitializeSprite();
 
 private:
+	void HandleTileChange();
+	
 	GameArena* m_pArena;
 	ArenaTile* m_pTile;
 	std::shared_ptr<TileMovementComponent> m_spTileMovementComponent;
 	float m_MovementDelay;
+	std::string m_UggImagePath;
 };
 

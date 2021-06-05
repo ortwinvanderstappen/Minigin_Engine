@@ -15,6 +15,7 @@ public:
 	void Render() const override;
 
 	Point2f GetCenter() const;
+	Point2f GetLoweredCenter() const;
 	const Point2f& GetPosition() const;
 
 	int GetIndex() const;

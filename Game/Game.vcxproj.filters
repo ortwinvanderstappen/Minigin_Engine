@@ -88,7 +88,7 @@
       <Filter>Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Ugg.cpp">
-      <Filter>Core</Filter>
+      <Filter>Components\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +146,8 @@
     <ClInclude Include="TileRevertCreature.h">
       <Filter>Components\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Ugg.h" />
+    <ClInclude Include="Ugg.h">
+      <Filter>Components\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

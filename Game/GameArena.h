@@ -33,7 +33,7 @@ public:
 	void ResetStageEntities();
 	
 	float GetTileSize() const;
-	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
+	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement, bool allowHorizontalMovement, bool upIsUp = true);
 	ArenaTile* GetTopTile();
 	bool IsBottomTileIndex(int index) const;
 private:
@@ -48,6 +48,7 @@ private:
 	void SpawnPlayer(ArenaTile* pTile, bool useController);
 	void SpawnCoily();
 	void SpawnSlickOrSam(TileRevertCreature::CreatureType type);
+	void SpawnUgg();
 	
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;

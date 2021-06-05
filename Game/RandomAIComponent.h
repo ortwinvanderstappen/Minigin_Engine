@@ -10,7 +10,7 @@ class GameArena;
 class RandomAIComponent: public minigen::Component
 {
 public:
-	RandomAIComponent(GameArena* pArena, float movementDelay = 1.f, bool allowNullTile = false, bool onlyAllowBottomNullTile = true);
+	RandomAIComponent(GameArena* pArena, float movementDelay = 1.f, bool allowNullTile = false, bool onlyAllowBottomNullTile = true,bool allowHorizontalMovement = false, bool upIsUp = true);
 
 	void Initialize() override;
 	void Update() override;
@@ -25,6 +25,8 @@ private:
 	GameArena* m_pArena;
 	float m_MovementDelay;
 	bool m_AllowNullTile;
+	bool m_AllowHorizontalMovement;
+	bool m_UpIsUp;
 	bool m_OnlyAllowBottomNullTile;
 	
 	float m_MovementTimer;

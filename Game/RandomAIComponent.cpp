@@ -8,10 +8,12 @@
 #include "GameTime.h"
 #include "TileMovementComponent.h"
 
-RandomAIComponent::RandomAIComponent(GameArena* pArena, float movementDelay, bool allowNullTile, bool onlyAllowBottomNullTile) :
+RandomAIComponent::RandomAIComponent(GameArena* pArena, float movementDelay, bool allowNullTile, bool onlyAllowBottomNullTile,bool allowHorizontalMovement, bool upIsUp) :
 	m_pArena(pArena),
 	m_MovementDelay(movementDelay),
 	m_AllowNullTile(allowNullTile),
+	m_AllowHorizontalMovement(allowHorizontalMovement),
+	m_UpIsUp(upIsUp),
 	m_OnlyAllowBottomNullTile(onlyAllowBottomNullTile),
 	m_MovementTimer(0.f),
 	m_IsEnabled(true)
@@ -62,7 +64,7 @@ void RandomAIComponent::HandleMovement()
 					// Only allow null tiles if they're a bottom tile (jumping off the map)
 					if (m_OnlyAllowBottomNullTile)
 					{
-						const ArenaTile* pNeighbourTile = m_pArena->GetNeighbourTile(m_spTileMovementComponent->GetTile(), movement);
+						const ArenaTile* pNeighbourTile = m_pArena->GetNeighbourTile(m_spTileMovementComponent->GetTile(), movement, false);
 						if (m_pArena->IsBottomTileIndex(pNeighbourTile->GetIndex()))
 						{
 							possibleMovements.push_back(movement);
@@ -105,7 +107,7 @@ void RandomAIComponent::IncreaseMovementTimer()
 
 bool RandomAIComponent::IsRandomMovementTileNull(TileMovementComponent::MovementType movement) const
 {
-	ArenaTile* pNeighbourTile = m_pArena->GetNeighbourTile(m_spTileMovementComponent->GetTile(), movement);
+	ArenaTile* pNeighbourTile = m_pArena->GetNeighbourTile(m_spTileMovementComponent->GetTile(), movement, m_AllowHorizontalMovement, m_UpIsUp);
 	if (pNeighbourTile)
 		return pNeighbourTile->IsNullTile();
 

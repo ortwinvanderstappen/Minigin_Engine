@@ -9,9 +9,11 @@
 #include "GameTime.h"
 #include <cmath>
 
-TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile) :
+TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, bool allowHorizontalMovement, bool upIsUp) :
 	m_pArena(pArena),
 	m_pTile(pStartTile),
+	m_AllowHorizontalMovement(allowHorizontalMovement),
+	m_UpIsUp(upIsUp),
 	m_MoveState(MoveState::Idle),
 	m_MovementProgress(0.f),
 	m_AllowedMovementsMap(),
@@ -69,12 +71,12 @@ bool TileMovementComponent::Move(MovementType movement)
 	if (m_MoveState != MoveState::Idle) return false;
 
 	// Don't allow disabled movements
-	if(m_AllowedMovementsMap[movement] == false) return false;
+	if (m_AllowedMovementsMap[movement] == false) return false;
 
 	m_MoveSpeedMultiplier = m_BaseMoveSpeedMultiplier;
 
 	GameArena* pArena = m_pTile->GetArena();
-	ArenaTile* pNewTile = pArena->GetNeighbourTile(m_pTile, movement);
+	ArenaTile* pNewTile = pArena->GetNeighbourTile(m_pTile, movement, m_AllowHorizontalMovement, m_UpIsUp);
 
 	if (pNewTile)
 	{

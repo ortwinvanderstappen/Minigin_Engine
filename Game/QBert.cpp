@@ -16,8 +16,7 @@ QBert::QBert(GameArena* pArena, ArenaTile* pStartTile) :
 {}
 
 void QBert::Update()
-{
-}
+{}
 
 void QBert::Initialize()
 {
@@ -31,7 +30,7 @@ void QBert::Initialize()
 	Rectf collisionBounds{ -collisionSize.x * .5f, -collisionSize.y * .5f, collisionSize.x, collisionSize.y };
 	std::shared_ptr<minigen::CollisionSubject> spCollisionSubject = std::make_shared<minigen::CollisionSubject>(m_pParentObject, collisionBounds);
 	m_pParentObject->SetCollisionSubject(spCollisionSubject);
-	
+
 	// Add observers
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
@@ -54,7 +53,7 @@ void QBert::InitializeSprite() const
 
 void QBert::Die()
 {
-	Notify(GetParent(), minigen::Observer::Event::event_qbert_death	);
+	Notify(GetParent(), minigen::Observer::Event::event_qbert_death);
 }
 
 void QBert::HandleTileChange()
@@ -85,7 +84,7 @@ void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 		m_spTileMovementComponent->CompleteMovement();
 		m_spTileMovementComponent->MoveToTile(m_pArena->GetTopTile());
 	}
-	else if (pOtherGameObject->GetTag() == "Coily")
+	else if (pOtherGameObject->GetTag() == "Coily" || pOtherGameObject->GetTag() == "Ugg" || pOtherGameObject->GetTag() == "Wrongway")
 	{
 		Die();
 	}
