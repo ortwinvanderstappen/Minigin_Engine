@@ -155,9 +155,6 @@
     <ClInclude Include="Command.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="SuicideCommand.h">
-      <Filter>Source Files\Input\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Source Files\Observers</Filter>
     </ClInclude>
@@ -178,9 +175,6 @@
     </ClInclude>
     <ClInclude Include="NullSoundSystem.h">
       <Filter>Source Files\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="PlaySoundCommand.h">
-      <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
     <ClInclude Include="LoggingSoundSystem.h">
       <Filter>Source Files\Sound</Filter>
@@ -307,9 +301,6 @@
     <ClCompile Include="Command.cpp">
       <Filter>Source Files\Input\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="SuicideCommand.cpp">
-      <Filter>Source Files\Input\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="Observer.cpp">
       <Filter>Source Files\Observers</Filter>
     </ClCompile>
@@ -330,9 +321,6 @@
     </ClCompile>
     <ClCompile Include="NullSoundSystem.cpp">
       <Filter>Source Files\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="PlaySoundCommand.cpp">
-      <Filter>Source Files\Input\Commands</Filter>
     </ClCompile>
     <ClCompile Include="LoggingSoundSystem.cpp">
       <Filter>Source Files\Sound</Filter>
