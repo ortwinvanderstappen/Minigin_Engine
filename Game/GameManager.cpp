@@ -45,8 +45,8 @@ void GameManager::InitializeAudio()
 {
 	m_spLevelBeatSound = std::make_shared<SoundComponent>("../Data/audio/LevelBeat.wav");
 	GetParent()->AddComponent(m_spLevelBeatSound);
-	m_spLevelBeatSound = std::make_shared<SoundComponent>("../Data/audio/LevelBeat.wav");
-	GetParent()->AddComponent(m_spLevelBeatSound);
+	m_spGameBeatSound = std::make_shared<SoundComponent>("../Data/audio/LevelBeat.wav");
+	GetParent()->AddComponent(m_spGameBeatSound);
 }
 
 void GameManager::InitializeStage()
@@ -69,6 +69,7 @@ void GameManager::InitializeStage()
 
 void GameManager::StartGame(GameMode gameMode)
 {
+	m_Stage = 0;
 	m_GameMode = gameMode;
 	m_spScoreObserver->ResetScore();
 }
