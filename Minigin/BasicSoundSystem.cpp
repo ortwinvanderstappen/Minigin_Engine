@@ -8,7 +8,7 @@
 
 BasicSoundSystem::BasicSoundSystem() :
 	m_SoundQueue{},
-	m_Volume(m_MaxVolume)
+	m_Volume(m_MaxVolume / 2)
 {
 	m_SoundThread = std::thread([this]()
 		{
