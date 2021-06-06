@@ -190,6 +190,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClCompile Include="ArenaTile.cpp" />
     <ClCompile Include="Coily.cpp" />
     <ClCompile Include="CoilyAIComponent.cpp" />
+    <ClCompile Include="CoilyPlayerControllerAdderObserver.cpp" />
     <ClCompile Include="CompletedTilesObserver.cpp" />
     <ClCompile Include="FlyingDisc.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -220,6 +221,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClInclude Include="ArenaTile.h" />
     <ClInclude Include="Coily.h" />
     <ClInclude Include="CoilyAIComponent.h" />
+    <ClInclude Include="CoilyPlayerControllerAdderObserver.h" />
     <ClInclude Include="CompletedTilesObserver.h" />
     <ClInclude Include="FlyingDisc.h" />
     <ClInclude Include="Game.h" />

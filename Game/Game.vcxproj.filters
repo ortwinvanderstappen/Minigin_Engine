@@ -104,6 +104,9 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CoilyPlayerControllerAdderObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -171,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilyPlayerControllerAdderObserver.h">
+      <Filter>Source Files\Observers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

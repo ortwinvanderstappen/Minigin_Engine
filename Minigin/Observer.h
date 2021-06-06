@@ -18,7 +18,8 @@ namespace minigen {
 			event_slick_sam_caught,
 			event_tile_complete,
 			event_tile_uncomplete,
-			event_remaining_flying_disc
+			event_remaining_flying_disc,
+			event_coily_transform
 		};
 
 		virtual ~Observer() = default;

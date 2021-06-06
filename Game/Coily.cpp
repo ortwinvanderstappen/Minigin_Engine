@@ -78,6 +78,8 @@ void Coily::OnCollisionEnter(minigen::GameObject* const)
 
 void Coily::TransformIntoSnake()
 {
+	Notify(GetParent(), minigen::Observer::Event::event_coily_transform);
+	
 	// Enable all movements
 	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, true);
 	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, true);

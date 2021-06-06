@@ -18,8 +18,10 @@
 #include "CompletedTilesObserver.h"
 #include "FlyingDisc.h"
 #include "HealthObserver.h"
+#include "CoilyPlayerControllerAdderObserver.h"
 #include "PlayerControllerComponent.h"
 #include "QBert.h"
+#include "RandomAIComponent.h"
 #include "ScoreObserver.h"
 #include "ScoreRenderComponent.h"
 #include "SpawnerComponent.h"
@@ -29,7 +31,7 @@
 #include "Wrongway.h"
 
 GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
-                     GameManager::StageSettings* const stageSettings, int stage) :
+	GameManager::StageSettings* const stageSettings, int stage) :
 	m_pGameManager(pGameManager),
 	m_GameMode(gameMode),
 	m_pStageSettings(stageSettings),
@@ -258,9 +260,12 @@ void GameArena::SpawnCoily()
 
 	if (m_GameMode == GameManager::GameMode::Versus)
 	{
-		// Attach player controller to Coily
-		const std::shared_ptr<PlayerControllerComponent> playerController = std::make_shared<PlayerControllerComponent>(PlayerControllerComponent::HardwareType::Controller);
-		spCoilyObject->AddComponent(playerController);
+		const std::shared_ptr<RandomAIComponent> spRandomAIComponent = std::make_shared<RandomAIComponent>(this, 1.f);
+		spCoilyObject->AddComponent(spRandomAIComponent);
+
+		// This component will add the player controller to coily when possible
+		const std::shared_ptr<CoilyPlayerControllerAdderObserver> spPlayerControllerAdderObserver = std::make_shared<CoilyPlayerControllerAdderObserver>();
+		spCoily->AddObserver(spPlayerControllerAdderObserver);
 	}
 	else
 	{
