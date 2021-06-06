@@ -2,6 +2,8 @@
 #include <Component.h>
 #include <functional>
 #include <unordered_map>
+
+#include "structs.h"
 class GameArena;
 class ArenaTile;
 
@@ -54,11 +56,12 @@ private:
 	std::unordered_map<TileMovementComponent::MovementType, bool> m_AllowedMovementsMap;
 
 	ArenaTile* m_pGoalTile;
+	Point2f m_StartPosition;
 
 	std::vector<CommandCallback> m_MovedCallbacks;
 
-	float m_MoveSpeedMultiplier = 0.f;
-	float m_BaseMoveSpeedMultiplier = 2.5f;
-	float m_SlowedMoveSpeedMultiplier = .3f;
+	float m_MoveSpeedMultiplier;
+	float m_BaseMoveSpeedMultiplier;
+	float m_SlowedMoveSpeedMultiplier;
 };
 
