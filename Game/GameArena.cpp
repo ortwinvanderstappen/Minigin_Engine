@@ -20,6 +20,7 @@
 #include "ScoreObserver.h"
 #include "ScoreRenderComponent.h"
 #include "SoundComponent.h"
+#include "SpawnerComponent.h"
 #include "TileRevertCreature.h"
 #include "Ugg.h"
 #include "Wrongway.h"
@@ -32,8 +33,6 @@ GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
 	m_Stage(stage),
 	m_TileSize(0.f),
 	m_TileCount(0),
-	m_EnemySpawnTime(4.f),
-	m_EnemySpawnTimer(0.0f),
 	m_spHealthObserver(std::make_shared<HealthObserver>(this, stageSettings->lives)),
 	m_spCompletedTilesObserver(std::make_shared<CompletedTilesObserver>(this)),
 	m_IsStageResetting(false),
@@ -62,6 +61,7 @@ void GameArena::Initialize()
 	spLevelStartSound->PlaySoundEffect();
 
 	InitializeArena();
+	CreateSpawners();
 	CreateDiscs();
 	AddPlayers();
 }
@@ -116,6 +116,30 @@ void GameArena::InitializeArena()
 
 }
 
+void GameArena::CreateSpawners()
+{
+	// TODO: read spawn times from json?
+	std::shared_ptr<SpawnerComponent> spCoilySpawner = std::make_shared<SpawnerComponent>(3.f, 5.f);
+	std::shared_ptr<SpawnerComponent> spSlickSamSpawner = std::make_shared<SpawnerComponent>(5.f, 10.f);
+	std::shared_ptr<SpawnerComponent> spUggSpawner = std::make_shared<SpawnerComponent>(5.f, 10.f);
+	std::shared_ptr<SpawnerComponent> spWrongwaySpawner = std::make_shared<SpawnerComponent>(5.f, 10.f);
+
+	spCoilySpawner->AddSpawnFunction([this]() { SpawnCoily(); });
+	spSlickSamSpawner->AddSpawnFunction([this]() { SpawnSlickOrSam(); });
+	spUggSpawner->AddSpawnFunction([this]() { SpawnUgg(); });
+	spWrongwaySpawner->AddSpawnFunction([this]() { SpawnWrongway(); });
+
+	GetParent()->AddComponent(spCoilySpawner);
+	GetParent()->AddComponent(spSlickSamSpawner);
+	GetParent()->AddComponent(spUggSpawner);
+	GetParent()->AddComponent(spWrongwaySpawner);
+
+	m_spSpawners.push_back(spCoilySpawner);
+	m_spSpawners.push_back(spSlickSamSpawner);
+	m_spSpawners.push_back(spUggSpawner);
+	m_spSpawners.push_back(spWrongwaySpawner);
+}
+
 void GameArena::CreateDiscs()
 {
 	for (GameManager::Disc disc : m_pStageSettings->discs)
@@ -147,18 +171,16 @@ void GameArena::CreateDiscs()
 
 void GameArena::Update()
 {
-	HandleEnemySpawns();
-
 	const float deltaTime = Time::GetInstance().GetDeltaTime();
-	
+
 	if (m_IsStageResetting)
 	{
 		m_StageResetTimer += deltaTime;
-		
+
 		if (m_StageResetTimer > m_StageResetTime)
 		{
 			m_IsStageResetting = false;
-			
+
 			// Remove all dynamic entities except for the player
 			const std::shared_ptr<Coily> coily = m_wpCoily.lock();
 			if (coily) coily->GetParent()->MarkForDelete();
@@ -171,52 +193,10 @@ void GameArena::Update()
 			const std::shared_ptr<Wrongway> spWrongway = m_wpWrongway.lock();
 			if (spWrongway) spWrongway->GetParent()->MarkForDelete();
 
-			// Reset the spawn timer
-			m_EnemySpawnTimer = 0.f;
-		}
-	}
-}
-
-void GameArena::HandleEnemySpawns()
-{
-	const float deltaTime = Time::GetInstance().DeltaTime();
-
-	if (m_EnemySpawnTimer < m_EnemySpawnTime)
-	{
-		m_EnemySpawnTimer += deltaTime;
-	}
-	else
-	{
-		m_EnemySpawnTimer = 0.f;
-
-		std::vector<EntityType> spawnOptions{};
-
-		// Ticket spawn system for random spawn chances
-		if (m_wpCoily.lock() == nullptr) spawnOptions.push_back(EntityType::coily);
-		if (m_wpSam.lock() == nullptr) spawnOptions.push_back(EntityType::sam);
-		if (m_wpSlick.lock() == nullptr) spawnOptions.push_back(EntityType::slick);
-		if (m_wpUgg.lock() == nullptr) spawnOptions.push_back(EntityType::ugg);
-		if (m_wpWrongway.lock() == nullptr) spawnOptions.push_back(EntityType::wrongway);
-
-		const EntityType randomEntity = spawnOptions[(rand() % spawnOptions.size())];
-		switch (randomEntity)
-		{
-		case EntityType::coily:
-			SpawnCoily();
-			break;
-		case EntityType::sam:
-			SpawnSlickOrSam(TileRevertCreature::CreatureType::Sam);
-			break;
-		case EntityType::slick:
-			SpawnSlickOrSam(TileRevertCreature::CreatureType::Slick);
-			break;
-		case EntityType::ugg:
-			SpawnUgg();
-			break;
-		case EntityType::wrongway:
-			SpawnWrongway();
-			break;
-		default:;
+			for (const std::shared_ptr<SpawnerComponent>& spSpawner : m_spSpawners)
+			{
+				spSpawner->ResetSpawnTimer();
+			}
 		}
 	}
 }
@@ -267,6 +247,8 @@ const std::vector<std::shared_ptr<QBert>>& GameArena::GetPlayers() const
 
 void GameArena::SpawnCoily()
 {
+	if (m_wpCoily.lock()) return;
+
 	std::shared_ptr<minigen::GameObject> spCoilyObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<Coily> spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
 	spCoilyObject->AddComponent(spCoily);
@@ -288,8 +270,19 @@ void GameArena::SpawnCoily()
 	m_pParentObject->GetScene()->Add(spCoilyObject);
 }
 
-void GameArena::SpawnSlickOrSam(TileRevertCreature::CreatureType type)
+void GameArena::SpawnSlickOrSam()
 {
+	std::vector<TileRevertCreature::CreatureType> types{};
+
+	if (!m_wpSlick.lock())
+		types.push_back(TileRevertCreature::CreatureType::Slick);
+	if (!m_wpSam.lock())
+		types.push_back(TileRevertCreature::CreatureType::Sam);
+
+	if (types.empty()) return;
+
+	TileRevertCreature::CreatureType type = types[rand() % types.size()];
+
 	std::shared_ptr<minigen::GameObject> spObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<TileRevertCreature> spSlickOrSam = std::make_shared<TileRevertCreature>(this, GetTopTile(), type);
 	spObject->AddComponent(spSlickOrSam);
@@ -310,6 +303,8 @@ void GameArena::SpawnSlickOrSam(TileRevertCreature::CreatureType type)
 
 void GameArena::SpawnUgg()
 {
+	if (m_wpUgg.lock()) return;
+
 	std::shared_ptr<minigen::GameObject> spObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<Ugg> spUgg = std::make_shared<Ugg>(this, &m_ArenaHexes[GetBottomRightTileIndex()]);
 	spObject->AddComponent(spUgg);
@@ -320,6 +315,8 @@ void GameArena::SpawnUgg()
 
 void GameArena::SpawnWrongway()
 {
+	if (m_wpWrongway.lock()) return;
+
 	std::shared_ptr<minigen::GameObject> spObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<Wrongway> spWrongway = std::make_shared<Wrongway>(this, &m_ArenaHexes[GetBottomLeftTileIndex()]);
 	spObject->AddComponent(spWrongway);
@@ -336,15 +333,15 @@ void GameArena::Restart() const
 void GameArena::HandleLevelCompletion() const
 {
 	// Calculate how many discs are remaining
-	for(const std::weak_ptr<FlyingDisc> wpDisc: m_wpFlyingDiscs)
+	for (const std::weak_ptr<FlyingDisc> wpDisc : m_wpFlyingDiscs)
 	{
 		const std::shared_ptr<FlyingDisc> spDisc = wpDisc.lock();
-		if(spDisc)
+		if (spDisc)
 		{
 			m_pGameManager->GetScoreObserver()->Notify(GetParent(), minigen::Observer::Event::event_remaining_flying_disc);
 		}
 	}
-	
+
 	m_pGameManager->LoadNextStage();
 }
 
@@ -353,7 +350,11 @@ void GameArena::ResetStageEntities(float delay)
 	m_IsStageResetting = true;
 	m_StageResetTime = delay;
 	m_StageResetTimer = 0.f;
-	m_EnemySpawnTimer = 0.f;
+
+	for (const std::shared_ptr<SpawnerComponent>& spSpawner : m_spSpawners)
+	{
+		spSpawner->ResetSpawnTimer();
+	}
 }
 
 float GameArena::GetTileSize() const

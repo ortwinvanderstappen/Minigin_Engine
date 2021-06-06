@@ -1,11 +1,13 @@
 #pragma once
-#include "RenderComponent.h"
+#include <RenderComponent.h>
+
 #include "ArenaTile.h"
 #include "GameManager.h"
 #include "PlayerControllerComponent.h"
 #include "TileMovementComponent.h"
 #include "TileRevertCreature.h"
 
+class SpawnerComponent;
 class Wrongway;
 class Ugg;
 class TileRevertCreature;
@@ -22,13 +24,10 @@ public:
 	~GameArena() override;
 
 	void Initialize() override;
-	void InitializeArena();
-	void CreateDiscs();
 
 	void Update() override;
 	void Render() const override;
 
-	void AddPlayers();
 	const std::vector<std::shared_ptr<QBert>>& GetPlayers() const;
 
 	void Restart() const;
@@ -48,11 +47,16 @@ private:
 		ugg,
 		wrongway
 	};
+	
+	void InitializeArena();
+	void CreateSpawners();
+	void CreateDiscs();
 
-	void HandleEnemySpawns();
+	void AddPlayers();
 	void SpawnPlayer(ArenaTile* pTile, PlayerControllerComponent::HardwareType hardwareType);
+	
 	void SpawnCoily();
-	void SpawnSlickOrSam(TileRevertCreature::CreatureType type);
+	void SpawnSlickOrSam();
 	void SpawnUgg();
 	void SpawnWrongway();
 
@@ -68,8 +72,6 @@ private:
 
 	float m_TileSize;
 	int m_TileCount;
-	float m_EnemySpawnTime;
-	float m_EnemySpawnTimer;
 
 	std::weak_ptr<Coily> m_wpCoily;
 	std::weak_ptr<TileRevertCreature> m_wpSam;
@@ -86,4 +88,5 @@ private:
 	bool m_IsStageResetting;
 	float m_StageResetTimer;
 	float m_StageResetTime;
+	std::vector<std::shared_ptr<SpawnerComponent>> m_spSpawners;
 };

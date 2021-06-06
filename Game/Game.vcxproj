@@ -200,6 +200,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClCompile Include="RandomAIComponent.cpp" />
     <ClCompile Include="ScoreObserver.cpp" />
     <ClCompile Include="ScoreRenderComponent.cpp" />
+    <ClCompile Include="SpawnerComponent.cpp" />
     <ClCompile Include="TileMovementComponent.cpp" />
     <ClCompile Include="TileRevertCreature.cpp" />
     <ClCompile Include="Ugg.cpp" />
@@ -222,6 +223,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf-2.0.15\lib\$(PlatformTarget)\*.dll" "$(Ou
     <ClInclude Include="RandomAIComponent.h" />
     <ClInclude Include="ScoreObserver.h" />
     <ClInclude Include="ScoreRenderComponent.h" />
+    <ClInclude Include="SpawnerComponent.h" />
     <ClInclude Include="TileMovementComponent.h" />
     <ClInclude Include="TileRevertCreature.h" />
     <ClInclude Include="Ugg.h" />
