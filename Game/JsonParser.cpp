@@ -9,7 +9,7 @@ void JsonParser::ParseDifficulties(std::vector<GameManager::StageSettings>& stag
 	using rapidjson::Value;
 
 	JsonReader jr{};
-	rapidjson::Document* jsonDoc = jr.ReadJson("../Data/game_difficulties.json");
+	rapidjson::Document* jsonDoc = jr.ReadJson("Data/game_difficulties.json");
 
 	const Value& difficultyObject = (*jsonDoc)["levels"];
 	// Loop through each level entry

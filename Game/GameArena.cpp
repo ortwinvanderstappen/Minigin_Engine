@@ -62,7 +62,7 @@ void GameArena::Initialize()
 	const std::shared_ptr<ScoreRenderComponent> spScoreRenderComponent = std::make_shared<ScoreRenderComponent>(scorePosition);
 	GetParent()->AddComponent(spScoreRenderComponent);
 
-	const std::shared_ptr<SoundComponent> spLevelStartSound = std::make_shared<SoundComponent>("../Data/audio/LevelStart.wav");
+	const std::shared_ptr<SoundComponent> spLevelStartSound = std::make_shared<SoundComponent>("Data/audio/LevelStart.wav");
 	spLevelStartSound->PlaySoundEffect();
 
 	InitializeArena();

@@ -51,7 +51,7 @@ void minigen::Renderer::Init(SDL_Window* window)
 	ImGui_ImplSDL2_InitForOpenGL(m_Window, SDL_GL_GetCurrentContext());
 	ImGui_ImplOpenGL2_Init();
 	ImGuiIO& imGuiIo = ImGui::GetIO();
-	ImFont* pFont = imGuiIo.Fonts->AddFontFromFileTTF("../Data/DiaryOfAn8BitMage-lYDD.ttf", 22);
+	ImFont* pFont = imGuiIo.Fonts->AddFontFromFileTTF("Data/DiaryOfAn8BitMage-lYDD.ttf", 22);
 	imGuiIo.FontDefault = pFont;
 
 	glMatrixMode(GL_PROJECTION);

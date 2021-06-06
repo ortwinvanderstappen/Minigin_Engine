@@ -59,7 +59,7 @@ void QBert::InitializeSounds()
 {
 	using namespace minigen;
 
-	std::string basePath{ "../Data/audio/" };
+	std::string basePath{ "Data/audio/" };
 
 	m_spDeathSoundComponent = std::make_shared<SoundComponent>(basePath + "QBertDie.wav");
 	m_spFallSoundComponent = std::make_shared<SoundComponent>(basePath + "QBertFall.wav");

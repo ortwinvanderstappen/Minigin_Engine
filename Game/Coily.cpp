@@ -59,7 +59,7 @@ void Coily::InitializeSprite()
 
 void Coily::InitializeSounds()
 {
-	m_spFallSound = std::make_shared<minigen::SoundComponent>("../Data/audio/SnakeFall.wav");
+	m_spFallSound = std::make_shared<minigen::SoundComponent>("Data/audio/SnakeFall.wav");
 	GetParent()->AddComponent(m_spFallSound);
 }
 

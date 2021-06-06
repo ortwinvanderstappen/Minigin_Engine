@@ -43,9 +43,9 @@ void GameManager::InitializeStageSettings()
 
 void GameManager::InitializeAudio()
 {
-	m_spLevelBeatSound = std::make_shared<SoundComponent>("../Data/audio/LevelBeat.wav");
+	m_spLevelBeatSound = std::make_shared<SoundComponent>("Data/audio/LevelBeat.wav");
 	GetParent()->AddComponent(m_spLevelBeatSound);
-	m_spGameBeatSound = std::make_shared<SoundComponent>("../Data/audio/LevelBeat.wav");
+	m_spGameBeatSound = std::make_shared<SoundComponent>("Data/audio/LevelBeat.wav");
 	GetParent()->AddComponent(m_spGameBeatSound);
 }
 
