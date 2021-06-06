@@ -132,10 +132,6 @@ bool minigen::InputManager::HandleInputStates(std::vector<KeyInput>& inputs)
 				if (IsControllerPressed(input.inputButton.controllerButton))
 					currentKeyState = KeyState::pressed;
 			}
-			else
-			{
-				std::cerr << "No controller plugged in!\n";
-			}
 			break;
 		}
 		case HardwareType::keyboard:

@@ -13,6 +13,7 @@
 #include <Scene.h>
 #include <SceneManager.h>
 #include <SDL_render.h>
+#include <time.h>
 
 #include "GameManager.h"
 #include "ScoreRenderComponent.h"
