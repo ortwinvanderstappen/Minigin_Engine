@@ -1,5 +1,7 @@
+#include "stdafx.h"
 #include "SpawnerComponent.h"
-#include "GameTime.h"
+
+#include <GameTime.h>
 
 SpawnerComponent::SpawnerComponent(float minTimeToSpawn, float maxTimeToSpawn) :
 	m_MinTimeToSpawn(minTimeToSpawn),

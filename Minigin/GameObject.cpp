@@ -4,7 +4,6 @@
 #include "ButtonComponent.h"
 #include "InputManager.h"
 #include "MouseObserver.h"
-#include "RenderComponent.h"
 #include "Subject.h"
 
 minigen::GameObject::GameObject() :

@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
-#include <SDL_ttf.h>
 #include "Font.h"
+
+#include <SDL_ttf.h>
 
 TTF_Font* minigen::Font::GetFont() const {
 	return m_Font;

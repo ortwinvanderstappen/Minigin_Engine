@@ -1,6 +1,5 @@
+#include "stdafx.h"
 #include "HealthObserver.h"
-
-#include <iostream>
 
 #include "GameArena.h"
 

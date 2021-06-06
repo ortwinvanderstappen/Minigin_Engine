@@ -1,5 +1,7 @@
 // Github repo: https://github.com/ortwinvanderstappen/Minigin_Engine
+#include "stdafx.h"
 #include <iostream>
+
 #include "Game.h"
 
 int main(int, char* [])

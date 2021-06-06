@@ -1,12 +1,11 @@
+#include "stdafx.h"
 #include "TileRevertCreature.h"
 
-#include <iostream>
+#include <CollisionObserver.h>
+#include <CollisionSubject.h>
+#include <ImageRenderComponent.h>
 
-
-#include "CollisionObserver.h"
-#include "CollisionSubject.h"
 #include "GameArena.h"
-#include "ImageRenderComponent.h"
 #include "RandomAIComponent.h"
 #include "TileMovementComponent.h"
 

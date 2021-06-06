@@ -2,13 +2,11 @@
 #include <queue>
 #include <SDL_events.h>
 #include <SDL_keycode.h>
-#include <unordered_map>
-#include <windows.h>
 #include <XInput.h>
+#include <Windows.h>
 
 #include "Command.h"
 #include "Singleton.h"
-
 namespace minigen
 {
 	class Subject;

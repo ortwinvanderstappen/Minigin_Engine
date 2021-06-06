@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CompletedTilesObserver.h"
 
 #include "GameArena.h"

@@ -1,11 +1,11 @@
+#include "stdafx.h"
 #include "RandomAIComponent.h"
 
+#include <GameObject.h>
+#include <GameTime.h>
 #include <iostream>
 
-
 #include "GameArena.h"
-#include "GameObject.h"
-#include "GameTime.h"
 #include "TileMovementComponent.h"
 
 RandomAIComponent::RandomAIComponent(GameArena* pArena, float movementDelay, bool allowNullTile, bool onlyAllowBottomNullTile,bool allowHorizontalMovement, bool upIsUp) :

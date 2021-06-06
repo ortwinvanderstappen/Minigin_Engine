@@ -1,13 +1,16 @@
+#include "stdafx.h"
 #include "GameArena.h"
 
 #include <GameObject.h>
 #include <GameTime.h>
+#include <imgui.h>
 #include <iostream>
 #include <Renderer.h>
 #include <Scene.h>
 #include <SDL_render.h>
 #include <SoundComponent.h>
 #include <structs.h>
+#include <algorithm>
 
 #include "ArenaTile.h"
 #include "Coily.h"
@@ -78,7 +81,7 @@ void GameArena::InitializeArena()
 	const int baseWidth = m_pStageSettings->size;
 
 	// Calculate hex size
-	m_TileSize = static_cast<float>(std::min(width, height)) / static_cast<float>(baseWidth * 2);
+	m_TileSize = static_cast<float>(std::min<int>(width, height)) / static_cast<float>(baseWidth * 2);
 
 	// Calculate the start position based on hex sizes and screen size
 	const float offsetX = static_cast<float>(sqrt(3)) * m_TileSize;

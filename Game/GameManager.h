@@ -1,5 +1,8 @@
 #pragma once
+#include "stdafx.h"
+
 #include <Component.h>
+#include <memory>
 #include <structs.h>
 #include <vector>
 

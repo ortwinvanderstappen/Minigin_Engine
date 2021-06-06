@@ -1,9 +1,10 @@
 #include "MiniginPCH.h"
 #include "TextRenderComponent.h"
-#include "ResourceManager.h"
+
 #include <algorithm>
 
 #include "GameObject.h"
+#include "ResourceManager.h"
 
 minigen::TextRenderComponent::TextRenderComponent()
 {}

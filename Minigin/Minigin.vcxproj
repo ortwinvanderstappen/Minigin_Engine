@@ -238,7 +238,6 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentHolder.h" />
-    <ClInclude Include="CustomCommand.h" />
     <ClInclude Include="DaeAudio.h" />
     <ClInclude Include="EngineContext.h" />
     <ClInclude Include="Font.h" />
@@ -246,7 +245,6 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="helper.h" />
     <ClInclude Include="ImageRenderComponent.h" />
-    <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="JsonReader.h" />
@@ -329,7 +327,6 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentHolder.cpp" />
-    <ClCompile Include="CustomCommand.cpp" />
     <ClCompile Include="DaeAudio.cpp" />
     <ClCompile Include="EngineContext.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -337,7 +334,6 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="helper.cpp" />
     <ClCompile Include="ImageRenderComponent.cpp" />
-    <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="JsonReader.cpp" />

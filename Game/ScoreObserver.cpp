@@ -1,7 +1,5 @@
+#include "stdafx.h"
 #include "ScoreObserver.h"
-
-#include <SDL_render.h>
-#include "Renderer.h"
 
 ScoreObserver::ScoreObserver() :
 	m_Score(0)

@@ -1,16 +1,16 @@
+#include "stdafx.h"
 #include "Coily.h"
 
-#include <iostream>
+#include <CollisionObserver.h>
+#include <CollisionSubject.h>
+#include <GameObject.h>
+#include <GameTime.h>
+#include <ImageRenderComponent.h>
+#include <SoundComponent.h>
 
-#include "ImageRenderComponent.h"
-#include "GameArena.h"
 #include "ArenaTile.h"
-#include "CollisionObserver.h"
-#include "CollisionSubject.h"
-#include "GameObject.h"
-#include "GameTime.h"
+#include "GameArena.h"
 #include "QBert.h"
-#include "SoundComponent.h"
 
 Coily::Coily(GameArena* pArena, ArenaTile* pStartTile, const std::vector<std::shared_ptr<QBert>>& spPlayers) :
 	m_pArena(pArena),

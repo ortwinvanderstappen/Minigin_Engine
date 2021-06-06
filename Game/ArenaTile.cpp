@@ -1,10 +1,10 @@
+#include "stdafx.h"
 #include "ArenaTile.h"
 
 #include <iostream>
 
-#include "Renderer.h"
-
 #include "GameArena.h"
+#include "Renderer.h"
 
 ArenaTile::ArenaTile(GameArena* pArena, int index, float size, const Point2f& position, bool isNullTile, GameManager::StageSettings* pStageSettings) :
 	m_pArena(pArena),

@@ -1,13 +1,13 @@
+#include "stdafx.h"
 #include "CoilyAIComponent.h"
 
-#include "GameObject.h"
+#include <GameObject.h>
+#include <GameTime.h>
 #include <iostream>
-#include "GameArena.h"
-#include "GameTime.h"
 #include <SDL_stdinc.h>
 
-
 #include "Coily.h"
+#include "GameArena.h"
 #include "QBert.h"
 #include "RandomAIComponent.h"
 

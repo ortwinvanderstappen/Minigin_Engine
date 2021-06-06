@@ -1,5 +1,6 @@
 #include "MiniginPCH.h"
 #include "Component.h"
+
 #include "GameObject.h"
 
 minigen::Component::Component() :

@@ -1,9 +1,11 @@
+#include "stdafx.h"
 #include "PlayerControllerComponent.h"
 
+#include <GameObject.h>
+#include <InputComponent.h>
+#include <InputManager.h>
 #include <iostream>
-#include "GameObject.h"
-#include "InputComponent.h"
-#include "InputManager.h"
+
 #include "TileMovementComponent.h"
 
 PlayerControllerComponent::PlayerControllerComponent(HardwareType hardwareType) :

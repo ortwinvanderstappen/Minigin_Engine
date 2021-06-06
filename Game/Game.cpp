@@ -1,20 +1,20 @@
+#include "stdafx.h"
 #include "Game.h"
 
+#include <ButtonComponent.h>
+#include <CloseGameCommand.h>
+#include <GameObject.h>
+#include <ImageRenderComponent.h>
+#include <InputComponent.h>
 #include <iostream>
 #include <Minigin.h>
+#include <OpenGameSceneCommand.h>
+#include <Renderer.h>
+#include <Scene.h>
+#include <SceneManager.h>
 #include <SDL_render.h>
 
-
-#include "Scene.h"
-#include "ButtonComponent.h"
-#include "CloseGameCommand.h"
 #include "GameManager.h"
-#include "SceneManager.h"
-#include "GameObject.h"
-#include "ImageRenderComponent.h"
-#include "InputComponent.h"
-#include "OpenGameSceneCommand.h"
-#include "Renderer.h"
 #include "ScoreRenderComponent.h"
 
 using namespace minigen;

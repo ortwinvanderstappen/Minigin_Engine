@@ -1,7 +1,8 @@
 #pragma once
+#include <unordered_map>
+
 #include "RenderComponent.h"
 #include "structs.h"
-#include "unordered_map"
 
 namespace minigen {
 	class Texture2D;

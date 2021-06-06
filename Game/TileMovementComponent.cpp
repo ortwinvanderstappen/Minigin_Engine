@@ -1,16 +1,13 @@
+#include "stdafx.h"
 #include "TileMovementComponent.h"
 
-#include <iostream>
-
+#include <GameObject.h>
+#include <GameTime.h>
+#include <Renderer.h>
+#include <SDL_render.h>
 
 #include "ArenaTile.h"
 #include "GameArena.h"
-#include "GameObject.h"
-#include "GameTime.h"
-#include <cmath>
-#include <SDL_render.h>
-
-#include "Renderer.h"
 
 TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, bool allowHorizontalMovement, bool upIsUp) :
 	m_pArena(pArena),

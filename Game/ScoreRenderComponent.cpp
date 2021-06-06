@@ -1,8 +1,11 @@
+#include "stdafx.h"
 #include "ScoreRenderComponent.h"
 
+#include <imgui.h>
+#include <Renderer.h>
 #include <SDL_render.h>
+
 #include "GameContext.h"
-#include "Renderer.h"
 #include "ScoreObserver.h"
 
 ScoreRenderComponent::ScoreRenderComponent(const Point2f& position) :

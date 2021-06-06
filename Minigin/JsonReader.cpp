@@ -1,7 +1,8 @@
 #include "MiniginPCH.h"
 #include "JsonReader.h"
-#include "rapidjson.h"
-#include "filereadstream.h"
+
+#include <filereadstream.h>
+#include <rapidjson.h>
 
 rapidjson::Document* JsonReader::ReadJson(const std::string& filePath)
 {

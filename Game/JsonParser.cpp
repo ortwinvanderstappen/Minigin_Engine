@@ -1,10 +1,8 @@
+#include "stdafx.h"
 #include "JsonParser.h"
 
 #include <iostream>
-#include "JsonReader.h"
-#include "rapidjson.h"
-#include "filereadstream.h"
-#include "stream.h"
+#include <JsonReader.h>
 
 void JsonParser::ParseDifficulties(std::vector<GameManager::StageSettings>& stageSettings)
 {

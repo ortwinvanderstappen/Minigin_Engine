@@ -1,8 +1,9 @@
 #pragma once
+#include <string>
+
 #include "Component.h"
 #include "ComponentHolder.h"
 #include "Transform.h"
-#include "string"
 
 namespace minigen
 {

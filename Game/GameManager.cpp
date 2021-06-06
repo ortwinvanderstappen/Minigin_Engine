@@ -1,15 +1,14 @@
+#include "stdafx.h"
 #include "GameManager.h"
 
-#include <iostream>
+#include <GameObject.h>
+#include <Scene.h>
+#include <SoundComponent.h>
 
-
-#include "GameObject.h"
-#include "JsonParser.h"
 #include "GameArena.h"
 #include "GameContext.h"
-#include "Scene.h"
+#include "JsonParser.h"
 #include "ScoreObserver.h"
-#include "SoundComponent.h"
 
 using namespace minigen;
 

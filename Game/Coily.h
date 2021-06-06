@@ -1,4 +1,6 @@
 #pragma once
+#include "stdafx.h"
+
 #include <Component.h>
 #include <Subject.h>
 #include <string>

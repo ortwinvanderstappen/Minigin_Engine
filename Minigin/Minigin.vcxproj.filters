@@ -48,9 +48,6 @@
     <Filter Include="Source Files\Input\Commands">
       <UniqueIdentifier>{b23f5de1-1702-439d-9e2c-241612c3d065}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Components\Rendering\ImGui">
-      <UniqueIdentifier>{cc66a037-76e0-4c85-ba96-5855253f424d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Observers">
       <UniqueIdentifier>{fc87d715-3678-4ceb-8bc7-3a227cc43cae}</UniqueIdentifier>
     </Filter>
@@ -155,9 +152,6 @@
     <ClInclude Include="MiniginPCH.h">
       <Filter>Source Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiComponent.h">
-      <Filter>Source Files\Components\Rendering\ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
@@ -200,7 +194,6 @@
     <ClInclude Include="CloseGameCommand.h">
       <Filter>Source Files\Input\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="EngineContext.h" />
     <ClInclude Include="helper.h">
       <Filter>Source Files\Structs</Filter>
     </ClInclude>
@@ -210,7 +203,6 @@
     <ClInclude Include="ComponentHolder.h">
       <Filter>Source Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="CustomCommand.h" />
     <ClInclude Include="CollisionObserver.h">
       <Filter>Source Files\Observers</Filter>
     </ClInclude>
@@ -231,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="SoundComponent.h">
       <Filter>Source Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineContext.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -312,9 +307,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiComponent.cpp">
-      <Filter>Source Files\Components\Rendering\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Source Files\Input\Commands</Filter>
     </ClCompile>
@@ -368,9 +360,6 @@
     </ClCompile>
     <ClCompile Include="ComponentHolder.cpp">
       <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="CustomCommand.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CollisionObserver.cpp">
       <Filter>Source Files\Observers</Filter>

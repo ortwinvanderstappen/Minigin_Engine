@@ -1,14 +1,12 @@
+#include "stdafx.h"
 #include "FlyingDisc.h"
 
-#include <iostream>
+#include <CollisionObserver.h>
+#include <CollisionSubject.h>
+#include <GameObject.h>
+#include <ImageRenderComponent.h>
 
-
-
-#include "CollisionObserver.h"
-#include "CollisionSubject.h"
 #include "GameArena.h"
-#include "GameObject.h"
-#include "ImageRenderComponent.h"
 
 FlyingDisc::FlyingDisc(GameArena* pArena, ArenaTile* pTile) :
 	m_pArena(pArena),

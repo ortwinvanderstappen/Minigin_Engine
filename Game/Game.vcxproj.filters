@@ -1,168 +1,176 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{6f868f71-7481-4553-bf85-97a6f06d078f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helpers">
-      <UniqueIdentifier>{0fa97a77-89bb-4708-bee9-a4d2f151a164}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="structs">
-      <UniqueIdentifier>{039091cd-4a1c-4021-95aa-f3ba8c4b4b78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components">
+    <Filter Include="Source Files\Components">
       <UniqueIdentifier>{33c59c2d-b2e6-4fe6-a399-b48e33ae37c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Arena">
+    <Filter Include="Source Files\Components\Arena">
       <UniqueIdentifier>{e3925a3f-a8d3-4bd2-b92e-0e381ed9ac90}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Entities">
+    <Filter Include="Source Files\Components\Entities">
       <UniqueIdentifier>{4b4f7561-f079-47f7-bed5-5f071a8b544a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core">
+    <Filter Include="Source Files\Components\Entities\AI">
+      <UniqueIdentifier>{7adbf074-2c61-459f-a088-b2400182326c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Observers">
-      <UniqueIdentifier>{545cd4b1-5437-4ccd-9471-9caa622313b2}</UniqueIdentifier>
+    <Filter Include="Source Files\Helpers">
+      <UniqueIdentifier>{0fa97a77-89bb-4708-bee9-a4d2f151a164}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Singletons">
+    <Filter Include="Source Files\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Singletons">
       <UniqueIdentifier>{2b7d2685-c447-476e-8611-5426a10b5b41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Entities\AI">
-      <UniqueIdentifier>{7adbf074-2c61-459f-a088-b2400182326c}</UniqueIdentifier>
+    <Filter Include="Source Files\Observers">
+      <UniqueIdentifier>{545cd4b1-5437-4ccd-9471-9caa622313b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JsonParser.cpp">
-      <Filter>Helpers</Filter>
+      <Filter>Source Files\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="ArenaTile.cpp">
-      <Filter>Components\Arena</Filter>
+      <Filter>Source Files\Components\Arena</Filter>
     </ClCompile>
     <ClCompile Include="GameArena.cpp">
-      <Filter>Components\Arena</Filter>
+      <Filter>Source Files\Components\Arena</Filter>
     </ClCompile>
     <ClCompile Include="Coily.cpp">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="FlyingDisc.cpp">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="QBert.cpp">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="PlayerControllerComponent.cpp">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="TileMovementComponent.cpp">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Core</Filter>
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameManager.cpp">
-      <Filter>Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="HealthObserver.cpp">
-      <Filter>Observers</Filter>
+      <Filter>Source Files\Observers</Filter>
     </ClCompile>
     <ClCompile Include="ScoreObserver.cpp">
-      <Filter>Observers</Filter>
+      <Filter>Source Files\Observers</Filter>
     </ClCompile>
     <ClCompile Include="CompletedTilesObserver.cpp">
-      <Filter>Observers</Filter>
+      <Filter>Source Files\Observers</Filter>
     </ClCompile>
     <ClCompile Include="GameContext.cpp">
-      <Filter>Singletons</Filter>
+      <Filter>Source Files\Singletons</Filter>
     </ClCompile>
     <ClCompile Include="ScoreRenderComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="TileRevertCreature.cpp">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Ugg.cpp">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Wrongway.cpp">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="CoilyAIComponent.cpp">
-      <Filter>Components\Entities\AI</Filter>
+      <Filter>Source Files\Components\Entities\AI</Filter>
     </ClCompile>
     <ClCompile Include="RandomAIComponent.cpp">
-      <Filter>Components\Entities\AI</Filter>
+      <Filter>Source Files\Components\Entities\AI</Filter>
     </ClCompile>
     <ClCompile Include="SpawnerComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
-      <Filter>Core</Filter>
+      <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="JsonParser.h">
-      <Filter>Helpers</Filter>
+      <Filter>Source Files\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="ArenaTile.h">
-      <Filter>Components\Arena</Filter>
+      <Filter>Source Files\Components\Arena</Filter>
     </ClInclude>
     <ClInclude Include="GameArena.h">
-      <Filter>Components\Arena</Filter>
+      <Filter>Source Files\Components\Arena</Filter>
     </ClInclude>
     <ClInclude Include="Coily.h">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="FlyingDisc.h">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="QBert.h">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="PlayerControllerComponent.h">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="TileMovementComponent.h">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
-      <Filter>Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="HealthObserver.h">
-      <Filter>Observers</Filter>
+      <Filter>Source Files\Observers</Filter>
     </ClInclude>
     <ClInclude Include="ScoreObserver.h">
-      <Filter>Observers</Filter>
+      <Filter>Source Files\Observers</Filter>
     </ClInclude>
     <ClInclude Include="CompletedTilesObserver.h">
-      <Filter>Observers</Filter>
+      <Filter>Source Files\Observers</Filter>
     </ClInclude>
     <ClInclude Include="GameContext.h">
-      <Filter>Singletons</Filter>
+      <Filter>Source Files\Singletons</Filter>
     </ClInclude>
     <ClInclude Include="ScoreRenderComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TileRevertCreature.h">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Ugg.h">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Wrongway.h">
-      <Filter>Components\Entities</Filter>
+      <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="CoilyAIComponent.h">
-      <Filter>Components\Entities\AI</Filter>
+      <Filter>Source Files\Components\Entities\AI</Filter>
     </ClInclude>
     <ClInclude Include="RandomAIComponent.h">
-      <Filter>Components\Entities\AI</Filter>
+      <Filter>Source Files\Components\Entities\AI</Filter>
     </ClInclude>
     <ClInclude Include="SpawnerComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

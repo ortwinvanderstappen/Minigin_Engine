@@ -1,9 +1,11 @@
 #include "MiniginPCH.h"
+#include "TextObject.h"
+
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include "TextObject.h"
-#include "Renderer.h"
+
 #include "Font.h"
+#include "Renderer.h"
 #include "Texture2D.h"
 
 minigen::TextObject::TextObject(const std::string& text, const std::shared_ptr<Font>& font)

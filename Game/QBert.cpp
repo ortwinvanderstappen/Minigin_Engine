@@ -1,13 +1,15 @@
+#include "stdafx.h"
 #include "QBert.h"
-#include <iostream>
-#include "ImageRenderComponent.h"
-#include "InputComponent.h"
+
+#include <CollisionObserver.h>
+#include <CollisionSubject.h>
+#include <GameObject.h>
+#include <ImageRenderComponent.h>
+#include <InputComponent.h>
+#include <SoundComponent.h>
+
 #include "ArenaTile.h"
-#include "CollisionObserver.h"
-#include "CollisionSubject.h"
 #include "GameArena.h"
-#include "GameObject.h"
-#include "SoundComponent.h"
 
 QBert::QBert(GameArena* pArena, ArenaTile* pStartTile) :
 	m_pArena(pArena),

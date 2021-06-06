@@ -1,29 +1,27 @@
 #include "MiniginPCH.h"
 #include "Minigin.h"
+
 #include <chrono>
-#include <thread>
 #include <SDL.h>
+#include <thread>
 // Audio
 #pragma warning(push)
 #pragma warning(disable:4244)
-#include "audio.h"
-#include "audio.c"
+#include <audio.c>
+#include <audio.h>
 #pragma warning(pop)
 // Managers
-#include "ResourceManager.h"
-#include "InputManager.h"
-#include "SceneManager.h"
-#include "Renderer.h"
 #include "GameTime.h"
-// Components
-#include "ImGuiComponent.h"
+#include "InputManager.h"
+#include "Renderer.h"
+#include "ResourceManager.h"
+#include "SceneManager.h"
 // Services
 #include "ServiceLocator.h"
-// Temp
 #include "BasicSoundSystem.h"
 #include "LoggingSoundSystem.h"
-#include "backends/imgui_impl_opengl2.h"
-#include "backends/imgui_impl_sdl.h"
+// ImGui
+#include <backends/imgui_impl_sdl.h>
 
 // Github repo: https://github.com/ortwinvanderstappen/Minigin_Engine
 

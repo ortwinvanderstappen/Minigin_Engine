@@ -1,12 +1,12 @@
+#include "stdafx.h"
 #include "Wrongway.h"
 
+#include <CollisionObserver.h>
+#include <CollisionSubject.h>
+#include <GameObject.h>
+#include <ImageRenderComponent.h>
 
-
-#include "CollisionObserver.h"
-#include "CollisionSubject.h"
 #include "GameArena.h"
-#include "GameObject.h"
-#include "ImageRenderComponent.h"
 #include "RandomAIComponent.h"
 #include "TileMovementComponent.h"
 

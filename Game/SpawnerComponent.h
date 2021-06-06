@@ -1,6 +1,9 @@
 #pragma once
+#include "stdafx.h"
+
 #include <Component.h>
 #include <functional>
+#include <vector>
 
 class SpawnerComponent : public minigen::Component
 {

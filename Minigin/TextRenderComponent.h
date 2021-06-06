@@ -1,8 +1,9 @@
 #pragma once
+#include <unordered_map>
+
 #include "RenderComponent.h"
-#include "TextObject.h"
 #include "structs.h"
-#include "unordered_map"
+#include "TextObject.h"
 
 namespace minigen {
 	class TextRenderComponent : public RenderComponent

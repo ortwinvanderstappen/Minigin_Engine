@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "GameContext.h"
 
 void GameContext::SetScoreObserver(const std::shared_ptr<ScoreObserver>& spScoreObserver)

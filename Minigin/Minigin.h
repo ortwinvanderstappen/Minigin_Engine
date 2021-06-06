@@ -1,7 +1,8 @@
 #pragma once
-#include <windows.h>
-#include <vector>
 #include <memory>
+#include <vector>
+#include <Windows.h>
+
 struct SDL_Window;
 namespace minigen
 {
