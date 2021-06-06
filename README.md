@@ -1,5 +1,8 @@
 # Minigin_Engine
 
+## Goal
+Create a 2D component based engine and remake "QBert" with it. (assignment for second year Digital Arts and Entertainment programming course)
+
 ## Quick engine overview
 
 ## RENDERING
