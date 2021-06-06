@@ -229,6 +229,9 @@
     <ClInclude Include="MouseObserver.h">
       <Filter>Source Files\Observers</Filter>
     </ClInclude>
+    <ClInclude Include="SoundComponent.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp">
@@ -386,6 +389,9 @@
     </ClCompile>
     <ClCompile Include="MouseObserver.cpp">
       <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

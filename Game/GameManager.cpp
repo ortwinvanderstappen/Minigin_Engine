@@ -9,6 +9,7 @@
 #include "GameContext.h"
 #include "Scene.h"
 #include "ScoreObserver.h"
+#include "SoundComponent.h"
 
 using namespace minigen;
 
@@ -27,6 +28,7 @@ void GameManager::Initialize()
 	GameContext::GetInstance().SetScoreObserver(m_spScoreObserver);
 	
 	InitializeStageSettings();
+	InitializeAudio();
 
 	auto onSceneEnter = [this]() { InitializeStage(); };
 	GetParent()->GetScene()->SetOnSceneEnterCallback(onSceneEnter);
@@ -38,6 +40,14 @@ void GameManager::InitializeStageSettings()
 {
 	JsonParser jp{};
 	jp.ParseDifficulties(m_Stages);
+}
+
+void GameManager::InitializeAudio()
+{
+	m_spLevelBeatSound = std::make_shared<SoundComponent>("../Data/audio/LevelBeat.wav");
+	GetParent()->AddComponent(m_spLevelBeatSound);
+	m_spLevelBeatSound = std::make_shared<SoundComponent>("../Data/audio/LevelBeat.wav");
+	GetParent()->AddComponent(m_spLevelBeatSound);
 }
 
 void GameManager::InitializeStage()
@@ -78,9 +88,11 @@ void GameManager::LoadNextStage()
 	{
 		++m_Stage;
 		InitializeStage();
+		m_spLevelBeatSound->PlaySoundEffect();
 	}
 	else
 	{
+		m_spGameBeatSound->PlaySoundEffect();
 		SceneManager::GetInstance().SetActiveScene("VictoryScene");
 	}
 }

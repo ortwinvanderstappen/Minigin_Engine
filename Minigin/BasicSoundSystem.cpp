@@ -7,7 +7,8 @@
 #include "ResourceManager.h"
 
 BasicSoundSystem::BasicSoundSystem() :
-	m_SoundQueue{}
+	m_SoundQueue{},
+	m_Volume(m_MaxVolume)
 {
 	m_SoundThread = std::thread([this]()
 		{
@@ -52,18 +53,13 @@ void BasicSoundSystem::ProcessQueue()
 	}
 }
 
-void BasicSoundSystem::PlaySound(const std::string& soundName, int volume)
+void BasicSoundSystem::PlaySound(const std::string& soundName)
 {
 	if (!m_IsMuted)
 	{
-		m_SoundQueue.push(std::make_pair(soundName, volume));
+		m_SoundQueue.push(std::make_pair(soundName, m_Volume));
 		m_PlayCondition.notify_one();
 	}
-}
-
-void BasicSoundSystem::PlayMusic(const std::string&, const int)
-{
-	// Unimplemented
 }
 
 void BasicSoundSystem::Mute()
@@ -74,4 +70,14 @@ void BasicSoundSystem::Mute()
 void BasicSoundSystem::Unmute()
 {
 	m_IsMuted = false;
+}
+
+int BasicSoundSystem::GetVolume() const
+{
+	return m_Volume;
+}
+
+void BasicSoundSystem::SetVolume(int volume)
+{
+	m_Volume = volume;
 }

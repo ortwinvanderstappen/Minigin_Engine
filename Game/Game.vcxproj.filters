@@ -30,6 +30,9 @@
     <Filter Include="Singletons">
       <UniqueIdentifier>{2b7d2685-c447-476e-8611-5426a10b5b41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Entities\AI">
+      <UniqueIdentifier>{7adbf074-2c61-459f-a088-b2400182326c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JsonParser.cpp">
@@ -48,9 +51,6 @@
       <Filter>Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="QBert.cpp">
-      <Filter>Components\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="CoilyAIComponent.cpp">
       <Filter>Components\Entities</Filter>
     </ClCompile>
     <ClCompile Include="PlayerControllerComponent.cpp">
@@ -81,9 +81,6 @@
     <ClCompile Include="ScoreRenderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="RandomAIComponent.cpp">
-      <Filter>Components\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="TileRevertCreature.cpp">
       <Filter>Components\Entities</Filter>
     </ClCompile>
@@ -92,6 +89,12 @@
     </ClCompile>
     <ClCompile Include="Wrongway.cpp">
       <Filter>Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="CoilyAIComponent.cpp">
+      <Filter>Components\Entities\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomAIComponent.cpp">
+      <Filter>Components\Entities\AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +117,6 @@
       <Filter>Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="QBert.h">
-      <Filter>Components\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="CoilyAIComponent.h">
       <Filter>Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="PlayerControllerComponent.h">
@@ -143,9 +143,6 @@
     <ClInclude Include="ScoreRenderComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="RandomAIComponent.h">
-      <Filter>Components\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="TileRevertCreature.h">
       <Filter>Components\Entities</Filter>
     </ClInclude>
@@ -154,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="Wrongway.h">
       <Filter>Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="CoilyAIComponent.h">
+      <Filter>Components\Entities\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomAIComponent.h">
+      <Filter>Components\Entities\AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

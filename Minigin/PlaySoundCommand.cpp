@@ -10,6 +10,6 @@ PlaySoundCommand::PlaySoundCommand(const std::string soundPath) :
 
 bool PlaySoundCommand::Execute()
 {
-	ServiceLocator::GetSoundSystem()->PlaySound(m_Path, 100);
+	ServiceLocator::GetSoundSystem()->PlaySound(m_Path);
 	return true;
 }

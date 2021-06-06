@@ -61,6 +61,7 @@ void minigen::Minigin::Initialize()
 
 	// Register the sound system, each sound system starts their own seperate thread and immediately starts
 	const std::shared_ptr<SoundSystem> spDefaultSoundSystem = std::make_shared<BasicSoundSystem>();
+	//const std::shared_ptr<SoundSystem> spLoggingSoundSystem = std::make_shared<LoggingSoundSystem>(spDefaultSoundSystem);
 	ServiceLocator::RegisterSoundSystem(spDefaultSoundSystem);
 
 	// tell the resource manager where he can find the game data

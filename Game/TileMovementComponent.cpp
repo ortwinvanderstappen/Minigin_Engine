@@ -87,6 +87,11 @@ bool TileMovementComponent::Move(MovementType movement)
 
 	if (pNewTile)
 	{
+		for (CommandCallback& moveCallback : m_MoveCallbacks)
+		{
+			moveCallback();
+		}
+
 		MoveToTile(pNewTile);
 		return true;
 	}
@@ -114,16 +119,16 @@ void TileMovementComponent::MoveToTile(ArenaTile* pTile, bool isSlowed, float be
 {
 	const Point2f& currentPosition = m_pParentObject->GetPosition();
 	const Point2f& goalPosition = pTile->GetCenter();
-	
+
 	// Set multipliers
 	m_BezierMultiplier = bezierMultiplier;
 	m_MoveSpeedMultiplier = isSlowed ? m_SlowedMoveSpeedMultiplier : m_BaseMoveSpeedMultiplier;
-	
+
 	if (goalPosition.y < currentPosition.y)
 		m_BezierPoint = Point2f(currentPosition.x, goalPosition.y * m_BezierMultiplier);
 	else
 		m_BezierPoint = Point2f(goalPosition.x, currentPosition.y * m_BezierMultiplier);
-	
+
 	m_StartPosition = m_pTile->GetCenter();
 	m_pGoalTile = pTile;
 	m_MoveState = MoveState::Moving;
@@ -139,12 +144,12 @@ void TileMovementComponent::SpawnOnTile(ArenaTile* pTile)
 {
 	m_pTile = pTile;
 	m_MovementProgress = 0.f;
-	
+
 	// Start first movement animation (come in arena animation)
 	SDL_Renderer* pRenderer = minigen::Renderer::GetInstance().GetSDLRenderer();
 	// Obtain window size
 	int width; int height; SDL_GetRendererOutputSize(pRenderer, &width, &height);
-	
+
 	// Calculate current direction from screen center
 	const Point2f screenCenter{ static_cast<float>(width) * .5f, static_cast<float>(height) * .5f };
 	Vector2f direction = Vector2f{ m_pTile->GetCenter() } - Vector2f{ screenCenter };
@@ -182,9 +187,14 @@ void TileMovementComponent::SetParentPosition() const
 	}
 }
 
-void TileMovementComponent::SubscribeToMoved(const CommandCallback& movedCallback)
+void TileMovementComponent::SubscribeToMoveCompleted(const CommandCallback& movedCallback)
 {
 	m_MovedCallbacks.push_back(movedCallback);
+}
+
+void TileMovementComponent::SubscribeToMove(const CommandCallback& moveCallback)
+{
+	m_MoveCallbacks.push_back(moveCallback);
 }
 
 void TileMovementComponent::TileMoved()

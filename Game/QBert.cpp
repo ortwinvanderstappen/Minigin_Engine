@@ -7,25 +7,21 @@
 #include "CollisionSubject.h"
 #include "GameArena.h"
 #include "GameObject.h"
+#include "SoundComponent.h"
 
 QBert::QBert(GameArena* pArena, ArenaTile* pStartTile) :
 	m_pArena(pArena),
 	m_pSpawnTile(pStartTile),
 	m_spTileMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile)),
-	m_QbertImagePath("images/QBert.png"),
-	m_Died(false)
+	m_QbertImagePath("images/QBert.png")
 {}
-
-void QBert::Update()
-{
-	m_Died = false;
-}
 
 void QBert::Initialize()
 {
 	m_pParentObject->SetTag("QBert");
 
 	InitializeSprite();
+	InitializeSounds();
 
 	// Create a collision subject
 	const float scale = m_pArena->GetTileSize() / 15.f;
@@ -39,7 +35,10 @@ void QBert::Initialize()
 	spCollisionSubject->AddObserver(spCollisionObserver);
 
 	auto movedCallback = [this]() { HandleTileChange(); };
-	m_spTileMovementComponent->SubscribeToMoved(movedCallback);
+	m_spTileMovementComponent->SubscribeToMoveCompleted(movedCallback);
+
+	auto moveCallback = [this]() { HandleMove(); };
+	m_spTileMovementComponent->SubscribeToMove(moveCallback);
 
 	// Movement
 	m_pParentObject->AddComponent(m_spTileMovementComponent);
@@ -52,6 +51,20 @@ void QBert::InitializeSprite() const
 	const float scale = m_pArena->GetTileSize() / 15.f;
 	imageRenderComponent->AddImage(m_QbertImagePath, { -8 * scale,-16 * scale }, scale);
 	m_pParentObject->AddComponent(imageRenderComponent);
+}
+
+void QBert::InitializeSounds()
+{
+	using namespace minigen;
+
+	std::string basePath{ "../Data/audio/" };
+
+	m_spDeathSoundComponent = std::make_shared<SoundComponent>(basePath + "QBertDie.wav");
+	m_spFallSoundComponent = std::make_shared<SoundComponent>(basePath + "QBertFall.wav");
+	m_spJumpSoundComponent = std::make_shared<SoundComponent>(basePath + "QBertJump.wav");
+	m_spLiftSoundComponent = std::make_shared<SoundComponent>(basePath + "QBertLift.wav");
+
+	GetParent()->AddComponent(m_spDeathSoundComponent);
 }
 
 void QBert::Die()
@@ -67,6 +80,7 @@ void QBert::HandleTileChange()
 
 	if (pTile->IsNullTile() && !pTile->HasDisc())
 	{
+		m_spFallSoundComponent->PlaySoundEffect();
 		Die();
 
 		// Reset QBerts position
@@ -78,12 +92,18 @@ void QBert::HandleTileChange()
 	}
 }
 
+void QBert::HandleMove() const
+{
+	m_spJumpSoundComponent->PlaySoundEffect();
+}
+
 void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 {
 	std::cout << "QBert collided with tagged object: " << pOtherGameObject->GetTag() << "\n";
 
 	if (pOtherGameObject->GetTag() == "Disc")
 	{
+		m_spLiftSoundComponent->PlaySoundEffect();
 		const float delay = 2.3f;
 		m_pArena->ResetStageEntities(delay);
 
@@ -92,6 +112,7 @@ void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 	}
 	else if (pOtherGameObject->GetTag() == "Coily" || pOtherGameObject->GetTag() == "Ugg" || pOtherGameObject->GetTag() == "Wrongway")
 	{
+		m_spDeathSoundComponent->PlaySoundEffect();
 		Die();
 	}
 }

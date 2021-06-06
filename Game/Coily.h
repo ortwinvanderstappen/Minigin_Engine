@@ -4,6 +4,10 @@
 
 #include "Subject.h"
 
+namespace minigen {
+	class SoundComponent;
+}
+
 class QBert;
 class TileMovementComponent;
 class GameArena;
@@ -25,13 +29,14 @@ public:
 	void Update() override;
 	void OnCollisionEnter(minigen::GameObject* const) override;
 
-	void InitializeSprite();
-	void TransformIntoSnake();
-
 	CoilyState GetState() const;
 
 private:
+	void InitializeSprite();
+	void InitializeSounds();
+	
 	void CheckTransformation();
+	void TransformIntoSnake();
 	void HandleTransformation();
 
 	void HandleTileChange();
@@ -46,5 +51,7 @@ private:
 	CoilyState m_CoilyState;
 	float m_TransformTime;
 	float m_TransformTimer;
+
+	std::shared_ptr<minigen::SoundComponent> m_spFallSound;
 };
 

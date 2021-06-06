@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include "GameTime.h"
 #include "QBert.h"
+#include "SoundComponent.h"
 
 Coily::Coily(GameArena* pArena, ArenaTile* pStartTile, const std::vector<std::shared_ptr<QBert>>& spPlayers) :
 	m_pArena(pArena),
@@ -26,7 +27,8 @@ void Coily::Initialize()
 {
 	m_pParentObject->SetTag("Coily");
 	InitializeSprite();
-
+	InitializeSounds();
+	
 	// Create a collision subject
 	const float scale = m_pArena->GetTileSize() / 15.f;
 	const Point2f collisionSize = { 8.f * scale, 4.f * scale };
@@ -38,7 +40,7 @@ void Coily::Initialize()
 	spCollisionSubject->AddObserver(spCollisionObserver);
 
 	auto movedCallback = [this]() { HandleTileChange(); };
-	m_spMovementComponent->SubscribeToMoved(movedCallback);
+	m_spMovementComponent->SubscribeToMoveCompleted(movedCallback);
 
 	// Movement
 	m_pParentObject->AddComponent(m_spMovementComponent);
@@ -53,6 +55,12 @@ void Coily::InitializeSprite()
 	const float scale = m_pArena->GetTileSize() / 15.f;
 	imageRenderComponent->AddImage(path, { -8 * scale,-10 * scale }, scale);
 	m_pParentObject->AddComponent(imageRenderComponent);
+}
+
+void Coily::InitializeSounds()
+{
+	m_spFallSound = std::make_shared<minigen::SoundComponent>("../Data/audio/SnakeFall.wav");
+	GetParent()->AddComponent(m_spFallSound);
 }
 
 void Coily::Update()
@@ -120,6 +128,7 @@ void Coily::HandleTileChange()
 {
 	if (m_spMovementComponent->GetTile()->IsNullTile())
 	{
+		m_spFallSound->PlaySoundEffect();
 		Notify(GetParent(), minigen::Observer::Event::event_coily_fall);
 		m_pParentObject->MarkForDelete();
 	}

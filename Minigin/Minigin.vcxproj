@@ -257,6 +257,7 @@
     <ClInclude Include="MouseObserver.h" />
     <ClInclude Include="NullSoundSystem.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="SoundComponent.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="OpenGameSceneCommand.h" />
     <ClInclude Include="PlaySoundCommand.h" />
@@ -354,6 +355,7 @@
     <ClCompile Include="MouseObserver.cpp" />
     <ClCompile Include="NullSoundSystem.cpp" />
     <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="SoundComponent.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="OpenGameSceneCommand.cpp" />
     <ClCompile Include="PlaySoundCommand.cpp" />

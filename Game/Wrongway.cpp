@@ -27,7 +27,7 @@ void Wrongway::Initialize()
 
 	GetParent()->AddComponent(m_spTileMovementComponent);
 	auto movedCallback = [this]() { HandleTileChange(); };
-	m_spTileMovementComponent->SubscribeToMoved(movedCallback);
+	m_spTileMovementComponent->SubscribeToMoveCompleted(movedCallback);
 
 	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::down, false);
 	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);

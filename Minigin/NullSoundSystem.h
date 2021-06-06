@@ -3,10 +3,12 @@
 class NullSoundSystem final : public SoundSystem
 {
 public:
-	void PlaySound(const std::string& soundName, int volume) override;
-	void PlayMusic(const std::string& soundName, int volume) override;
+	void PlaySound(const std::string& soundName) override;
 
 	void Mute() override;
 	void Unmute() override;
+
+	int GetVolume() const override;
+	void SetVolume(int volume) override;
 };
 

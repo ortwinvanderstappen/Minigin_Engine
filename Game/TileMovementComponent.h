@@ -38,7 +38,8 @@ public:
 
 	void CompleteMovement();
 	void SetParentPosition() const;
-	void SubscribeToMoved(const CommandCallback& movedCallback);
+	void SubscribeToMoveCompleted(const CommandCallback& movedCallback);
+	void SubscribeToMove(const CommandCallback& moveCallback);
 
 private:
 	enum class MoveState
@@ -63,6 +64,7 @@ private:
 	Point2f m_BezierPoint;
 
 	std::vector<CommandCallback> m_MovedCallbacks;
+	std::vector<CommandCallback> m_MoveCallbacks;
 
 	float m_MoveSpeedMultiplier;
 	float m_BaseMoveSpeedMultiplier;

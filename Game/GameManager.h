@@ -4,6 +4,10 @@
 #include "structs.h"
 #include <vector>
 
+namespace minigen {
+	class SoundComponent;
+}
+
 class ScoreObserver;
 
 class GameManager : public minigen::Component
@@ -45,11 +49,15 @@ public:
 
 private:
 	void InitializeStageSettings();
+	void InitializeAudio();
 	void InitializeStage();
 	
 	GameMode m_GameMode;
 	int m_Stage;
 	std::vector<StageSettings> m_Stages;
 	std::shared_ptr<ScoreObserver> m_spScoreObserver;
+
+	std::shared_ptr<minigen::SoundComponent> m_spLevelBeatSound;
+	std::shared_ptr<minigen::SoundComponent> m_spGameBeatSound;
 };
 
