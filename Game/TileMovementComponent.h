@@ -71,6 +71,8 @@ private:
 	float m_BezierMultiplier;
 	Point2f m_BezierPoint;
 
+	bool m_CanTriggerTile;
+
 	std::vector<CommandCallback> m_MovedCallbacks;
 	std::vector<CommandCallback> m_MoveCallbacks;
 };

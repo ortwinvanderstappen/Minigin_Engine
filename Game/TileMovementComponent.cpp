@@ -17,7 +17,8 @@ TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStar
 	m_MoveSpeed(0.f),
 	m_BaseMoveSpeed(movementspeed),
 	m_SlowedMoveSpeed(3.f),
-	m_BezierMultiplier(1.f)
+	m_BezierMultiplier(1.f),
+	m_CanTriggerTile(false)
 {}
 
 void TileMovementComponent::Initialize()
@@ -52,7 +53,7 @@ void TileMovementComponent::Update()
 		{
 			CompleteMovement();
 		}
-		m_MovementProgress += deltaTime * (1.f/m_MoveSpeed);
+		m_MovementProgress += deltaTime * (1.f / m_MoveSpeed);
 	}
 }
 
@@ -188,8 +189,16 @@ void TileMovementComponent::SubscribeToMove(const CommandCallback& moveCallback)
 
 void TileMovementComponent::TileMoved()
 {
-	for (CommandCallback& movedCallback : m_MovedCallbacks)
+	// Don't trigger tiles on the first movement
+	if (m_CanTriggerTile)
 	{
-		movedCallback();
+		for (CommandCallback& movedCallback : m_MovedCallbacks)
+		{
+			movedCallback();
+		}
+	}
+	else
+	{
+		m_CanTriggerTile = true;
 	}
 }
