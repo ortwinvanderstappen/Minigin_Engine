@@ -138,7 +138,7 @@ void GameArena::CreateDiscs()
 
 void GameArena::Update()
 {
-	HandleEnemySpawns();
+	//HandleEnemySpawns();
 }
 
 void GameArena::HandleEnemySpawns()

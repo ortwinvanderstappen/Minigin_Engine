@@ -2,7 +2,7 @@
 	"levels":
 	[
 		{
-			"size": 7,
+			"size": 6,
 			"lives": 3,
 			"cyclesColor": false,
 			"activeColors":
@@ -24,12 +24,69 @@
 				{
 					"row": 1,
 					"position": 1
-				}, 
+				}
+			]
+		},
+		{
+			"size": 7,
+			"lives": 3,
+			"cyclesColor": false,
+			"activeColors":
+			[
+				{
+					"r": 223,
+					"g": 223,
+					"b": 60
+				},
+				{
+					"r": 90,
+					"g": 223,
+					"b": 60
+				}
+			],
+			"inactiveColor":
+			{
+				"r": 80,
+				"g": 130,
+				"b": 239
+			},
+			"discs":
+			[
 				{
 					"row": 2,
 					"position": 3
 				}
 			]
-		}		
+		},
+		{
+			"size": 7,
+			"lives": 3,
+			"cyclesColor": true,
+			"activeColors":
+			[
+				{
+					"r": 223,
+					"g": 50,
+					"b": 90
+				}
+			],
+			"inactiveColor":
+			{
+				"r": 160,
+				"g": 64,
+				"b": 239
+			},
+			"discs":
+			[
+				{
+					"row": 2,
+					"position": 3
+				}, 
+				{
+					"row": 4,
+					"position": 3
+				}
+			]
+		}			
 	]
 }

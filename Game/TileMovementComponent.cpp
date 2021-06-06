@@ -23,28 +23,16 @@ TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStar
 	m_MovedCallbacks(),
 	m_MoveSpeedMultiplier(0.f),
 	m_BaseMoveSpeedMultiplier(2.5f),
-	m_SlowedMoveSpeedMultiplier(.3f)
+	m_SlowedMoveSpeedMultiplier(.3f),
+	m_BezierMultiplier(1.f),
+	m_BezierPoint()
 {}
 
 void TileMovementComponent::Initialize()
 {
 	m_MoveSpeedMultiplier = m_BaseMoveSpeedMultiplier;
 
-	// Start first movement animation (come in arena animation)
-	SDL_Renderer* pRenderer = minigen::Renderer::GetInstance().GetSDLRenderer();
-	// Obtain window size
-	int width; int height; SDL_GetRendererOutputSize(pRenderer, &width, &height);
-
-	// Calculate current direction from screen center
-	const Point2f screenCenter{ static_cast<float>(width) * .5f, static_cast<float>(height) * .5f };
-	Vector2f direction = Vector2f{ m_pTile->GetCenter() } - Vector2f{ screenCenter };
-	const float length = direction.Normalize();
-
-	// Set new position
-	GetParent()->SetPosition(Point2f{ screenCenter + Point2f{direction.x, direction.y }*(length + 100.f) });
-	m_MoveState = MoveState::Moving;
-	m_StartPosition = GetParent()->GetPosition();
-	m_pGoalTile = m_pTile;
+	SpawnOnTile(m_pTile);
 
 	// Setup allowed movements map (allow all movements by default)
 	for (int i = 0; i < 4; ++i)
@@ -59,21 +47,21 @@ void TileMovementComponent::Update()
 	{
 		const float deltaTime = Time::GetInstance().GetDeltaTime();
 
-		const Point2f& currentPosition = m_pParentObject->GetPosition();
+		//const Point2f& currentPosition = m_pParentObject->GetPosition();
 		const Point2f& startPosition = m_StartPosition;
 		const Point2f& goalPosition = m_pGoalTile->GetCenter();
 
 		// Calculate intermediate bezier point
-		Point2f bezierPoint;
+		//Point2f bezierPoint;
 
-		if (goalPosition.y < currentPosition.y)
-			bezierPoint = Point2f(currentPosition.x, goalPosition.y);
-		else
-			bezierPoint = Point2f(goalPosition.x, currentPosition.y);
+		//if (goalPosition.y < currentPosition.y)
+		//	bezierPoint = Point2f(currentPosition.x, goalPosition.y * m_BezierMultiplier);
+		//else
+		//	bezierPoint = Point2f(goalPosition.x, currentPosition.y * m_BezierMultiplier);
 
 		// Calculate quadratic bezier curve https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Quadratic_B%C3%A9zier_curves
 		const float t = 1 - m_MovementProgress;
-		const Point2f pointOnCurve = (startPosition * t + bezierPoint * m_MovementProgress) * t + (bezierPoint * t + goalPosition * m_MovementProgress) * m_MovementProgress;
+		const Point2f pointOnCurve = (startPosition * t + m_BezierPoint * m_MovementProgress) * t + (m_BezierPoint * t + goalPosition * m_MovementProgress) * m_MovementProgress;
 		m_pParentObject->SetPosition(pointOnCurve);
 
 		if (m_MovementProgress >= 1.f)
@@ -94,17 +82,12 @@ bool TileMovementComponent::Move(MovementType movement)
 	// Don't allow disabled movements
 	if (m_AllowedMovementsMap[movement] == false) return false;
 
-	m_MoveSpeedMultiplier = m_BaseMoveSpeedMultiplier;
-
 	GameArena* pArena = m_pTile->GetArena();
 	ArenaTile* pNewTile = pArena->GetNeighbourTile(m_pTile, movement, m_AllowHorizontalMovement, m_UpIsUp);
 
 	if (pNewTile)
 	{
-		m_pGoalTile = pNewTile;
-		m_StartPosition = m_pTile->GetCenter();
-		m_MoveState = MoveState::Moving;
-		m_MovementProgress = 0.f;
+		MoveToTile(pNewTile);
 		return true;
 	}
 
@@ -127,17 +110,59 @@ void TileMovementComponent::SetTile(ArenaTile* pTile)
 	SetParentPosition();
 }
 
-void TileMovementComponent::MoveToTile(ArenaTile* pTile)
+void TileMovementComponent::MoveToTile(ArenaTile* pTile, bool isSlowed, float bezierMultiplier)
 {
+	const Point2f& currentPosition = m_pParentObject->GetPosition();
+	const Point2f& goalPosition = pTile->GetCenter();
+	
+	// Set multipliers
+	m_BezierMultiplier = bezierMultiplier;
+	m_MoveSpeedMultiplier = isSlowed ? m_SlowedMoveSpeedMultiplier : m_BaseMoveSpeedMultiplier;
+	
+	if (goalPosition.y < currentPosition.y)
+		m_BezierPoint = Point2f(currentPosition.x, goalPosition.y * m_BezierMultiplier);
+	else
+		m_BezierPoint = Point2f(goalPosition.x, currentPosition.y * m_BezierMultiplier);
+	
+	m_StartPosition = m_pTile->GetCenter();
 	m_pGoalTile = pTile;
 	m_MoveState = MoveState::Moving;
 	m_MovementProgress = 0.f;
-	m_MoveSpeedMultiplier = m_SlowedMoveSpeedMultiplier;
 }
 
 ArenaTile* TileMovementComponent::GetTile() const
 {
 	return m_pTile;
+}
+
+void TileMovementComponent::SpawnOnTile(ArenaTile* pTile)
+{
+	m_pTile = pTile;
+	m_MovementProgress = 0.f;
+	
+	// Start first movement animation (come in arena animation)
+	SDL_Renderer* pRenderer = minigen::Renderer::GetInstance().GetSDLRenderer();
+	// Obtain window size
+	int width; int height; SDL_GetRendererOutputSize(pRenderer, &width, &height);
+	
+	// Calculate current direction from screen center
+	const Point2f screenCenter{ static_cast<float>(width) * .5f, static_cast<float>(height) * .5f };
+	Vector2f direction = Vector2f{ m_pTile->GetCenter() } - Vector2f{ screenCenter };
+	const float length = direction.Normalize();
+
+	// Set new position
+	GetParent()->SetPosition(Point2f{ screenCenter + Point2f{direction.x, direction.y }*(length + 100.f) });
+	m_MoveState = MoveState::Moving;
+	m_StartPosition = GetParent()->GetPosition();
+	m_pGoalTile = m_pTile;
+
+	const Point2f& currentPosition = m_pParentObject->GetPosition();
+	const Point2f& goalPosition = m_pGoalTile->GetCenter();
+
+	if (goalPosition.y < currentPosition.y)
+		m_BezierPoint = Point2f(currentPosition.x, goalPosition.y * m_BezierMultiplier);
+	else
+		m_BezierPoint = Point2f(goalPosition.x, currentPosition.y * m_BezierMultiplier);
 }
 
 void TileMovementComponent::CompleteMovement()

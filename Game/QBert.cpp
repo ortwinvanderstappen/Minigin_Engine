@@ -67,7 +67,7 @@ void QBert::HandleTileChange()
 		Die();
 
 		// Reset QBerts position
-		m_spTileMovementComponent->SetTile(m_pSpawnTile);
+		m_spTileMovementComponent->SpawnOnTile(m_pSpawnTile);
 	}
 	else
 	{
@@ -82,7 +82,7 @@ void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 	if (pOtherGameObject->GetTag() == "Disc")
 	{
 		m_spTileMovementComponent->CompleteMovement();
-		m_spTileMovementComponent->MoveToTile(m_pArena->GetTopTile());
+		m_spTileMovementComponent->MoveToTile(m_pArena->GetTopTile(), true, -2.4f);
 	}
 	else if (pOtherGameObject->GetTag() == "Coily" || pOtherGameObject->GetTag() == "Ugg" || pOtherGameObject->GetTag() == "Wrongway")
 	{

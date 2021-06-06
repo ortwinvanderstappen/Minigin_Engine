@@ -10,8 +10,8 @@ class ArenaTile;
 class TileMovementComponent : public minigen::Component
 {
 public:
-	typedef std::function<void ()> CommandCallback;
-	
+	typedef std::function<void()> CommandCallback;
+
 	// Make sure down is 0 and right is 1!
 	enum class MovementType
 	{
@@ -20,7 +20,7 @@ public:
 		left,
 		up
 	};
-	
+
 	TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, bool allowHorizontalMovement = false, bool upIsUp = true);
 
 	void Initialize() override;
@@ -31,8 +31,10 @@ public:
 	void SetMovementAllowed(TileMovementComponent::MovementType movement, bool state = true);
 
 	void SetTile(ArenaTile* pTile);
-	void MoveToTile(ArenaTile* pTile);
+	void MoveToTile(ArenaTile* pTile, bool isSlowed = false, float bezierMultiplier = 1.f);
 	ArenaTile* GetTile() const;
+
+	void SpawnOnTile(ArenaTile* pTile);
 
 	void CompleteMovement();
 	void SetParentPosition() const;
@@ -44,9 +46,9 @@ private:
 		Idle,
 		Moving
 	};
-	
+
 	void TileMoved();
-	
+
 	GameArena* m_pArena;
 	ArenaTile* m_pTile;
 	bool m_AllowHorizontalMovement;
@@ -57,6 +59,8 @@ private:
 
 	ArenaTile* m_pGoalTile;
 	Point2f m_StartPosition;
+	float m_BezierMultiplier;
+	Point2f m_BezierPoint;
 
 	std::vector<CommandCallback> m_MovedCallbacks;
 
