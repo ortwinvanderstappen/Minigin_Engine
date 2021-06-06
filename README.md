@@ -1,7 +1,5 @@
 # Minigin_Engine
 
-https://github.com/ortwinvanderstappen/Minigin_Engine
-
 ## Quick engine overview
 
 ## RENDERING
