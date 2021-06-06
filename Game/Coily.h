@@ -33,7 +33,7 @@ public:
 	CoilyState GetState() const;
 
 private:
-	void InitializeSprite();
+	void InitializeSpriteAndCollision();
 	void InitializeSounds();
 	
 	void CheckTransformation();
@@ -43,6 +43,7 @@ private:
 	void HandleTileChange();
 	
 	GameArena* m_pArena;
+	ArenaTile* m_pStartTile;
 	std::shared_ptr<TileMovementComponent> m_spMovementComponent;
 	std::vector<std::shared_ptr<QBert>> m_spPlayers;
 

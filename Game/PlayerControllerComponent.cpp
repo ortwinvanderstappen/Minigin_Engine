@@ -126,24 +126,24 @@ void PlayerControllerComponent::CreateControllerInputs(const std::shared_ptr<min
 void PlayerControllerComponent::CheckKeyboardInputs() const
 {
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::up)))
-		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::up);
+		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::upRight);
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::right)))
-		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::right);
+		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::downRight);
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::down)))
-		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::down);
+		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::downLeft);
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::left)))
-		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::left);
+		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::upLeft);
 }
 
 void PlayerControllerComponent::CheckControllerInputs() const
 {
 	const int offset = 4;
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::up) + offset))
-		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::up);
+		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::upRight);
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::right) + offset))
-		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::right);
+		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::downRight);
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::down) + offset))
-		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::down);
+		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::downLeft);
 	if (minigen::InputManager::GetInstance().IsInputTriggered(static_cast<int>(InputId::left) + offset))
-		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::left);
+		m_spTileMovementComponent->Move(TileMovementComponent::MovementType::upLeft);
 }

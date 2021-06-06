@@ -9,25 +9,20 @@
 #include "ArenaTile.h"
 #include "GameArena.h"
 
-TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, bool allowHorizontalMovement, bool upIsUp) :
+TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, float movementspeed) :
 	m_pArena(pArena),
 	m_pTile(pStartTile),
-	m_AllowHorizontalMovement(allowHorizontalMovement),
-	m_UpIsUp(upIsUp),
 	m_MoveState(MoveState::Idle),
 	m_MovementProgress(0.f),
-	m_AllowedMovementsMap(),
-	m_MovedCallbacks(),
-	m_MoveSpeedMultiplier(0.f),
-	m_BaseMoveSpeedMultiplier(2.5f),
-	m_SlowedMoveSpeedMultiplier(.3f),
-	m_BezierMultiplier(1.f),
-	m_BezierPoint()
+	m_MoveSpeed(0.f),
+	m_BaseMoveSpeed(movementspeed),
+	m_SlowedMoveSpeed(3.f),
+	m_BezierMultiplier(1.f)
 {}
 
 void TileMovementComponent::Initialize()
 {
-	m_MoveSpeedMultiplier = m_BaseMoveSpeedMultiplier;
+	m_MoveSpeed = m_BaseMoveSpeed;
 
 	SpawnOnTile(m_pTile);
 
@@ -48,14 +43,6 @@ void TileMovementComponent::Update()
 		const Point2f& startPosition = m_StartPosition;
 		const Point2f& goalPosition = m_pGoalTile->GetCenter();
 
-		// Calculate intermediate bezier point
-		//Point2f bezierPoint;
-
-		//if (goalPosition.y < currentPosition.y)
-		//	bezierPoint = Point2f(currentPosition.x, goalPosition.y * m_BezierMultiplier);
-		//else
-		//	bezierPoint = Point2f(goalPosition.x, currentPosition.y * m_BezierMultiplier);
-
 		// Calculate quadratic bezier curve https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Quadratic_B%C3%A9zier_curves
 		const float t = 1 - m_MovementProgress;
 		const Point2f pointOnCurve = (startPosition * t + m_BezierPoint * m_MovementProgress) * t + (m_BezierPoint * t + goalPosition * m_MovementProgress) * m_MovementProgress;
@@ -65,7 +52,7 @@ void TileMovementComponent::Update()
 		{
 			CompleteMovement();
 		}
-		m_MovementProgress += deltaTime * m_MoveSpeedMultiplier;
+		m_MovementProgress += deltaTime * (1.f/m_MoveSpeed);
 	}
 }
 
@@ -80,7 +67,7 @@ bool TileMovementComponent::Move(MovementType movement)
 	if (m_AllowedMovementsMap[movement] == false) return false;
 
 	GameArena* pArena = m_pTile->GetArena();
-	ArenaTile* pNewTile = pArena->GetNeighbourTile(m_pTile, movement, m_AllowHorizontalMovement, m_UpIsUp);
+	ArenaTile* pNewTile = pArena->GetNeighbourTile(m_pTile, movement);
 
 	if (pNewTile)
 	{
@@ -119,7 +106,7 @@ void TileMovementComponent::MoveToTile(ArenaTile* pTile, bool isSlowed, float be
 
 	// Set multipliers
 	m_BezierMultiplier = bezierMultiplier;
-	m_MoveSpeedMultiplier = isSlowed ? m_SlowedMoveSpeedMultiplier : m_BaseMoveSpeedMultiplier;
+	m_MoveSpeed = isSlowed ? m_SlowedMoveSpeed : m_BaseMoveSpeed;
 
 	if (goalPosition.y < currentPosition.y)
 		m_BezierPoint = Point2f(currentPosition.x, goalPosition.y * m_BezierMultiplier);
@@ -165,6 +152,11 @@ void TileMovementComponent::SpawnOnTile(ArenaTile* pTile)
 		m_BezierPoint = Point2f(currentPosition.x, goalPosition.y * m_BezierMultiplier);
 	else
 		m_BezierPoint = Point2f(goalPosition.x, currentPosition.y * m_BezierMultiplier);
+}
+
+TileMovementComponent::MoveState TileMovementComponent::GetMoveState() const
+{
+	return m_MoveState;
 }
 
 void TileMovementComponent::CompleteMovement()

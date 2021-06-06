@@ -6,13 +6,14 @@
 #include <ImageRenderComponent.h>
 
 #include "GameArena.h"
+#include "GameContext.h"
 #include "RandomAIComponent.h"
 #include "TileMovementComponent.h"
 
 TileRevertCreature::TileRevertCreature(GameArena* pArena, ArenaTile* pStartTile, CreatureType type) :
 	m_pArena(pArena),
-	m_spTileMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile)),
-	m_MovementDelay(1.f),
+	m_pStartTile(pStartTile),
+	m_spTileMovementComponent(nullptr),
 	m_CreatureType(type),
 	m_SlickTexturePath("images/Slick.png"),
 	m_SamTexturePath("images/Sam.png")
@@ -22,9 +23,11 @@ void TileRevertCreature::Initialize()
 {
 	GetParent()->SetTag("SlickOrSam");
 
+	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pArena, m_pStartTile, 
+		GameContext::GetInstance().GetEntityProperty(EntityType::slickOrSam)->movespeed);
 	GetParent()->AddComponent(m_spTileMovementComponent);
-	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, false);
-	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);
+	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upRight, false);
+	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upLeft, false);
 
 	// Collision
 	const float scale = m_pArena->GetTileSize() / 15.f;
@@ -35,8 +38,9 @@ void TileRevertCreature::Initialize()
 	// Add observers
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
-
-	const std::shared_ptr<RandomAIComponent> spRandomAIComponent = std::make_shared<RandomAIComponent>(m_pArena,m_MovementDelay, true, true);
+	
+	const float aiWaitTime = GameContext::GetInstance().GetEntityProperty(EntityType::slickOrSam)->aiWaitTime;
+	const std::shared_ptr<RandomAIComponent> spRandomAIComponent = std::make_shared<RandomAIComponent>(m_pArena, aiWaitTime, true, true);
 	GetParent()->AddComponent(spRandomAIComponent);
 
 	InitializeSprite();

@@ -25,20 +25,24 @@ void GameManager::Update()
 void GameManager::Initialize()
 {
 	GameContext::GetInstance().SetScoreObserver(m_spScoreObserver);
-	
+
 	InitializeStageSettings();
 	InitializeAudio();
 
 	auto onSceneEnter = [this]() { InitializeStage(); };
 	GetParent()->GetScene()->SetOnSceneEnterCallback(onSceneEnter);
-
-	//GetParent()->AddComponent(m_spScoreObserver);
 }
 
 void GameManager::InitializeStageSettings()
 {
 	JsonParser jp{};
+	// Load the stages
 	jp.ParseDifficulties(m_Stages);
+
+	// Load the entity properties
+	std::vector<EntityProperty> entityProperties;
+	jp.ParseEntityProperties(entityProperties);
+	GameContext::GetInstance().SetEntityProperties(entityProperties);
 }
 
 void GameManager::InitializeAudio()

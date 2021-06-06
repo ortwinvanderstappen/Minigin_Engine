@@ -33,6 +33,9 @@
     <Filter Include="Source Files\Observers">
       <UniqueIdentifier>{545cd4b1-5437-4ccd-9471-9caa622313b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Structs">
+      <UniqueIdentifier>{ae692012-ec70-4ab6-9c50-f6d0eea486b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JsonParser.cpp">
@@ -77,9 +80,6 @@
     <ClCompile Include="GameContext.cpp">
       <Filter>Source Files\Singletons</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreRenderComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="TileRevertCreature.cpp">
       <Filter>Source Files\Components\Entities</Filter>
     </ClCompile>
@@ -95,9 +95,6 @@
     <ClCompile Include="RandomAIComponent.cpp">
       <Filter>Source Files\Components\Entities\AI</Filter>
     </ClCompile>
-    <ClCompile Include="SpawnerComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,6 +102,12 @@
       <Filter>Source Files\Observers</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SpawnerComponent.cpp">
+      <Filter>Source Files\Components\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreRenderComponent.cpp">
+      <Filter>Source Files\Components\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -149,9 +152,6 @@
     <ClInclude Include="GameContext.h">
       <Filter>Source Files\Singletons</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreRenderComponent.h">
-      <Filter>Source Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="TileRevertCreature.h">
       <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
@@ -167,14 +167,20 @@
     <ClInclude Include="RandomAIComponent.h">
       <Filter>Source Files\Components\Entities\AI</Filter>
     </ClInclude>
-    <ClInclude Include="SpawnerComponent.h">
-      <Filter>Source Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="CoilyPlayerControllerAdderObserver.h">
       <Filter>Source Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStructs.h">
+      <Filter>Source Files\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnerComponent.h">
+      <Filter>Source Files\Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreRenderComponent.h">
+      <Filter>Source Files\Components\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

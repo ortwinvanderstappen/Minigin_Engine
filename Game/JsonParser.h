@@ -9,6 +9,7 @@ class JsonParser
 public:
 	JsonParser() = default;
 
-	void ParseDifficulties(std::vector<GameManager::StageSettings>& stageSettings);
+	void ParseDifficulties(std::vector<GameManager::StageSettings>& outStageSettings);
+	void ParseEntityProperties(std::vector<EntityProperty>& outEntityProperties);
 };
 

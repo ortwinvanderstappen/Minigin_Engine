@@ -10,11 +10,13 @@
 
 #include "ArenaTile.h"
 #include "GameArena.h"
+#include "GameContext.h"
 #include "QBert.h"
 
 Coily::Coily(GameArena* pArena, ArenaTile* pStartTile, const std::vector<std::shared_ptr<QBert>>& spPlayers) :
 	m_pArena(pArena),
-	m_spMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile)),
+	m_pStartTile(pStartTile),
+	m_spMovementComponent(nullptr),
 	m_spPlayers(spPlayers),
 	m_CoilyBallImagePath("images/CoilyBall.png"),
 	m_CoilySnakeImagePath("images/CoilySnake.png"),
@@ -26,11 +28,29 @@ Coily::Coily(GameArena* pArena, ArenaTile* pStartTile, const std::vector<std::sh
 void Coily::Initialize()
 {
 	m_pParentObject->SetTag("Coily");
-	InitializeSprite();
+	InitializeSpriteAndCollision();
 	InitializeSounds();
-	
-	// Create a collision subject
+
+	m_spMovementComponent = std::make_shared<TileMovementComponent>(m_pArena, m_pStartTile, 
+		GameContext::GetInstance().GetEntityProperty(EntityType::coily)->movespeed);
+	auto movedCallback = [this]() { HandleTileChange(); };
+	m_spMovementComponent->SubscribeToMoveCompleted(movedCallback);
+
+	// Movement
+	m_pParentObject->AddComponent(m_spMovementComponent);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upRight, false);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upLeft, false);
+}
+
+void Coily::InitializeSpriteAndCollision()
+{
+	const std::string& path = m_CoilyState == CoilyState::Ball ? m_CoilyBallImagePath : m_CoilySnakeImagePath;
+	std::shared_ptr<minigen::ImageRenderComponent> imageRenderComponent = std::make_shared<minigen::ImageRenderComponent>();
 	const float scale = m_pArena->GetTileSize() / 15.f;
+	imageRenderComponent->AddImage(path, { -8 * scale,-10 * scale }, scale);
+	m_pParentObject->AddComponent(imageRenderComponent);
+
+	// Create a collision subject
 	const Point2f collisionSize = { 8.f * scale, 4.f * scale };
 	Rectf collisionBounds{ -collisionSize.x * .5f, -collisionSize.y * .5f, collisionSize.x, collisionSize.y };
 	std::shared_ptr<minigen::CollisionSubject> spCollisionSubject = std::make_shared<minigen::CollisionSubject>(m_pParentObject, collisionBounds);
@@ -38,23 +58,6 @@ void Coily::Initialize()
 	// Add observers
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
-
-	auto movedCallback = [this]() { HandleTileChange(); };
-	m_spMovementComponent->SubscribeToMoveCompleted(movedCallback);
-
-	// Movement
-	m_pParentObject->AddComponent(m_spMovementComponent);
-	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, false);
-	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);
-}
-
-void Coily::InitializeSprite()
-{
-	const std::string& path = m_CoilyState == CoilyState::Ball ? m_CoilyBallImagePath : m_CoilySnakeImagePath;
-	std::shared_ptr<minigen::ImageRenderComponent> imageRenderComponent = std::make_shared<minigen::ImageRenderComponent>();
-	const float scale = m_pArena->GetTileSize() / 15.f;
-	imageRenderComponent->AddImage(path, { -8 * scale,-10 * scale }, scale);
-	m_pParentObject->AddComponent(imageRenderComponent);
 }
 
 void Coily::InitializeSounds()
@@ -79,19 +82,19 @@ void Coily::OnCollisionEnter(minigen::GameObject* const)
 void Coily::TransformIntoSnake()
 {
 	Notify(GetParent(), minigen::Observer::Event::event_coily_transform);
-	
+
 	// Enable all movements
-	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, true);
-	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, true);
-	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::down, true);
-	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::right, true);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upRight, true);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upLeft, true);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::downLeft, true);
+	m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::downRight, true);
 
 	m_CoilyState = CoilyState::Snake;
 	std::shared_ptr<minigen::ImageRenderComponent> spImageComponent = m_pParentObject->GetComponent<minigen::ImageRenderComponent>();
 	if (spImageComponent)
 	{
 		spImageComponent->RemoveImage(m_CoilyBallImagePath);
-		InitializeSprite();
+		InitializeSpriteAndCollision();
 	}
 }
 
@@ -106,10 +109,10 @@ void Coily::CheckTransformation()
 	if (m_pArena->IsBottomTileIndex(m_spMovementComponent->GetTile()->GetIndex()))
 	{
 		// Disable all movements
-		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::up, false);
-		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::left, false);
-		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::down, false);
-		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::right, false);
+		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upRight, false);
+		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upLeft, false);
+		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::downLeft, false);
+		m_spMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::downRight, false);
 
 		m_CoilyState = CoilyState::Transforming;
 	}

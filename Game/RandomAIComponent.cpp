@@ -8,15 +8,13 @@
 #include "GameArena.h"
 #include "TileMovementComponent.h"
 
-RandomAIComponent::RandomAIComponent(GameArena* pArena, float movementDelay, bool allowNullTile, bool onlyAllowBottomNullTile,bool allowHorizontalMovement, bool upIsUp) :
+RandomAIComponent::RandomAIComponent(GameArena* pArena, float aiWaitTime, bool allowNullTile, bool onlyAllowBottomNullTile) :
 	m_pArena(pArena),
-	m_MovementDelay(movementDelay),
+	m_AiWaitTime(aiWaitTime),
 	m_AllowNullTile(allowNullTile),
-	m_AllowHorizontalMovement(allowHorizontalMovement),
-	m_UpIsUp(upIsUp),
 	m_OnlyAllowBottomNullTile(onlyAllowBottomNullTile),
-	m_MovementTimer(0.f),
-	m_IsEnabled(true)
+	m_IsEnabled(true),
+	m_AiWaitTimer(0.f)
 {}
 
 void RandomAIComponent::Initialize()
@@ -42,72 +40,77 @@ void RandomAIComponent::Disable()
 
 void RandomAIComponent::HandleMovement()
 {
-	IncreaseMovementTimer();
-	if (m_MovementTimer > m_MovementDelay)
+	if (m_spTileMovementComponent->GetMoveState() == TileMovementComponent::MoveState::Idle)
 	{
-		m_MovementTimer -= m_MovementDelay;
+		const float deltaTime = Time::GetInstance().GetDeltaTime();
+		m_AiWaitTimer += deltaTime;
 
-		// Find all the possible movement options
-		std::vector<TileMovementComponent::MovementType> possibleMovements{};
-		for (const std::pair<TileMovementComponent::MovementType, bool> movementOption : m_spTileMovementComponent->GetAllowedMovements())
+		if (m_AiWaitTimer >= m_AiWaitTime)
 		{
-			const TileMovementComponent::MovementType movement = movementOption.first;
+			m_AiWaitTimer = 0.f;
 
-			// Don't do movement if set to not allowed
-			if (movementOption.second == false) continue;
-
-			// Do extra checks if desired tile is null
-			if (IsRandomMovementTileNull(movement))
+			// Find all the possible movement options
+			std::vector<TileMovementComponent::MovementType> possibleMovements{};
+			for (const std::pair<TileMovementComponent::MovementType, bool> movementOption : m_spTileMovementComponent->GetAllowedMovements())
 			{
-				if (m_AllowNullTile)
+				const TileMovementComponent::MovementType movement = movementOption.first;
+
+				// Don't do movement if set to not allowed
+				if (movementOption.second == false) continue;
+
+				// Do extra checks if desired tile is null
+				if (IsRandomMovementTileNull(movement))
 				{
-					// Only allow null tiles if they're a bottom tile (jumping off the map)
-					if (m_OnlyAllowBottomNullTile)
+					if (m_AllowNullTile)
 					{
-						const ArenaTile* pNeighbourTile = m_pArena->GetNeighbourTile(m_spTileMovementComponent->GetTile(), movement, false);
-						if (m_pArena->IsBottomTileIndex(pNeighbourTile->GetIndex()))
+						// Only allow null tiles if they're a bottom tile (jumping off the map)
+						if (m_OnlyAllowBottomNullTile)
+						{
+							const ArenaTile* pNeighbourTile = m_pArena->GetNeighbourTile(m_spTileMovementComponent->GetTile(), movement);
+							if (pNeighbourTile)
+							{
+								if (m_pArena->IsBottomTileIndex(pNeighbourTile->GetIndex()))
+								{
+									possibleMovements.push_back(movement);
+								}
+							}
+						}
+						else
 						{
 							possibleMovements.push_back(movement);
 						}
-					} else
+					}
+					// No null tiles allowed
+					else
 					{
-						possibleMovements.push_back(movement);
+						// Make sure tile is not a null tile
+						if (!IsRandomMovementTileNull(movement))
+						{
+							possibleMovements.push_back(movement);
+						}
 					}
 				}
-				// No null tiles allowed
+				// Not a null tile, proceed normally
 				else
 				{
-					// Make sure tile is not a null tile
-					if (!IsRandomMovementTileNull(movement))
-					{
-						possibleMovements.push_back(movement);
-					}
+					possibleMovements.push_back(movement);
 				}
 			}
-			// Not a null tile, proceed normally
-			else
-			{
-				possibleMovements.push_back(movement);
-			}
+
+			// Don't move if no options were found
+			if (possibleMovements.empty()) return;
+
+			// Move to a random possible movement option
+			const TileMovementComponent::MovementType randomMovement = possibleMovements[rand() % possibleMovements.size()];
+			m_spTileMovementComponent->Move(randomMovement);
 		}
-
-		// Don't move if no options were found
-		if(possibleMovements.empty()) return;
-		
-		// Move to a random possible movement option
-		m_spTileMovementComponent->Move(possibleMovements[rand() % possibleMovements.size()]);
 	}
-}
 
-void RandomAIComponent::IncreaseMovementTimer()
-{
-	const float deltaTime = Time::GetInstance().DeltaTime();
-	m_MovementTimer += deltaTime;
 }
 
 bool RandomAIComponent::IsRandomMovementTileNull(TileMovementComponent::MovementType movement) const
 {
-	ArenaTile* pNeighbourTile = m_pArena->GetNeighbourTile(m_spTileMovementComponent->GetTile(), movement, m_AllowHorizontalMovement, m_UpIsUp);
+	ArenaTile* pNeighbourTile = m_pArena->GetNeighbourTile(m_spTileMovementComponent->GetTile(), movement);
 	if (pNeighbourTile)
 		return pNeighbourTile->IsNullTile();
 

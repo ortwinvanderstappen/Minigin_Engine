@@ -26,8 +26,8 @@ private:
 	void InitializeSprite();
 	
 	GameArena* m_pArena;
+	ArenaTile* m_pStartTile;
 	std::shared_ptr<TileMovementComponent> m_spTileMovementComponent;
-	float m_MovementDelay;
 	CreatureType m_CreatureType;
 	std::string m_SlickTexturePath;
 	std::string m_SamTexturePath;

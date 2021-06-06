@@ -6,6 +6,8 @@
 #include <structs.h>
 #include <vector>
 
+#include "GameStructs.h"
+
 namespace minigen {
 	class SoundComponent;
 }
@@ -21,11 +23,13 @@ public:
 		Duo,
 		Versus
 	};
+	
 	struct Disc
 	{
 		int row;
 		bool isLeft;
 	};
+	
 	struct StageSettings
 	{
 		int size;
@@ -57,6 +61,7 @@ private:
 	GameMode m_GameMode;
 	int m_Stage;
 	std::vector<StageSettings> m_Stages;
+	
 	std::shared_ptr<ScoreObserver> m_spScoreObserver;
 
 	std::shared_ptr<minigen::SoundComponent> m_spLevelBeatSound;

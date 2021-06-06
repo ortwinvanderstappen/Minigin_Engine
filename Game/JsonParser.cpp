@@ -4,7 +4,7 @@
 #include <iostream>
 #include <JsonReader.h>
 
-void JsonParser::ParseDifficulties(std::vector<GameManager::StageSettings>& stageSettings)
+void JsonParser::ParseDifficulties(std::vector<GameManager::StageSettings>& outStageSettings)
 {
 	using rapidjson::Value;
 
@@ -17,7 +17,7 @@ void JsonParser::ParseDifficulties(std::vector<GameManager::StageSettings>& stag
 	{
 		// Create stage entry
 		GameManager::StageSettings stage{};
-		
+
 		// Basic properties
 		const Value& levelValue = *valueIt;
 		const Value& sizeValue = levelValue["size"];
@@ -45,7 +45,7 @@ void JsonParser::ParseDifficulties(std::vector<GameManager::StageSettings>& stag
 		const Value& inactiveColorRValue = inactiveColorValue["r"];
 		const Value& inactiveColorGValue = inactiveColorValue["g"];
 		const Value& inactiveColorBValue = inactiveColorValue["b"];
-		stage.inactiveColor = Color3i{ inactiveColorRValue.GetInt(), inactiveColorGValue.GetInt(), inactiveColorBValue.GetInt()};
+		stage.inactiveColor = Color3i{ inactiveColorRValue.GetInt(), inactiveColorGValue.GetInt(), inactiveColorBValue.GetInt() };
 
 		// Discs
 		const Value& discsValue = levelValue["discs"];
@@ -92,6 +92,52 @@ void JsonParser::ParseDifficulties(std::vector<GameManager::StageSettings>& stag
 		}
 
 		// Add to list
-		stageSettings.push_back(stage);
+		outStageSettings.push_back(stage);
+	}
+}
+
+void JsonParser::ParseEntityProperties(std::vector<EntityProperty>& outEntityProperties)
+{
+	using rapidjson::Value;
+
+	JsonReader jr{};
+	rapidjson::Document* jsonDoc = jr.ReadJson("Data/entity_properties.json");
+	const Value& object = (*jsonDoc);
+
+	for (Value::ConstValueIterator valueIt = object.Begin(); valueIt != object.End(); ++valueIt)
+	{
+		const Value& entityProperty = *valueIt;
+
+		const Value& nameValue = entityProperty["name"];
+		const Value& movespeedValue = entityProperty["movespeed"];
+		const Value& minSpawnTimeValue = entityProperty["minSpawnTime"];
+		const Value& maxSpawnTimeValue = entityProperty["maxSpawnTime"];
+		const Value& aiWaitTimeValue = entityProperty["aiWaitTime"];
+
+		const std::string name = nameValue.GetString();
+		const float movespeed = movespeedValue.GetFloat();
+		const float minSpawnTime = minSpawnTimeValue.GetFloat();
+		const float maxSpawnTime = maxSpawnTimeValue.GetFloat();
+		const float aiWaitTime = aiWaitTimeValue.GetFloat();
+
+		EntityProperty property{};
+
+		if (name == "QBert")
+			property.entityType = EntityType::qbert;
+		else if (name == "Coily")
+			property.entityType = EntityType::coily;
+		else if (name == "SlickOrSam")
+			property.entityType = EntityType::slickOrSam;
+		else if (name == "Ugg")
+			property.entityType = EntityType::ugg;
+		else if (name == "Wrongway")
+			property.entityType = EntityType::wrongway;
+
+		property.movespeed = movespeed;
+		property.minSpawnTime = minSpawnTime;
+		property.maxSpawnTime = maxSpawnTime;
+		property.aiWaitTime = aiWaitTime;
+
+		outEntityProperties.push_back(std::move(property));
 	}
 }

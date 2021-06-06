@@ -19,6 +19,7 @@
 #include "FlyingDisc.h"
 #include "HealthObserver.h"
 #include "CoilyPlayerControllerAdderObserver.h"
+#include "GameContext.h"
 #include "PlayerControllerComponent.h"
 #include "QBert.h"
 #include "RandomAIComponent.h"
@@ -123,11 +124,15 @@ void GameArena::InitializeArena()
 
 void GameArena::CreateSpawners()
 {
-	// TODO: read spawn times from json?
-	std::shared_ptr<SpawnerComponent> spCoilySpawner = std::make_shared<SpawnerComponent>(3.f, 5.f);
-	std::shared_ptr<SpawnerComponent> spSlickSamSpawner = std::make_shared<SpawnerComponent>(5.f, 10.f);
-	std::shared_ptr<SpawnerComponent> spUggSpawner = std::make_shared<SpawnerComponent>(5.f, 10.f);
-	std::shared_ptr<SpawnerComponent> spWrongwaySpawner = std::make_shared<SpawnerComponent>(5.f, 10.f);
+	const EntityProperty* pCoilyProperty = GameContext::GetInstance().GetEntityProperty(EntityType::coily);
+	const EntityProperty* pSlickSamProperty = GameContext::GetInstance().GetEntityProperty(EntityType::slickOrSam);
+	const EntityProperty* pUggProperty = GameContext::GetInstance().GetEntityProperty(EntityType::ugg);
+	const EntityProperty* pWrongwayProperty = GameContext::GetInstance().GetEntityProperty(EntityType::wrongway);
+
+	std::shared_ptr<SpawnerComponent> spCoilySpawner = std::make_shared<SpawnerComponent>(pCoilyProperty->minSpawnTime, pCoilyProperty->maxSpawnTime);
+	std::shared_ptr<SpawnerComponent> spSlickSamSpawner = std::make_shared<SpawnerComponent>(pSlickSamProperty->minSpawnTime, pSlickSamProperty->maxSpawnTime);
+	std::shared_ptr<SpawnerComponent> spUggSpawner = std::make_shared<SpawnerComponent>(pUggProperty->minSpawnTime, pUggProperty->maxSpawnTime);
+	std::shared_ptr<SpawnerComponent> spWrongwaySpawner = std::make_shared<SpawnerComponent>(pWrongwayProperty->minSpawnTime, pWrongwayProperty->maxSpawnTime);
 
 	spCoilySpawner->AddSpawnFunction([this]() { SpawnCoily(); });
 	spSlickSamSpawner->AddSpawnFunction([this]() { SpawnSlickOrSam(); });
@@ -258,9 +263,11 @@ void GameArena::SpawnCoily()
 	spCoily->AddObserver(m_pGameManager->GetScoreObserver());
 	m_wpCoily = spCoily;
 
+	const float aiWaitTime = GameContext::GetInstance().GetEntityProperty(EntityType::coily)->aiWaitTime;
+
 	if (m_GameMode == GameManager::GameMode::Versus)
 	{
-		const std::shared_ptr<RandomAIComponent> spRandomAIComponent = std::make_shared<RandomAIComponent>(this, 1.f);
+		const std::shared_ptr<RandomAIComponent> spRandomAIComponent = std::make_shared<RandomAIComponent>(this, aiWaitTime);
 		spCoilyObject->AddComponent(spRandomAIComponent);
 
 		// This component will add the player controller to coily when possible
@@ -270,7 +277,7 @@ void GameArena::SpawnCoily()
 	else
 	{
 		// Attach Coily AI component to Coily
-		spCoilyObject->AddComponent(std::make_shared<CoilyAIComponent>(this));
+		spCoilyObject->AddComponent(std::make_shared<CoilyAIComponent>(this, aiWaitTime));
 	}
 
 	m_pParentObject->GetScene()->Add(spCoilyObject);
@@ -368,7 +375,7 @@ float GameArena::GetTileSize() const
 	return m_TileSize;
 }
 
-ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement, bool allowHorizontalMovement, bool upIsUp)
+ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement)
 {
 	const int currentIndex = pCurrentTile->GetIndex();
 
@@ -381,48 +388,26 @@ ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComp
 	const int maxHeight = m_pStageSettings->size + 3;
 	const int rowLength = maxHeight - row;
 
-	if (!allowHorizontalMovement)
+	switch (movement)
 	{
-		switch (movement)
-		{
-		case TileMovementComponent::MovementType::up:
-			newIndex = currentIndex + rowLength;
-			break;
-		case TileMovementComponent::MovementType::down:
-			newIndex = currentIndex - (rowLength + 1);
-			break;
-		case TileMovementComponent::MovementType::left:
-			newIndex = currentIndex + rowLength - 1;
-			break;
-		case TileMovementComponent::MovementType::right:
-			newIndex = currentIndex - (rowLength + 1) + 1;
-			break;
-		}
-	}
-	else
-	{
-		switch (movement)
-		{
-		case TileMovementComponent::MovementType::down:
-			if (upIsUp)
-				newIndex = currentIndex - (rowLength + 1) + 1;
-			else
-				newIndex = currentIndex - (rowLength + 1);
-			break;
-		case TileMovementComponent::MovementType::right:
-			newIndex = currentIndex + 1;
-			break;
-		case TileMovementComponent::MovementType::left:
-			newIndex = currentIndex - 1;
-			break;
-		case TileMovementComponent::MovementType::up:
-			if (upIsUp)
-				newIndex = currentIndex + rowLength;
-			else
-				newIndex = currentIndex + rowLength - 1;
-			break;
-		default:;
-		}
+	case TileMovementComponent::MovementType::upRight:
+		newIndex = currentIndex + rowLength;
+		break;
+	case TileMovementComponent::MovementType::downLeft:
+		newIndex = currentIndex - (rowLength + 1);
+		break;
+	case TileMovementComponent::MovementType::upLeft:
+		newIndex = currentIndex + rowLength - 1;
+		break;
+	case TileMovementComponent::MovementType::downRight:
+		newIndex = currentIndex - (rowLength + 1) + 1;
+		break;
+	case TileMovementComponent::MovementType::left:
+		newIndex = currentIndex - 1;
+		break;
+	case TileMovementComponent::MovementType::right:
+		newIndex = currentIndex + 1;
+		break;
 	}
 
 	ArenaTile* pTile = nullptr;

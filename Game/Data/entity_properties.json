@@ -1,0 +1,37 @@
+[
+    {
+        "name": "QBert",
+        "movespeed": 0.35,
+        "minSpawnTime": 0,
+        "maxSpawnTime": 0,
+        "aiWaitTime": 0
+    },
+    {
+        "name": "Coily",
+        "movespeed": 0.35,
+        "minSpawnTime": 3,
+        "maxSpawnTime": 10,
+        "aiWaitTime": 0.35
+    },
+    {
+        "name": "SlickOrSam",
+        "movespeed": 0.35,
+        "minSpawnTime": 5,
+        "maxSpawnTime": 10,
+        "aiWaitTime": 0.35
+    },
+    {
+        "name": "Ugg",
+        "movespeed": 0.35,
+        "minSpawnTime": 3,
+        "maxSpawnTime": 10,
+        "aiWaitTime": 0.35
+    },
+    {
+        "name": "Wrongway",
+        "movespeed": 0.35,
+        "minSpawnTime": 3,
+        "maxSpawnTime": 10,
+        "aiWaitTime": 0.35
+    }
+]

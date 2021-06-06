@@ -10,11 +10,12 @@
 
 #include "ArenaTile.h"
 #include "GameArena.h"
+#include "GameContext.h"
 
 QBert::QBert(GameArena* pArena, ArenaTile* pStartTile) :
 	m_pArena(pArena),
 	m_pSpawnTile(pStartTile),
-	m_spTileMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile)),
+	m_spTileMovementComponent(nullptr),
 	m_QbertImagePath("images/QBert.png")
 {}
 
@@ -36,13 +37,13 @@ void QBert::Initialize()
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
 
+	// Movement
+	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pArena, m_pSpawnTile, 
+		GameContext::GetInstance().GetEntityProperty(EntityType::qbert)->movespeed);
 	auto movedCallback = [this]() { HandleTileChange(); };
 	m_spTileMovementComponent->SubscribeToMoveCompleted(movedCallback);
-
 	auto moveCallback = [this]() { HandleMove(); };
 	m_spTileMovementComponent->SubscribeToMove(moveCallback);
-
-	// Movement
 	m_pParentObject->AddComponent(m_spTileMovementComponent);
 }
 

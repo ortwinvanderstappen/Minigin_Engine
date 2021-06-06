@@ -8,6 +8,7 @@
 #include "PlayerControllerComponent.h"
 #include "TileMovementComponent.h"
 #include "TileRevertCreature.h"
+#include "GameStructs.h"
 
 class SpawnerComponent;
 class Wrongway;
@@ -37,18 +38,10 @@ public:
 	void ResetStageEntities(float delay = 0.f);
 
 	float GetTileSize() const;
-	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement, bool allowHorizontalMovement, bool upIsUp = true);
+	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
 	ArenaTile* GetTopTile();
 	bool IsBottomTileIndex(int index) const;
 private:
-	enum class EntityType
-	{
-		coily,
-		sam,
-		slick,
-		ugg,
-		wrongway
-	};
 	
 	void InitializeArena();
 	void CreateSpawners();

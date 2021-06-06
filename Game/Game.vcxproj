@@ -232,6 +232,7 @@ xcopy "$(SolutionDir)Game\Data\*.*" "$(TargetDir)Data" /R /Y /I /E</Command>
     <ClInclude Include="GameArena.h" />
     <ClInclude Include="GameContext.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameStructs.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="PlayerControllerComponent.h" />

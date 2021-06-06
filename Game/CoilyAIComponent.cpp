@@ -2,19 +2,20 @@
 #include "CoilyAIComponent.h"
 
 #include <GameObject.h>
-#include <GameTime.h>
 #include <iostream>
 #include <SDL_stdinc.h>
 
 #include "Coily.h"
 #include "GameArena.h"
+#include "GameContext.h"
+#include "GameTime.h"
 #include "QBert.h"
 #include "RandomAIComponent.h"
 
-CoilyAIComponent::CoilyAIComponent(GameArena* pArena) :
+CoilyAIComponent::CoilyAIComponent(GameArena* pArena, float aiWaitTime) :
 	m_pArena(pArena),
-	m_MovementTimer(0.f),
-	m_MovementDelay(1.0f)
+	m_AiWaitTime(aiWaitTime),
+	m_AiWaitTimer(0.f)
 {}
 
 void CoilyAIComponent::Initialize()
@@ -32,7 +33,8 @@ void CoilyAIComponent::Initialize()
 		std::cerr << "CoilyAIComponent: Required component in Coily: TileMovementComponent not found!\n";
 	}
 
-	m_spRandomAIComponent = std::make_shared<RandomAIComponent>(m_pArena, 1.f);
+	const float aiWaitTime = GameContext::GetInstance().GetEntityProperty(EntityType::coily)->aiWaitTime;
+	m_spRandomAIComponent = std::make_shared<RandomAIComponent>(m_pArena, aiWaitTime);
 	GetParent()->AddComponent(m_spRandomAIComponent);
 }
 
@@ -42,48 +44,46 @@ void CoilyAIComponent::Update()
 	{
 	case Coily::CoilyState::Ball:
 		break;
-	case Coily::CoilyState::Transforming: 
+	case Coily::CoilyState::Transforming:
 		m_spRandomAIComponent->Disable();
 		break;
 	case Coily::CoilyState::Snake:
 		HandleSnakeMovement();
 		break;
-	default: ;
+	default:;
 	}
-}
-
-void CoilyAIComponent::IncreaseMovementTimer()
-{
-	const float deltaTime = Time::GetInstance().DeltaTime();
-	m_MovementTimer += deltaTime;
 }
 
 void CoilyAIComponent::HandleSnakeMovement()
 {
-	IncreaseMovementTimer();
-	if (m_MovementTimer > m_MovementDelay)
+	if (m_spTileMovementComponent->GetMoveState() == TileMovementComponent::MoveState::Idle)
 	{
-		m_MovementTimer -= m_MovementDelay;
+		const float deltaTime = Time::GetInstance().GetDeltaTime();
+		m_AiWaitTimer += deltaTime;
+		if (m_AiWaitTimer >= m_AiWaitTime)
+		{
+			m_AiWaitTimer = 0.f;
 
-		// Move towards the player
-		const float angleToClosestPlayer = GetAngleToClosestPlayer();
+			// Move towards the player
+			const float angleToClosestPlayer = GetAngleToClosestPlayer();
 
-		// Move towards the correct tile
-		if (angleToClosestPlayer >= 0 && angleToClosestPlayer <= static_cast<float>(M_PI / 2))
-		{
-			m_spTileMovementComponent->Move(TileMovementComponent::MovementType::left);
-		}
-		else if (angleToClosestPlayer >= static_cast<float>(M_PI / 2) && angleToClosestPlayer <= static_cast<float>(M_PI))
-		{
-			m_spTileMovementComponent->Move(TileMovementComponent::MovementType::up);
-		}
-		else if (angleToClosestPlayer <= 0.f && angleToClosestPlayer >= -static_cast<float>(M_PI / 2))
-		{
-			m_spTileMovementComponent->Move(TileMovementComponent::MovementType::down);
-		}
-		else
-		{
-			m_spTileMovementComponent->Move(TileMovementComponent::MovementType::right);
+			// Move towards the correct tile
+			if (angleToClosestPlayer >= 0 && angleToClosestPlayer <= static_cast<float>(M_PI / 2))
+			{
+				m_spTileMovementComponent->Move(TileMovementComponent::MovementType::upLeft);
+			}
+			else if (angleToClosestPlayer >= static_cast<float>(M_PI / 2) && angleToClosestPlayer <= static_cast<float>(M_PI))
+			{
+				m_spTileMovementComponent->Move(TileMovementComponent::MovementType::upRight);
+			}
+			else if (angleToClosestPlayer <= 0.f && angleToClosestPlayer >= -static_cast<float>(M_PI / 2))
+			{
+				m_spTileMovementComponent->Move(TileMovementComponent::MovementType::downLeft);
+			}
+			else
+			{
+				m_spTileMovementComponent->Move(TileMovementComponent::MovementType::downRight);
+			}
 		}
 	}
 }
