@@ -7,9 +7,6 @@ minigen::Component::Component() :
 	m_pParentObject(nullptr)
 {}
 
-minigen::Component::~Component()
-{}
-
 void minigen::Component::SetParent(GameObject* pParentObject)
 {
 	m_pParentObject = pParentObject;

@@ -7,12 +7,12 @@ minigen::CollisionObserver::CollisionObserver(Component* pComponent) :
 {
 }
 
-void minigen::CollisionObserver::Notify(GameObject* pOther, Event event)
+void minigen::CollisionObserver::Notify(GameObject* pGameObject, Event event)
 {
 	switch (event)
 	{
 	case Event::event_collision:
-		m_pComponent->OnCollisionEnter(pOther);
+		m_pComponent->OnCollisionEnter(pGameObject);
 		break;
 	default:;
 	}

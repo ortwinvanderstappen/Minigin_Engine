@@ -7,7 +7,7 @@ namespace minigen {
 	class CollisionObserver :public Observer
 	{
 	public:
-		CollisionObserver(Component* pScript);
+		CollisionObserver(Component* pComponent);
 		
 		void Notify(GameObject* pGameObject, Event event) override;
 

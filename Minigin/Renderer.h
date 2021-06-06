@@ -17,6 +17,12 @@ namespace minigen
 	class Renderer final : public Singleton<Renderer>
 	{
 	public:
+		Renderer() = default;
+		Renderer(const Renderer& other) = delete;
+		Renderer(Renderer&& other) = delete;
+		Renderer& operator=(const Renderer& other) = delete;
+		Renderer& operator=(Renderer&& other) = delete;
+		
 		void Init(SDL_Window* window);
 		void Render() const;
 		void Destroy();

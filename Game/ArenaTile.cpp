@@ -17,9 +17,6 @@ ArenaTile::ArenaTile(GameArena* pArena, int index, float size, const Point2f& po
 	m_spDisc(nullptr)
 {}
 
-void ArenaTile::Update()
-{}
-
 void ArenaTile::Render() const
 {
 	if (!m_IsNullTile)
@@ -89,7 +86,7 @@ void ArenaTile::Activate()
 		m_ColorState %= (activeColors + 1);
 		if (m_ColorState == 0)
 		{
-			Notify(GetParent(), minigen::Observer::Event::event_tile_uncomplete);
+			Notify(nullptr, minigen::Observer::Event::event_tile_uncomplete);
 		}
 	}
 	else
@@ -103,11 +100,11 @@ void ArenaTile::Activate()
 	// Is this the last color state and did the state change?
 	if (previousColor != m_ColorState)
 	{
-		Notify(GetParent(), minigen::Observer::Event::event_tile_color_change);
+		Notify(nullptr, minigen::Observer::Event::event_tile_color_change);
 
 		if (m_ColorState == activeColors)
 		{
-			Notify(GetParent(), minigen::Observer::Event::event_tile_complete);
+			Notify(nullptr, minigen::Observer::Event::event_tile_complete);
 		}
 	}
 }
@@ -120,7 +117,7 @@ void ArenaTile::Revert()
 	m_ColorState = 0;
 
 	if (previousColor == activeColors)
-		Notify(GetParent(), minigen::Observer::Event::event_tile_uncomplete);
+		Notify(nullptr, minigen::Observer::Event::event_tile_uncomplete);
 }
 
 void ArenaTile::DrawHex(Point2f center, float size) const

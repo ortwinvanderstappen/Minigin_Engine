@@ -17,7 +17,11 @@ namespace minigen
 		GameObject* GetParent() const;
 	protected:
 		Component();
-		virtual ~Component();
+		virtual ~Component() = default;
+		Component(const Component& other) = delete;
+		Component(Component&& other) = delete;
+		Component& operator=(const Component& other) = delete;
+		Component& operator=(Component&& other) = delete;
 
 		GameObject* m_pParentObject;
 	};

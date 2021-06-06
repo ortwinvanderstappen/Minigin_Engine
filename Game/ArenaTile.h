@@ -1,7 +1,6 @@
 #pragma once
 #include "stdafx.h"
 
-#include <RenderComponent.h>
 #include <structs.h>
 #include <Subject.h>
 
@@ -9,13 +8,12 @@
 
 class FlyingDisc;
 class GameArena;
-class ArenaTile : minigen::RenderComponent, public minigen::Subject
+class ArenaTile: public minigen::Subject
 {
 public:
 	ArenaTile(GameArena* pArena,int index, float size, const Point2f& position, bool isNullTile, GameManager::StageSettings* pStageSettings);
 
-	void Update() override;
-	void Render() const override;
+	void Render() const;
 
 	Point2f GetCenter() const;
 	Point2f GetLoweredCenter() const;
