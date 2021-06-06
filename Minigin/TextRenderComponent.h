@@ -10,6 +10,10 @@ namespace minigen {
 	{
 	public:
 		TextRenderComponent();
+		TextRenderComponent(const TextRenderComponent& other) = delete;
+		TextRenderComponent(TextRenderComponent&& other) = delete;
+		TextRenderComponent& operator=(const TextRenderComponent& other) = delete;
+		TextRenderComponent& operator=(TextRenderComponent&& other) = delete;
 
 		void AddText(int id, const std::string& text, const Point2f& position, int fontSize);
 		void SetText(int id, const std::string& newText);

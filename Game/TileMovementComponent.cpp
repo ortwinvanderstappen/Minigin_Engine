@@ -9,15 +9,15 @@
 #include "ArenaTile.h"
 #include "GameArena.h"
 
-TileMovementComponent::TileMovementComponent(ArenaTile* pStartTile, float movementspeed) :
+TileMovementComponent::TileMovementComponent(ArenaTile* pStartTile, float movementspeed, bool canTriggerTile) :
 	m_pTile(pStartTile),
+	m_BaseMoveSpeed(movementspeed),
+	m_CanTriggerTile(canTriggerTile),
 	m_MoveState(MoveState::Idle),
 	m_MovementProgress(0.f),
 	m_MoveSpeed(0.f),
-	m_BaseMoveSpeed(movementspeed),
 	m_SlowedMoveSpeed(3.f),
 	m_BezierMultiplier(1.f),
-	m_CanTriggerTile(false),
 	m_pGoalTile(nullptr)
 {}
 

@@ -23,8 +23,8 @@ void TileRevertCreature::Initialize()
 {
 	GetParent()->SetTag("SlickOrSam");
 
-	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pStartTile, 
-		GameContext::GetInstance().GetEntityProperty(EntityType::slickOrSam)->movespeed);
+	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pStartTile,
+		GameContext::GetInstance().GetEntityProperty(EntityType::slickOrSam)->movespeed, true);
 	GetParent()->AddComponent(m_spTileMovementComponent);
 	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upRight, false);
 	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upLeft, false);
@@ -38,26 +38,20 @@ void TileRevertCreature::Initialize()
 	// Add observers
 	const std::shared_ptr<minigen::CollisionObserver> spCollisionObserver = std::make_shared<minigen::CollisionObserver>(this);
 	spCollisionSubject->AddObserver(spCollisionObserver);
-	
+
 	const float aiWaitTime = GameContext::GetInstance().GetEntityProperty(EntityType::slickOrSam)->aiWaitTime;
 	const std::shared_ptr<RandomAIComponent> spRandomAIComponent = std::make_shared<RandomAIComponent>(m_pArena, aiWaitTime, true, true);
 	GetParent()->AddComponent(spRandomAIComponent);
+
+	auto movedCallback = [this]() { HandleTileChange(); };
+	m_spTileMovementComponent->SubscribeToMoveCompleted(movedCallback);
 
 	InitializeSprite();
 }
 
 void TileRevertCreature::Update()
 {
-	ArenaTile* pTile = m_spTileMovementComponent->GetTile();
 
-	if (pTile->IsNullTile())
-	{
-		GetParent()->MarkForDelete();
-	}
-	else
-	{
-		m_spTileMovementComponent->GetTile()->Revert();
-	}
 }
 
 void TileRevertCreature::OnCollisionEnter(minigen::GameObject* const other)
@@ -76,4 +70,18 @@ void TileRevertCreature::InitializeSprite()
 	const float scale = m_pArena->GetTileSize() / 15.f;
 	imageRenderComponent->AddImage(path, { -6 * scale,-14 * scale }, scale);
 	m_pParentObject->AddComponent(imageRenderComponent);
+}
+
+void TileRevertCreature::HandleTileChange()
+{
+	ArenaTile* pTile = m_spTileMovementComponent->GetTile();
+
+	if (pTile->IsNullTile())
+	{
+		GetParent()->MarkForDelete();
+	}
+	else
+	{
+		m_spTileMovementComponent->GetTile()->Revert();
+	}
 }

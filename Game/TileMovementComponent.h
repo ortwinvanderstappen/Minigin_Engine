@@ -31,7 +31,7 @@ public:
 		Moving
 	};
 
-	TileMovementComponent(ArenaTile* pStartTile, float movementspeed);
+	TileMovementComponent(ArenaTile* pStartTile, float movementspeed, bool canTriggerTile = false);
 
 	void Initialize() override;
 	void Update() override;
@@ -58,6 +58,8 @@ private:
 	void TileMoved();
 
 	ArenaTile* m_pTile;
+	float m_BaseMoveSpeed;
+	bool m_CanTriggerTile;
 	MoveState m_MoveState;
 	float m_MovementProgress;
 	std::unordered_map<MovementType, bool> m_AllowedMovementsMap;
@@ -65,12 +67,10 @@ private:
 	ArenaTile* m_pGoalTile;
 	Point2f m_StartPosition;
 	float m_MoveSpeed;
-	float m_BaseMoveSpeed;
 	float m_SlowedMoveSpeed;
 	float m_BezierMultiplier;
 	Point2f m_BezierPoint;
 
-	bool m_CanTriggerTile;
 
 	std::vector<CommandCallback> m_MovedCallbacks;
 	std::vector<CommandCallback> m_MoveCallbacks;

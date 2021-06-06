@@ -11,6 +11,10 @@ namespace minigen
 	public:
 		ComponentHolder() = default;
 		virtual ~ComponentHolder() = default;
+		ComponentHolder(const ComponentHolder& other) = delete;
+		ComponentHolder(ComponentHolder&& other) = delete;
+		ComponentHolder& operator=(const ComponentHolder& other) = delete;
+		ComponentHolder& operator=(ComponentHolder&& other) = delete;
 
 		template <typename T>
 		std::shared_ptr<T> GetComponent() const;

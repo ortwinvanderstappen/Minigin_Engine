@@ -1,14 +1,19 @@
 #include "MiniginPCH.h"
 #include "Renderer.h"
+
+#include <imgui.h>
 #include <SDL.h>
+#include <backends/imgui_impl_opengl2.h>
+#include <backends/imgui_impl_sdl.h>
 #include <GL/gl.h>
 
-
-#include "imgui.h"
 #include "SceneManager.h"
 #include "Texture2D.h"
-#include "backends/imgui_impl_opengl2.h"
-#include "backends/imgui_impl_sdl.h"
+
+minigen::Renderer::Renderer() :
+	m_Width(0),
+	m_Height(0)
+{}
 
 int GetOpenGLDriverIndex()
 {
@@ -34,7 +39,7 @@ void minigen::Renderer::Init(SDL_Window* window)
 	}
 
 	m_Context = SDL_GL_CreateContext(m_Window);
-	
+
 	// Obtain window size
 	SDL_GetRendererOutputSize(m_Renderer, &m_Width, &m_Height);
 
@@ -44,7 +49,7 @@ void minigen::Renderer::Init(SDL_Window* window)
 	{
 		std::cout << "No correct render flags\n";
 	}
-	
+
 	// Initialize ImGui
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();

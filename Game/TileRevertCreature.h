@@ -24,6 +24,7 @@ public:
 
 private:
 	void InitializeSprite();
+	void HandleTileChange();
 	
 	GameArena* m_pArena;
 	ArenaTile* m_pStartTile;
