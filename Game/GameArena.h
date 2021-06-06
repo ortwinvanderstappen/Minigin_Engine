@@ -17,7 +17,7 @@ class QBert;
 class GameArena : public minigen::RenderComponent
 {
 public:
-	
+
 	GameArena(GameManager* pGameManager, GameManager::GameMode gameMode, GameManager::StageSettings* const stageSettings, int stage);
 	~GameArena() override;
 
@@ -33,8 +33,8 @@ public:
 
 	void Restart() const;
 	void HandleLevelCompletion() const;
-	void ResetStageEntities();
-	
+	void ResetStageEntities(float delay = 0.f);
+
 	float GetTileSize() const;
 	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement, bool allowHorizontalMovement, bool upIsUp = true);
 	ArenaTile* GetTopTile();
@@ -48,14 +48,14 @@ private:
 		ugg,
 		wrongway
 	};
-	
+
 	void HandleEnemySpawns();
 	void SpawnPlayer(ArenaTile* pTile, PlayerControllerComponent::HardwareType hardwareType);
 	void SpawnCoily();
 	void SpawnSlickOrSam(TileRevertCreature::CreatureType type);
 	void SpawnUgg();
 	void SpawnWrongway();
-	
+
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;
 	int GetBottomRightTileIndex() const;
@@ -65,12 +65,12 @@ private:
 	GameManager::GameMode m_GameMode;
 	GameManager::StageSettings* m_pStageSettings;
 	int m_Stage;
-	
+
 	float m_TileSize;
 	int m_TileCount;
 	float m_EnemySpawnTime;
 	float m_EnemySpawnTimer;
-	
+
 	std::weak_ptr<Coily> m_wpCoily;
 	std::weak_ptr<TileRevertCreature> m_wpSam;
 	std::weak_ptr<TileRevertCreature> m_wpSlick;
@@ -81,4 +81,8 @@ private:
 	std::vector<std::shared_ptr<QBert>> m_spPlayers;
 	std::shared_ptr<HealthObserver> m_spHealthObserver;
 	std::shared_ptr<CompletedTilesObserver> m_spCompletedTilesObserver;
+
+	bool m_IsStageResetting;
+	float m_StageResetTimer;
+	float m_StageResetTime;
 };

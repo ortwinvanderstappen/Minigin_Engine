@@ -31,10 +31,13 @@ GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
 	m_Stage(stage),
 	m_TileSize(0.f),
 	m_TileCount(0),
-	m_EnemySpawnTime(5.5f),
+	m_EnemySpawnTime(4.f),
 	m_EnemySpawnTimer(0.0f),
 	m_spHealthObserver(std::make_shared<HealthObserver>(this, stageSettings->lives)),
-	m_spCompletedTilesObserver(std::make_shared<CompletedTilesObserver>(this))
+	m_spCompletedTilesObserver(std::make_shared<CompletedTilesObserver>(this)),
+	m_IsStageResetting(false),
+	m_StageResetTimer(0.f),
+	m_StageResetTime(0.f)
 {
 	std::cout << "Arena started, lives: " << m_spHealthObserver->GetLives() << "\n";
 }
@@ -138,7 +141,34 @@ void GameArena::CreateDiscs()
 
 void GameArena::Update()
 {
-	//HandleEnemySpawns();
+	HandleEnemySpawns();
+
+	const float deltaTime = Time::GetInstance().GetDeltaTime();
+	
+	if (m_IsStageResetting)
+	{
+		m_StageResetTimer += deltaTime;
+		
+		if (m_StageResetTimer > m_StageResetTime)
+		{
+			m_IsStageResetting = false;
+			
+			// Remove all dynamic entities except for the player
+			const std::shared_ptr<Coily> coily = m_wpCoily.lock();
+			if (coily) coily->GetParent()->MarkForDelete();
+			const std::shared_ptr<TileRevertCreature> spSam = m_wpSam.lock();
+			if (spSam) spSam->GetParent()->MarkForDelete();
+			const std::shared_ptr<TileRevertCreature> spSlick = m_wpSlick.lock();
+			if (spSlick) spSlick->GetParent()->MarkForDelete();
+			const std::shared_ptr<Ugg> spUgg = m_wpUgg.lock();
+			if (spUgg) spUgg->GetParent()->MarkForDelete();
+			const std::shared_ptr<Wrongway> spWrongway = m_wpWrongway.lock();
+			if (spWrongway) spWrongway->GetParent()->MarkForDelete();
+
+			// Reset the spawn timer
+			m_EnemySpawnTimer = 0.f;
+		}
+	}
 }
 
 void GameArena::HandleEnemySpawns()
@@ -302,21 +332,11 @@ void GameArena::HandleLevelCompletion() const
 	m_pGameManager->LoadNextStage();
 }
 
-void GameArena::ResetStageEntities()
+void GameArena::ResetStageEntities(float delay)
 {
-	// Remove all dynamic entities except for the player
-	const std::shared_ptr<Coily> coily = m_wpCoily.lock();
-	if (coily) coily->GetParent()->MarkForDelete();
-	const std::shared_ptr<TileRevertCreature> spSam = m_wpSam.lock();
-	if (spSam) spSam->GetParent()->MarkForDelete();
-	const std::shared_ptr<TileRevertCreature> spSlick = m_wpSlick.lock();
-	if (spSlick) spSlick->GetParent()->MarkForDelete();
-	const std::shared_ptr<Ugg> spUgg = m_wpUgg.lock();
-	if (spUgg) spUgg->GetParent()->MarkForDelete();
-	const std::shared_ptr<Wrongway> spWrongway = m_wpWrongway.lock();
-	if (spWrongway) spWrongway->GetParent()->MarkForDelete();
-
-	// Reset the spawn timer
+	m_IsStageResetting = true;
+	m_StageResetTime = delay;
+	m_StageResetTimer = 0.f;
 	m_EnemySpawnTimer = 0.f;
 }
 

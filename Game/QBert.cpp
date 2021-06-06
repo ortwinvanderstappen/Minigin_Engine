@@ -81,6 +81,9 @@ void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 
 	if (pOtherGameObject->GetTag() == "Disc")
 	{
+		const float delay = 2.3f;
+		m_pArena->ResetStageEntities(delay);
+		
 		m_spTileMovementComponent->CompleteMovement();
 		m_spTileMovementComponent->MoveToTile(m_pArena->GetTopTile(), true, -2.4f);
 	}
