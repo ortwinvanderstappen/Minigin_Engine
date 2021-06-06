@@ -23,7 +23,7 @@ void TileRevertCreature::Initialize()
 {
 	GetParent()->SetTag("SlickOrSam");
 
-	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pArena, m_pStartTile, 
+	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pStartTile, 
 		GameContext::GetInstance().GetEntityProperty(EntityType::slickOrSam)->movespeed);
 	GetParent()->AddComponent(m_spTileMovementComponent);
 	m_spTileMovementComponent->SetMovementAllowed(TileMovementComponent::MovementType::upRight, false);

@@ -38,7 +38,7 @@ void QBert::Initialize()
 	spCollisionSubject->AddObserver(spCollisionObserver);
 
 	// Movement
-	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pArena, m_pSpawnTile, 
+	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pSpawnTile, 
 		GameContext::GetInstance().GetEntityProperty(EntityType::qbert)->movespeed);
 	auto movedCallback = [this]() { HandleTileChange(); };
 	m_spTileMovementComponent->SubscribeToMoveCompleted(movedCallback);

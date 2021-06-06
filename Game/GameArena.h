@@ -38,10 +38,11 @@ public:
 	void ResetStageEntities(float delay = 0.f);
 
 	float GetTileSize() const;
-	ArenaTile* GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
+	ArenaTile* GetNeighbourTile(const ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement);
 	ArenaTile* GetTopTile();
 	bool IsBottomTileIndex(int index) const;
 private:
+	ArenaTile* GetRandomSecondLastTopRowTile();
 	
 	void InitializeArena();
 	void CreateSpawners();
@@ -55,6 +56,7 @@ private:
 	void SpawnUgg();
 	void SpawnWrongway();
 
+	ArenaTile* GetTileFromIndex(int index);
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;
 	int GetBottomRightTileIndex() const;

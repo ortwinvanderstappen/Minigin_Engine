@@ -258,7 +258,7 @@ void GameArena::SpawnCoily()
 	if (m_wpCoily.lock()) return;
 
 	std::shared_ptr<minigen::GameObject> spCoilyObject = std::make_shared<minigen::GameObject>();
-	const std::shared_ptr<Coily> spCoily = std::make_shared<Coily>(this, GetTopTile(), m_spPlayers);
+	const std::shared_ptr<Coily> spCoily = std::make_shared<Coily>(this, GetRandomSecondLastTopRowTile(), m_spPlayers);
 	spCoilyObject->AddComponent(spCoily);
 	spCoily->AddObserver(m_pGameManager->GetScoreObserver());
 	m_wpCoily = spCoily;
@@ -297,7 +297,7 @@ void GameArena::SpawnSlickOrSam()
 	TileRevertCreature::CreatureType type = types[rand() % types.size()];
 
 	std::shared_ptr<minigen::GameObject> spObject = std::make_shared<minigen::GameObject>();
-	const std::shared_ptr<TileRevertCreature> spSlickOrSam = std::make_shared<TileRevertCreature>(this, GetTopTile(), type);
+	const std::shared_ptr<TileRevertCreature> spSlickOrSam = std::make_shared<TileRevertCreature>(this, GetRandomSecondLastTopRowTile(), type);
 	spObject->AddComponent(spSlickOrSam);
 	spSlickOrSam->AddObserver(m_pGameManager->GetScoreObserver());
 	GetParent()->GetScene()->Add(spObject);
@@ -338,6 +338,16 @@ void GameArena::SpawnWrongway()
 	m_wpWrongway = spWrongway;
 }
 
+ArenaTile* GameArena::GetTileFromIndex(int index)
+{
+	if (index >= 0 && index < static_cast<int>(m_ArenaHexes.size()))
+	{
+		return &m_ArenaHexes[index];
+	}
+
+	return nullptr;
+}
+
 void GameArena::Restart() const
 {
 	m_pGameManager->Restart();
@@ -375,7 +385,7 @@ float GameArena::GetTileSize() const
 	return m_TileSize;
 }
 
-ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement)
+ArenaTile* GameArena::GetNeighbourTile(const ArenaTile* pCurrentTile, TileMovementComponent::MovementType movement)
 {
 	const int currentIndex = pCurrentTile->GetIndex();
 
@@ -410,13 +420,7 @@ ArenaTile* GameArena::GetNeighbourTile(ArenaTile* pCurrentTile, TileMovementComp
 		break;
 	}
 
-	ArenaTile* pTile = nullptr;
-
-	if (newIndex < static_cast<int>(m_ArenaHexes.size()) && newIndex >= 0)
-	{
-		pTile = &m_ArenaHexes[newIndex];
-	}
-
+	ArenaTile* pTile = GetTileFromIndex(newIndex);
 	return pTile;
 }
 
@@ -434,6 +438,20 @@ bool GameArena::IsBottomTileIndex(int index) const
 	// 18 is a null index so we use < instead of <=
 
 	return index < (m_pStageSettings->size + 2) * 2;
+}
+
+ArenaTile* GameArena::GetRandomSecondLastTopRowTile()
+{
+	const int randomTileOffset = rand() % 2;
+	const int tileIndex = GetTopTileIndex() - 3 - randomTileOffset;
+
+	if (tileIndex >= 0 && tileIndex < static_cast<int>(m_ArenaHexes.size()))
+	{
+		return &m_ArenaHexes[tileIndex];
+	}
+	
+	std::cerr << "GetRandomSecondLastTopRowTile return a nullptr\n";
+	return nullptr;
 }
 
 void GameArena::SpawnPlayer(ArenaTile* pTile, PlayerControllerComponent::HardwareType hardwareType)

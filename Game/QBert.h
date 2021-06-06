@@ -16,7 +16,7 @@ class QBert : public minigen::Component, public minigen::Subject
 {
 public:
 	QBert(GameArena* pArena, ArenaTile* pStartTile);
-	void Update() override{};
+	void Update() override{}
 	void OnCollisionEnter(minigen::GameObject* const pOtherGameObject) override;
 protected:
 	void Initialize() override;

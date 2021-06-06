@@ -9,8 +9,7 @@
 #include "ArenaTile.h"
 #include "GameArena.h"
 
-TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, float movementspeed) :
-	m_pArena(pArena),
+TileMovementComponent::TileMovementComponent(ArenaTile* pStartTile, float movementspeed) :
 	m_pTile(pStartTile),
 	m_MoveState(MoveState::Idle),
 	m_MovementProgress(0.f),
@@ -18,7 +17,8 @@ TileMovementComponent::TileMovementComponent(GameArena* pArena, ArenaTile* pStar
 	m_BaseMoveSpeed(movementspeed),
 	m_SlowedMoveSpeed(3.f),
 	m_BezierMultiplier(1.f),
-	m_CanTriggerTile(false)
+	m_CanTriggerTile(false),
+	m_pGoalTile(nullptr)
 {}
 
 void TileMovementComponent::Initialize()

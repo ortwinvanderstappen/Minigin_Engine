@@ -25,7 +25,7 @@ void Ugg::Initialize()
 
 	InitializeSprite();
 
-	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pArena, m_pTile,
+	m_spTileMovementComponent = std::make_shared<TileMovementComponent>(m_pTile,
 		GameContext::GetInstance().GetEntityProperty(EntityType::ugg)->movespeed);
 	GetParent()->AddComponent(m_spTileMovementComponent);
 	auto movedCallback = [this]() { HandleTileChange(); };

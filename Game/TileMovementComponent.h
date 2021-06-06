@@ -31,7 +31,7 @@ public:
 		Moving
 	};
 
-	TileMovementComponent(GameArena* pArena, ArenaTile* pStartTile, float movementspeed);
+	TileMovementComponent(ArenaTile* pStartTile, float movementspeed);
 
 	void Initialize() override;
 	void Update() override;
@@ -57,7 +57,6 @@ private:
 
 	void TileMoved();
 
-	GameArena* m_pArena;
 	ArenaTile* m_pTile;
 	MoveState m_MoveState;
 	float m_MovementProgress;

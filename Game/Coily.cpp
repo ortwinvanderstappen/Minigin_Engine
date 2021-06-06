@@ -31,7 +31,7 @@ void Coily::Initialize()
 	InitializeSpriteAndCollision();
 	InitializeSounds();
 
-	m_spMovementComponent = std::make_shared<TileMovementComponent>(m_pArena, m_pStartTile, 
+	m_spMovementComponent = std::make_shared<TileMovementComponent>(m_pStartTile, 
 		GameContext::GetInstance().GetEntityProperty(EntityType::coily)->movespeed);
 	auto movedCallback = [this]() { HandleTileChange(); };
 	m_spMovementComponent->SubscribeToMoveCompleted(movedCallback);
