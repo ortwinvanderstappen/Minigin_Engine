@@ -90,6 +90,9 @@
     <ClCompile Include="Ugg.cpp">
       <Filter>Components\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Wrongway.cpp">
+      <Filter>Components\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -147,6 +150,9 @@
       <Filter>Components\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Ugg.h">
+      <Filter>Components\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Wrongway.h">
       <Filter>Components\Entities</Filter>
     </ClInclude>
   </ItemGroup>

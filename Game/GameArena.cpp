@@ -21,6 +21,7 @@
 #include "ScoreRenderComponent.h"
 #include "TileRevertCreature.h"
 #include "Ugg.h"
+#include "Wrongway.h"
 
 GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
 	GameManager::StageSettings* const stageSettings, int stage) :
@@ -154,29 +155,33 @@ void GameArena::HandleEnemySpawns()
 
 		std::vector<EntityType> spawnOptions{};
 
-		// Debug
-		SpawnUgg();
-		//return;
+		// Ticket spawn system for random spawn chances
+		if (m_wpCoily.lock() == nullptr) spawnOptions.push_back(EntityType::coily);
+		if (m_wpSam.lock() == nullptr) spawnOptions.push_back(EntityType::sam);
+		if (m_wpSlick.lock() == nullptr) spawnOptions.push_back(EntityType::slick);
+		if (m_wpUgg.lock() == nullptr) spawnOptions.push_back(EntityType::ugg);
+		if (m_wpWrongway.lock() == nullptr) spawnOptions.push_back(EntityType::wrongway);
 
-		//// Ticket spawn system for random spawn chances
-		//if (m_wpCoily.lock() == nullptr) spawnOptions.push_back(EntityType::coily);
-		//if (m_wpSam.lock() == nullptr) spawnOptions.push_back(EntityType::sam);
-		//if (m_wpSlick.lock() == nullptr) spawnOptions.push_back(EntityType::slick);
-
-		//const EntityType randomEntity = spawnOptions[(rand() % spawnOptions.size())];
-		//switch (randomEntity)
-		//{
-		//case EntityType::coily:
-		//	SpawnCoily();
-		//	break;
-		//case EntityType::sam:
-		//	SpawnSlickOrSam(TileRevertCreature::CreatureType::Sam);
-		//	break;
-		//case EntityType::slick:
-		//	SpawnSlickOrSam(TileRevertCreature::CreatureType::Slick);
-		//	break;
-		//default:;
-		//}
+		const EntityType randomEntity = spawnOptions[(rand() % spawnOptions.size())];
+		switch (randomEntity)
+		{
+		case EntityType::coily:
+			SpawnCoily();
+			break;
+		case EntityType::sam:
+			SpawnSlickOrSam(TileRevertCreature::CreatureType::Sam);
+			break;
+		case EntityType::slick:
+			SpawnSlickOrSam(TileRevertCreature::CreatureType::Slick);
+			break;
+		case EntityType::ugg:
+			SpawnUgg();
+			break;
+		case EntityType::wrongway:
+			SpawnWrongway();
+			break;
+		default:;
+		}
 	}
 }
 
@@ -272,8 +277,19 @@ void GameArena::SpawnUgg()
 	std::shared_ptr<minigen::GameObject> spObject = std::make_shared<minigen::GameObject>();
 	const std::shared_ptr<Ugg> spUgg = std::make_shared<Ugg>(this, &m_ArenaHexes[GetBottomRightTileIndex()]);
 	spObject->AddComponent(spUgg);
-	//spUgg->AddObserver(m_pGameManager->GetScoreObserver());
 	GetParent()->GetScene()->Add(spObject);
+
+	m_wpUgg = spUgg;
+}
+
+void GameArena::SpawnWrongway()
+{
+	std::shared_ptr<minigen::GameObject> spObject = std::make_shared<minigen::GameObject>();
+	const std::shared_ptr<Wrongway> spWrongway = std::make_shared<Wrongway>(this, &m_ArenaHexes[GetBottomLeftTileIndex()]);
+	spObject->AddComponent(spWrongway);
+	GetParent()->GetScene()->Add(spObject);
+
+	m_wpWrongway = spWrongway;
 }
 
 void GameArena::Restart() const
@@ -295,6 +311,13 @@ void GameArena::ResetStageEntities()
 	if (spSam) spSam->GetParent()->MarkForDelete();
 	const std::shared_ptr<TileRevertCreature> spSlick = m_wpSlick.lock();
 	if (spSlick) spSlick->GetParent()->MarkForDelete();
+	const std::shared_ptr<Ugg> spUgg = m_wpUgg.lock();
+	if (spUgg) spUgg->GetParent()->MarkForDelete();
+	const std::shared_ptr<Wrongway> spWrongway = m_wpWrongway.lock();
+	if (spWrongway) spWrongway->GetParent()->MarkForDelete();
+
+	// Reset the spawn timer
+	m_EnemySpawnTimer = 0.f;
 }
 
 float GameArena::GetTileSize() const

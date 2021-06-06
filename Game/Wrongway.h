@@ -1,17 +1,15 @@
 #pragma once
+#include <Component.h>
 #include <string>
-
-#include "Component.h"
-
 class TileMovementComponent;
 class GameArena;
 class ArenaTile;
 
-class Ugg: public minigen::Component
+class Wrongway : public minigen::Component
 {
 public:
-	Ugg(GameArena* pArena, ArenaTile* pTile);
-
+	Wrongway(GameArena* pArena, ArenaTile* pTile);
+	
 	void Initialize() override;
 	void Update() override;
 	
@@ -24,6 +22,6 @@ private:
 	ArenaTile* m_pTile;
 	std::shared_ptr<TileMovementComponent> m_spTileMovementComponent;
 	float m_MovementDelay;
-	std::string m_UggImagePath;
+	std::string m_WrongwayImagePath;
 };
 

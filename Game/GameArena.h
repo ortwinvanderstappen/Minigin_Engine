@@ -6,6 +6,8 @@
 #include "TileMovementComponent.h"
 #include "TileRevertCreature.h"
 
+class Wrongway;
+class Ugg;
 class TileRevertCreature;
 class CompletedTilesObserver;
 class HealthObserver;
@@ -42,7 +44,9 @@ private:
 	{
 		coily,
 		sam,
-		slick
+		slick,
+		ugg,
+		wrongway
 	};
 	
 	void HandleEnemySpawns();
@@ -50,6 +54,7 @@ private:
 	void SpawnCoily();
 	void SpawnSlickOrSam(TileRevertCreature::CreatureType type);
 	void SpawnUgg();
+	void SpawnWrongway();
 	
 	int GetTopTileIndex() const;
 	int GetBottomLeftTileIndex() const;
@@ -69,6 +74,8 @@ private:
 	std::weak_ptr<Coily> m_wpCoily;
 	std::weak_ptr<TileRevertCreature> m_wpSam;
 	std::weak_ptr<TileRevertCreature> m_wpSlick;
+	std::weak_ptr<Ugg> m_wpUgg;
+	std::weak_ptr<Wrongway> m_wpWrongway;
 
 	std::vector<ArenaTile> m_ArenaHexes{};
 	std::vector<std::shared_ptr<QBert>> m_spPlayers;
