@@ -25,4 +25,5 @@ private:
 	std::shared_ptr<TileMovementComponent> m_spTileMovementComponent;
 	
 	std::string m_QbertImagePath;
+	bool m_Died;
 };

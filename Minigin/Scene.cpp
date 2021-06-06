@@ -31,13 +31,13 @@ void Scene::Update()
 {
 	const size_t objects = m_Objects.size();
 	
-	for (int i = 0; i < objects; ++i)
+	for (size_t i = 0; i < objects; ++i)
 	{
 		m_Objects[i]->Update();
 	}
 
 	// Collision pass
-	for (int i = 0; i < objects; ++i)
+	for (size_t i = 0; i < objects; ++i)
 	{
 		const std::shared_ptr<GameObject>& object = m_Objects[i];
 		if (object->IsMarkedForDelete()) continue;
@@ -45,7 +45,7 @@ void Scene::Update()
 		std::shared_ptr<CollisionSubject> collisionSubject = object->GetCollisionSubject();
 		if (collisionSubject)
 		{
-			for (int j = 0; j < objects; ++j)
+			for (size_t j = 0; j < objects; ++j)
 			{
 				const std::shared_ptr<GameObject>& otherObject = m_Objects[j];
 				if (object == otherObject || otherObject->IsMarkedForDelete()) continue;

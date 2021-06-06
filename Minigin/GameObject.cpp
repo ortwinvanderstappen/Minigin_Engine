@@ -91,7 +91,7 @@ const Point2f& minigen::GameObject::GetPosition() const
 void minigen::GameObject::Update()
 {
 	// Update all the components of this game object
-	for (int i = 0; i < m_spComponents.size(); ++i)
+	for (size_t i = 0; i < m_spComponents.size(); ++i)
 	{
 		m_spComponents[i]->Update();
 	}

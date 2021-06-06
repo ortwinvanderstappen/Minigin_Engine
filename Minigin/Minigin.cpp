@@ -66,6 +66,8 @@ void minigen::Minigin::Initialize()
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 
+	srand(static_cast<unsigned int>(time(nullptr)));
+
 	m_IsInitialized = true;
 	std::cout << "Minigen: Initialize completed\n";
 }
@@ -81,13 +83,13 @@ void minigen::Minigin::Cleanup()
 
 void minigen::Minigin::Run()
 {
-	if(!m_IsInitialized)
+	if (!m_IsInitialized)
 	{
 		std::cout << "Minigen: ERROR, Minigen was not initialized!\n";
 		return;
 	}
 	std::cout << "Minigen: Game loop started\n";
-	
+
 	auto& input = InputManager::GetInstance();
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();

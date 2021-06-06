@@ -120,7 +120,7 @@ void minigen::Renderer::RenderPolygon(const std::vector<Point2f>& points, const 
 	glColor3f(color.r, color.g, color.b);
 	glBegin(GL_POLYGON);
 	{
-		for (int i = 0; i < points.size(); ++i)
+		for (size_t i = 0; i < points.size(); ++i)
 		{
 			glVertex2f(points[i].x, points[i].y);
 		}

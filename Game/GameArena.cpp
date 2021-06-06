@@ -136,6 +136,8 @@ void GameArena::CreateDiscs()
 		m_spFlyingDisc->SetPosition(m_ArenaHexes[tileIndex].GetCenter());
 
 		m_pParentObject->GetScene()->Add(spDiscObject);
+
+		m_wpFlyingDiscs.push_back(m_spFlyingDisc);
 	}
 }
 
@@ -329,6 +331,16 @@ void GameArena::Restart() const
 
 void GameArena::HandleLevelCompletion() const
 {
+	// Calculate how many discs are remaining
+	for(const std::weak_ptr<FlyingDisc> wpDisc: m_wpFlyingDiscs)
+	{
+		const std::shared_ptr<FlyingDisc> spDisc = wpDisc.lock();
+		if(spDisc)
+		{
+			m_pGameManager->GetScoreObserver()->Notify(GetParent(), minigen::Observer::Event::event_remaining_flying_disc);
+		}
+	}
+	
 	m_pGameManager->LoadNextStage();
 }
 

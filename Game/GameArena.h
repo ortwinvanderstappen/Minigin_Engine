@@ -76,6 +76,7 @@ private:
 	std::weak_ptr<TileRevertCreature> m_wpSlick;
 	std::weak_ptr<Ugg> m_wpUgg;
 	std::weak_ptr<Wrongway> m_wpWrongway;
+	std::vector<std::weak_ptr<FlyingDisc>> m_wpFlyingDiscs;
 
 	std::vector<ArenaTile> m_ArenaHexes{};
 	std::vector<std::shared_ptr<QBert>> m_spPlayers;

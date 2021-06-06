@@ -17,7 +17,8 @@ namespace minigen {
 			event_stage_complete,
 			event_slick_sam_caught,
 			event_tile_complete,
-			event_tile_uncomplete
+			event_tile_uncomplete,
+			event_remaining_flying_disc
 		};
 
 		virtual ~Observer() = default;

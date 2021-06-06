@@ -29,6 +29,8 @@ void Game::Run()
 
 void Game::LoadGame()
 {
+	srand(static_cast<unsigned int>(time(nullptr)));
+	
 	CreateGlobalInputs();
 	CreateMenuScene();
 	CreateGameScene();

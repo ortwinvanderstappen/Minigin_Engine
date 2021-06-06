@@ -12,11 +12,14 @@ QBert::QBert(GameArena* pArena, ArenaTile* pStartTile) :
 	m_pArena(pArena),
 	m_pSpawnTile(pStartTile),
 	m_spTileMovementComponent(std::make_shared<TileMovementComponent>(pArena, pStartTile)),
-	m_QbertImagePath("images/QBert.png")
+	m_QbertImagePath("images/QBert.png"),
+	m_Died(false)
 {}
 
 void QBert::Update()
-{}
+{
+	m_Died = false;
+}
 
 void QBert::Initialize()
 {
@@ -83,7 +86,7 @@ void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 	{
 		const float delay = 2.3f;
 		m_pArena->ResetStageEntities(delay);
-		
+
 		m_spTileMovementComponent->CompleteMovement();
 		m_spTileMovementComponent->MoveToTile(m_pArena->GetTopTile(), true, -2.4f);
 	}
