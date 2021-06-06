@@ -1,32 +1,32 @@
 #include "GameArena.h"
 
+#include <GameObject.h>
+#include <GameTime.h>
 #include <iostream>
+#include <Renderer.h>
+#include <Scene.h>
 #include <SDL_render.h>
+#include <SoundComponent.h>
+#include <structs.h>
 
-#include "Renderer.h"
-#include "Scene.h"
 #include "ArenaTile.h"
 #include "Coily.h"
 #include "CoilyAIComponent.h"
 #include "CompletedTilesObserver.h"
 #include "FlyingDisc.h"
-#include "GameObject.h"
-#include "GameTime.h"
+#include "HealthObserver.h"
 #include "PlayerControllerComponent.h"
 #include "QBert.h"
-#include "structs.h"
-#include "TileMovementComponent.h"
-#include "HealthObserver.h"
 #include "ScoreObserver.h"
 #include "ScoreRenderComponent.h"
-#include "SoundComponent.h"
 #include "SpawnerComponent.h"
+#include "TileMovementComponent.h"
 #include "TileRevertCreature.h"
 #include "Ugg.h"
 #include "Wrongway.h"
 
 GameArena::GameArena(GameManager* pGameManager, GameManager::GameMode gameMode,
-	GameManager::StageSettings* const stageSettings, int stage) :
+                     GameManager::StageSettings* const stageSettings, int stage) :
 	m_pGameManager(pGameManager),
 	m_GameMode(gameMode),
 	m_pStageSettings(stageSettings),
@@ -222,8 +222,6 @@ void GameArena::Render() const
 
 void GameArena::AddPlayers()
 {
-	std::cout << "Spawning players...\n";
-
 	switch (m_GameMode)
 	{
 	case GameManager::GameMode::Single:

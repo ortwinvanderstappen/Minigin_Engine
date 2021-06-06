@@ -63,9 +63,6 @@ void Scene::Update()
 	m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(),
 		[](std::shared_ptr<GameObject> spObject)
 		{
-			if (spObject->IsMarkedForDelete() || spObject->IsMarkedForLateDelete())
-				std::cout << "Deleting object with tag: " << spObject->GetTag() << "\n";
-
 			return spObject->IsMarkedForDelete() || spObject->IsMarkedForLateDelete();
 		}
 	), m_Objects.end());

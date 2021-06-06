@@ -1,7 +1,6 @@
 #pragma once
 #include <RenderComponent.h>
-
-#include "structs.h"
+#include <structs.h>
 
 class ScoreRenderComponent : public minigen::RenderComponent
 {

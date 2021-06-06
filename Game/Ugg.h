@@ -1,7 +1,6 @@
 #pragma once
+#include <Component.h>
 #include <string>
-
-#include "Component.h"
 
 class TileMovementComponent;
 class GameArena;

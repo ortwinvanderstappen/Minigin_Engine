@@ -1,7 +1,7 @@
 #pragma once
+#include <Component.h>
+#include <Subject.h>
 #include <string>
-#include "Component.h"
-#include "Subject.h"
 
 namespace minigen {
 	class SoundComponent;

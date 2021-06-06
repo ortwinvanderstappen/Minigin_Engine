@@ -1,8 +1,9 @@
 #pragma once
+#include <RenderComponent.h>
+#include <structs.h>
+#include <Subject.h>
+
 #include "GameManager.h"
-#include "RenderComponent.h"
-#include "structs.h"
-#include "Subject.h"
 
 class FlyingDisc;
 class GameArena;

@@ -1,5 +1,6 @@
 #pragma once
 #include <Component.h>
+
 class RandomAIComponent;
 class Coily;
 class GameArena;

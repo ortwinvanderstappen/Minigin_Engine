@@ -3,6 +3,10 @@
 #include <SDL_render.h>
 #include "Renderer.h"
 
+ScoreObserver::ScoreObserver() :
+	m_Score(0)
+{}
+
 void ScoreObserver::Notify(minigen::GameObject*, Event event)
 {
 	switch (event)

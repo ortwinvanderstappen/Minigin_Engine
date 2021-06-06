@@ -1,7 +1,6 @@
 #pragma once
 #include <Component.h>
-
-#include "structs.h"
+#include <structs.h>
 #include <vector>
 
 namespace minigen {

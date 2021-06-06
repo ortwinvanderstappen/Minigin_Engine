@@ -74,8 +74,6 @@ void QBert::Die()
 
 void QBert::HandleTileChange()
 {
-	std::cout << "Qbert moved tiles!\n";
-
 	ArenaTile* pTile = m_spTileMovementComponent->GetTile();
 
 	if (pTile->IsNullTile() && !pTile->HasDisc())
@@ -99,8 +97,6 @@ void QBert::HandleMove() const
 
 void QBert::OnCollisionEnter(minigen::GameObject* const pOtherGameObject)
 {
-	std::cout << "QBert collided with tagged object: " << pOtherGameObject->GetTag() << "\n";
-
 	if (pOtherGameObject->GetTag() == "Disc")
 	{
 		m_spLiftSoundComponent->PlaySoundEffect();

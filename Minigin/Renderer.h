@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL_video.h>
 
+#include <vector>
 #include "Singleton.h"
 #include "structs.h"
 

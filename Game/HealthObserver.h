@@ -1,5 +1,5 @@
 #pragma once
-#include "Observer.h"
+#include <Observer.h>
 
 class GameArena;
 

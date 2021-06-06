@@ -10,14 +10,14 @@ class TileMovementComponent;
 class PlayerControllerComponent : public minigen::Component
 {
 public:
-	
+
 	enum class HardwareType
 	{
 		Keyboard,
 		Controller,
 		Both
 	};
-	
+
 	PlayerControllerComponent(HardwareType hardwareType);
 
 	void Initialize() override;
@@ -37,7 +37,7 @@ private:
 
 	void CheckKeyboardInputs() const;
 	void CheckControllerInputs() const;
-	
+
 	HardwareType m_HardwareType;
 	std::shared_ptr<TileMovementComponent> m_spTileMovementComponent;
 };

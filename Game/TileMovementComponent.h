@@ -1,9 +1,9 @@
 #pragma once
 #include <Component.h>
 #include <functional>
+#include <structs.h>
 #include <unordered_map>
 
-#include "structs.h"
 class GameArena;
 class ArenaTile;
 

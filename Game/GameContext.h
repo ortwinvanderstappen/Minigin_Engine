@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
-
-#include "Singleton.h"
+#include <Singleton.h>
 
 class ScoreObserver;
 

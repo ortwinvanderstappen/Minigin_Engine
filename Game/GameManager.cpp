@@ -53,7 +53,6 @@ void GameManager::InitializeAudio()
 void GameManager::InitializeStage()
 {
 	// Remove old stage objects
-	std::cout << "Init stage\n";
 	for (const std::shared_ptr<GameObject>& spObject : GetParent()->GetScene()->GetObjects())
 	{
 		// Don't mark the game manager;

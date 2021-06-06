@@ -1,7 +1,7 @@
 #pragma once
 #include <Component.h>
+#include <Subject.h>
 
-#include "Subject.h"
 class ArenaTile;
 class GameArena;
 class TileMovementComponent;
