@@ -3,6 +3,8 @@
 ## Goal
 Create a 2D component based engine and remake "QBert" with it. (assignment for second year Digital Arts and Entertainment programming course)
 
+[QBert gameplay](https://vimeo.com/563602583)
+
 ## Quick engine overview
 
 ## RENDERING
