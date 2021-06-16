@@ -1,9 +1,14 @@
-# Minigin_Engine
+# Custom made game engine for game: QBert
 
 ## Goal
 Create a 2D component based engine and remake "QBert" with it. (assignment for second year Digital Arts and Entertainment programming course)
 
 [QBert gameplay](https://vimeo.com/563602583)
+You can play single player, with a friend or versus. 
+In versus, the other player controls the snake.
+
+3 levels were implemented, in the first level you need to change the tile colors once. In the second twice, and the colors start cycling in the third level.
+All level data is configurable via json, the same goes for the entity properties.
 
 ## Quick engine overview
 
